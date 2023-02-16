@@ -40,11 +40,9 @@ public class Register extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         btnAtras = new javax.swing.JButton();
         btnSig = new javax.swing.JButton();
-        txtFieldDia = new javax.swing.JTextField();
-        txtFieldMes = new javax.swing.JTextField();
-        txtFieldAno = new javax.swing.JTextField();
         btnRetiroSinCuenta = new javax.swing.JButton();
         txtFieldFechaNacimiento = new javax.swing.JTextField();
         txtFieldApellidoMat = new javax.swing.JTextField();
@@ -60,6 +58,7 @@ public class Register extends javax.swing.JFrame {
 
         pnlFondo.setFocusable(false);
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlFondo.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 420, 120, -1));
 
         btnAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/atrasRegister.png"))); // NOI18N
         btnAtras.setBorder(null);
@@ -92,96 +91,6 @@ public class Register extends javax.swing.JFrame {
             }
         });
         pnlFondo.add(btnSig, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 510, -1, -1));
-
-        txtFieldDia.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        txtFieldDia.setForeground(new java.awt.Color(153, 153, 153));
-        txtFieldDia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtFieldDia.setText("Día");
-        txtFieldDia.setBorder(null);
-        txtFieldDia.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFieldDiaFocusLost(evt);
-            }
-        });
-        txtFieldDia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtFieldDiaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                txtFieldDiaMouseExited(evt);
-            }
-        });
-        txtFieldDia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldDiaActionPerformed(evt);
-            }
-        });
-        txtFieldDia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFieldDiaKeyTyped(evt);
-            }
-        });
-        pnlFondo.add(txtFieldDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(672, 424, 40, -1));
-
-        txtFieldMes.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        txtFieldMes.setForeground(new java.awt.Color(153, 153, 153));
-        txtFieldMes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtFieldMes.setText("Mes");
-        txtFieldMes.setBorder(null);
-        txtFieldMes.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFieldMesFocusLost(evt);
-            }
-        });
-        txtFieldMes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtFieldMesMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                txtFieldMesMouseExited(evt);
-            }
-        });
-        txtFieldMes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldMesActionPerformed(evt);
-            }
-        });
-        txtFieldMes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFieldMesKeyTyped(evt);
-            }
-        });
-        pnlFondo.add(txtFieldMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 424, 40, -1));
-
-        txtFieldAno.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        txtFieldAno.setForeground(new java.awt.Color(153, 153, 153));
-        txtFieldAno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtFieldAno.setText("Año");
-        txtFieldAno.setBorder(null);
-        txtFieldAno.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFieldAnoFocusLost(evt);
-            }
-        });
-        txtFieldAno.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtFieldAnoMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                txtFieldAnoMouseExited(evt);
-            }
-        });
-        txtFieldAno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldAnoActionPerformed(evt);
-            }
-        });
-        txtFieldAno.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFieldAnoKeyTyped(evt);
-            }
-        });
-        pnlFondo.add(txtFieldAno, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 424, 40, -1));
 
         btnRetiroSinCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiro.png"))); // NOI18N
         btnRetiroSinCuenta.setBorder(null);
@@ -277,6 +186,9 @@ public class Register extends javax.swing.JFrame {
             }
         });
         txtFieldApellidoPat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldApellidoPatKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldApellidoPatKeyTyped(evt);
             }
@@ -402,6 +314,7 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldApellidoPatActionPerformed
 
     private void txtFieldApellidoPatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatKeyTyped
+        txtFieldApellidoPat.setText(txtFieldApellidoPat.getText().trim());
         if (txtFieldApellidoPat.getText().length() >= 50) {
             evt.consume();
         }
@@ -434,7 +347,9 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldApellidoMatActionPerformed
 
     private void txtFieldApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatKeyTyped
-        if(txtFieldApellidoMat.getText().length()>=50) evt.consume();
+        if (txtFieldApellidoMat.getText().length() >= 50) {
+            evt.consume();
+        }
         if (txtFieldApellidoMat.getText().equals("Apellido Mat.")) {
             txtFieldApellidoMat.setText("");
         }
@@ -460,134 +375,10 @@ public class Register extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldFechaNacimientoKeyTyped
 
-    private void txtFieldAnoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldAnoFocusLost
-        if (txtFieldAno.getText().equals("")) {
-            txtFieldAno.setText("Año");
-        }
-    }//GEN-LAST:event_txtFieldAnoFocusLost
-
-    private void txtFieldAnoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldAnoMouseEntered
-        if (txtFieldAno.getText().equals("Año"))
-            txtFieldAno.setText("");
-    }//GEN-LAST:event_txtFieldAnoMouseEntered
-
-    private void txtFieldAnoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldAnoMouseExited
-        if (txtFieldAno.getText().equals("")) {
-            txtFieldAno.setText("Año");
-        } else if (!txtFieldAno.getText().equals("Año")) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtFieldAnoMouseExited
-
-    private void txtFieldAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldAnoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldAnoActionPerformed
-
-    private void txtFieldAnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldAnoKeyTyped
-        if (txtFieldAno.getText().length() >= 4) {
-            evt.consume();
-        }
-
-        int key = evt.getKeyChar();
-
-        boolean numeros = key >= 48 && key <= 57;
-
-        if (!numeros) {
-            evt.consume();
-        }
-
-        if (txtFieldAno.getText().equals("Año")) {
-            txtFieldAno.setText("");
-        }
-    }//GEN-LAST:event_txtFieldAnoKeyTyped
-
-    private void txtFieldMesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldMesFocusLost
-        if (txtFieldMes.getText().equals("")) {
-            txtFieldMes.setText("Mes");
-        }
-    }//GEN-LAST:event_txtFieldMesFocusLost
-
-    private void txtFieldMesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldMesMouseEntered
-        if (txtFieldMes.getText().equals("Mes"))
-            txtFieldMes.setText("");
-    }//GEN-LAST:event_txtFieldMesMouseEntered
-
-    private void txtFieldMesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldMesMouseExited
-        if (txtFieldMes.getText().equals("")) {
-            txtFieldMes.setText("Mes");
-        } else if (!txtFieldMes.getText().equals("Mes")) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtFieldMesMouseExited
-
-    private void txtFieldMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldMesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldMesActionPerformed
-
-    private void txtFieldMesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldMesKeyTyped
-
-        if (txtFieldMes.getText().length() >= 2) {
-            evt.consume();
-        }
-
-        int key = evt.getKeyChar();
-
-        boolean numeros = key >= 48 && key <= 57;
-
-        if (!numeros) {
-            evt.consume();
-        }
-
-        if (txtFieldMes.getText().equals("Mes")) {
-            txtFieldMes.setText("");
-        }
-    }//GEN-LAST:event_txtFieldMesKeyTyped
-
-    private void txtFieldDiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldDiaFocusLost
-        if (txtFieldDia.getText().equals("")) {
-            txtFieldDia.setText("Dia");
-        }
-    }//GEN-LAST:event_txtFieldDiaFocusLost
-
-    private void txtFieldDiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldDiaMouseEntered
-
-        if (txtFieldDia.getText().equals("Día"))
-            txtFieldDia.setText("");
-    }//GEN-LAST:event_txtFieldDiaMouseEntered
-
-    private void txtFieldDiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldDiaMouseExited
-        if (txtFieldDia.getText().equals("")) {
-            txtFieldDia.setText("Día");
-        } else if (!txtFieldDia.getText().equals("Día")) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtFieldDiaMouseExited
-
-    private void txtFieldDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldDiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldDiaActionPerformed
-
-    private void txtFieldDiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldDiaKeyTyped
-        if (txtFieldDia.getText().length() >= 2) {
-            evt.consume();
-        }
-        int key = evt.getKeyChar();
-
-        boolean numeros = key >= 48 && key <= 57;
-
-        if (!numeros) {
-            evt.consume();
-        }
-
-        if (txtFieldDia.getText().equals("Día")) {
-            txtFieldDia.setText("");
-        }
-    }//GEN-LAST:event_txtFieldDiaKeyTyped
-
     private void btnSigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigActionPerformed
-        int ano = Integer.parseInt(this.txtFieldAno.getText()) - 1900;
-        int mes = Integer.parseInt(this.txtFieldMes.getText()) - 1;
-        int dia = Integer.parseInt(this.txtFieldDia.getText());
+        int ano = this.jDateChooser1.getDate().getYear();
+        int mes = this.jDateChooser1.getDate().getMonth();
+        int dia = this.jDateChooser1.getDate().getDay();
 
         Date fechaNacimiento = new Date(ano, mes, dia);
 
@@ -609,6 +400,10 @@ public class Register extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
+    private void txtFieldApellidoPatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatKeyReleased
+             txtFieldApellidoPat.setText(txtFieldApellidoPat.getText().trim());
+    }//GEN-LAST:event_txtFieldApellidoPatKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -617,16 +412,14 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnRetiroSinCuenta;
     private javax.swing.JButton btnSig;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblIconos;
     private javax.swing.JLabel lblRecuadro;
     private javax.swing.JPanel pnlFondo;
-    private javax.swing.JTextField txtFieldAno;
     private javax.swing.JTextField txtFieldApellidoMat;
     private javax.swing.JTextField txtFieldApellidoPat;
-    private javax.swing.JTextField txtFieldDia;
     private javax.swing.JTextField txtFieldFechaNacimiento;
-    private javax.swing.JTextField txtFieldMes;
     private javax.swing.JTextField txtFieldNombre;
     // End of variables declaration//GEN-END:variables
 }

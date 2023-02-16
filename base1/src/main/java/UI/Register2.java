@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import java.awt.Label;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,6 +32,7 @@ public class Register2 extends javax.swing.JFrame {
         initComponents();
         this.cliente = cliente;
         this.clientesDao = clientesDao;
+        this.pswFieldPassword.setEchoChar((char) 0);
     }
 
     /**
@@ -43,11 +45,11 @@ public class Register2 extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
+        pswFieldPassword = new javax.swing.JPasswordField();
         btnCancelar = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         btnRetiroSinCuenta = new javax.swing.JButton();
-        txtFieldClave = new javax.swing.JTextField();
         txtFieldUsuario = new javax.swing.JTextField();
         txtFieldCp = new javax.swing.JTextField();
         txtFieldNoCasa = new javax.swing.JTextField();
@@ -62,6 +64,36 @@ public class Register2 extends javax.swing.JFrame {
 
         pnlFondo.setFocusable(false);
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pswFieldPassword.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        pswFieldPassword.setForeground(new java.awt.Color(153, 153, 153));
+        pswFieldPassword.setText("Clave");
+        pswFieldPassword.setBorder(null);
+        pswFieldPassword.setPreferredSize(new java.awt.Dimension(96, 16));
+        pswFieldPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                pswFieldPasswordFocusLost(evt);
+            }
+        });
+        pswFieldPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pswFieldPasswordMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pswFieldPasswordMouseExited(evt);
+            }
+        });
+        pswFieldPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pswFieldPasswordActionPerformed(evt);
+            }
+        });
+        pswFieldPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                pswFieldPasswordKeyTyped(evt);
+            }
+        });
+        pnlFondo.add(pswFieldPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 468, 310, -1));
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnCancelar.png"))); // NOI18N
         btnCancelar.setBorder(null);
@@ -122,35 +154,6 @@ public class Register2 extends javax.swing.JFrame {
             }
         });
         pnlFondo.add(btnRetiroSinCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(611, 423, -1, -1));
-
-        txtFieldClave.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        txtFieldClave.setForeground(new java.awt.Color(153, 153, 153));
-        txtFieldClave.setText("Clave");
-        txtFieldClave.setBorder(null);
-        txtFieldClave.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFieldClaveFocusLost(evt);
-            }
-        });
-        txtFieldClave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtFieldClaveMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                txtFieldClaveMouseExited(evt);
-            }
-        });
-        txtFieldClave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldClaveActionPerformed(evt);
-            }
-        });
-        txtFieldClave.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFieldClaveKeyTyped(evt);
-            }
-        });
-        pnlFondo.add(txtFieldClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 468, 100, -1));
 
         txtFieldUsuario.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         txtFieldUsuario.setForeground(new java.awt.Color(153, 153, 153));
@@ -458,41 +461,6 @@ public class Register2 extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
-    private void txtFieldClaveFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldClaveFocusLost
-        if (txtFieldClave.getText().equals("")) {
-            txtFieldClave.setText("Clave");
-        }
-    }//GEN-LAST:event_txtFieldClaveFocusLost
-
-    private void txtFieldClaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldClaveMouseEntered
-        if (txtFieldClave.getText().equals("Clave"))
-            txtFieldClave.setText("");
-    }//GEN-LAST:event_txtFieldClaveMouseEntered
-
-    private void txtFieldClaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldClaveMouseExited
-        if (txtFieldClave.getText().equals("")) {
-            txtFieldClave.setText("Clave");
-        } else if (!txtFieldClave.getText().equals("Clave")) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtFieldClaveMouseExited
-
-    private void txtFieldClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldClaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldClaveActionPerformed
-
-    private void txtFieldClaveKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldClaveKeyTyped
-        if (txtFieldClave.getText().length() >= 8) {
-            evt.consume();
-        }
-        if (txtFieldClave.getText().equals("Clave")) {
-            txtFieldClave.setText("");
-        }
-        if (txtFieldClave.getText().length() == 8) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtFieldClaveKeyTyped
-
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarMouseEntered
@@ -503,8 +471,10 @@ public class Register2 extends javax.swing.JFrame {
             this.cliente.setCp(Integer.parseInt(this.txtFieldCp.getText()));
             this.cliente.setNumDomicilio(Integer.parseInt(this.txtFieldNoCasa.getText()));
 
-            System.out.println(this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), txtFieldClave.getText()).getId());
-
+            System.out.println(this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText()).getId());
+            new JOptionPane().showMessageDialog(this, "Usuario agregado exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            new Login(this.clientesDao).setVisible(true);
+            this.dispose();
         } catch (PersistenciaException ex) {
             Logger.getLogger(Register2.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -523,6 +493,42 @@ public class Register2 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldNoCasaKeyPressed
 
+    private void pswFieldPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pswFieldPasswordFocusLost
+        if (pswFieldPassword.getText().equals("")) {
+            pswFieldPassword.setText("Clave");
+            this.pswFieldPassword.setEchoChar((char) 0);
+        }
+    }//GEN-LAST:event_pswFieldPasswordFocusLost
+
+    private void pswFieldPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pswFieldPasswordMouseEntered
+        if (pswFieldPassword.getText().equals("Clave")) {
+            pswFieldPassword.setText("");
+            this.pswFieldPassword.setEchoChar('*');
+        }
+
+    }//GEN-LAST:event_pswFieldPasswordMouseEntered
+
+    private void pswFieldPasswordMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pswFieldPasswordMouseExited
+        if (pswFieldPassword.getText().equals("")) {
+            pswFieldPassword.setText("Clave");
+            this.pswFieldPassword.setEchoChar((char) 0);
+        } else if (!pswFieldPassword.getText().equals("Clave")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_pswFieldPasswordMouseExited
+
+    private void pswFieldPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pswFieldPasswordKeyTyped
+        if (pswFieldPassword.getText().equals("Clave")) {
+            pswFieldPassword.setEchoChar('*');
+            pswFieldPassword.setText("");
+
+        }
+    }//GEN-LAST:event_pswFieldPasswordKeyTyped
+
+    private void pswFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswFieldPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pswFieldPasswordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -536,8 +542,8 @@ public class Register2 extends javax.swing.JFrame {
     private javax.swing.JLabel lblIconos;
     private javax.swing.JLabel lblRecuadro;
     private javax.swing.JPanel pnlFondo;
+    private javax.swing.JPasswordField pswFieldPassword;
     private javax.swing.JTextField txtFieldCalle;
-    private javax.swing.JTextField txtFieldClave;
     private javax.swing.JTextField txtFieldCp;
     private javax.swing.JTextField txtFieldNoCasa;
     private javax.swing.JTextField txtFieldUsuario;
