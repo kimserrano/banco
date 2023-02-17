@@ -4,12 +4,17 @@
  */
 package UI;
 
+import dominio.Cliente;
+import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
 import interfaces.IClientesDAO;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Label;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -47,6 +52,8 @@ public class Login extends javax.swing.JFrame {
         btnIniciarSesion = new javax.swing.JButton();
         pswFieldPassword = new javax.swing.JPasswordField();
         txtFieldUser = new javax.swing.JTextField();
+        lblRegistro = new javax.swing.JLabel();
+        lblNoEstasRegistrado = new javax.swing.JLabel();
         lblIconos = new javax.swing.JLabel();
         lblRecuadro = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
@@ -73,18 +80,18 @@ public class Login extends javax.swing.JFrame {
         });
         pnlFondo.add(btnRetiroSinCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(611, 423, -1, -1));
 
-        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRegistrarse.png"))); // NOI18N
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuenta.png"))); // NOI18N
         btnRegistrar.setBorder(null);
         btnRegistrar.setBorderPainted(false);
         btnRegistrar.setContentAreaFilled(false);
-        btnRegistrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRegistrarseSelected.png"))); // NOI18N
-        btnRegistrar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRegistrarse.png"))); // NOI18N
+        btnRegistrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
+        btnRegistrar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, -1, -1));
+        pnlFondo.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 390, -1, -1));
 
         btnIniciarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIniciarSesion.png"))); // NOI18N
         btnIniciarSesion.setBorder(null);
@@ -152,6 +159,22 @@ public class Login extends javax.swing.JFrame {
             }
         });
         pnlFondo.add(txtFieldUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 291, 310, -1));
+
+        lblRegistro.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblRegistro.setForeground(new java.awt.Color(51, 153, 0));
+        lblRegistro.setText("Registrate aquí");
+        lblRegistro.setToolTipText("Comeinza tu registro ;)");
+        lblRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRegistroMouseClicked(evt);
+            }
+        });
+        pnlFondo.add(lblRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 370, -1, -1));
+
+        lblNoEstasRegistrado.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblNoEstasRegistrado.setForeground(new java.awt.Color(153, 153, 153));
+        lblNoEstasRegistrado.setText("¿No estás registrado?");
+        pnlFondo.add(lblNoEstasRegistrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, -1, -1));
 
         lblIconos.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblIconos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconos.png"))); // NOI18N
@@ -245,7 +268,14 @@ if (pswFieldPassword.getText().equals("Ingrese su contraseña")) {
     }//GEN-LAST:event_pswFieldPasswordFocusLost
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        // TODO add your handling code here:
+        try {
+           Cliente cliente=this.clientesDao.consultar(txtFieldUser.getText(), pswFieldPassword.getText());
+             System.out.println(cliente);
+            new Cuentas(clientesDao, cliente).setVisible(true); 
+            this.dispose();
+        } catch (PersistenciaException ex) {
+            new JOptionPane().showMessageDialog(this,"Credenciales incorrectas", "¡Aviso!",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -257,6 +287,11 @@ if (pswFieldPassword.getText().equals("Ingrese su contraseña")) {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRetiroSinCuentaActionPerformed
 
+    private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseClicked
+        new Register(this.clientesDao).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblRegistroMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciarSesion;
@@ -264,7 +299,9 @@ if (pswFieldPassword.getText().equals("Ingrese su contraseña")) {
     private javax.swing.JButton btnRetiroSinCuenta;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblIconos;
+    private javax.swing.JLabel lblNoEstasRegistrado;
     private javax.swing.JLabel lblRecuadro;
+    private javax.swing.JLabel lblRegistro;
     private javax.swing.JPanel pnlFondo;
     private javax.swing.JPasswordField pswFieldPassword;
     private javax.swing.JTextField txtFieldUser;

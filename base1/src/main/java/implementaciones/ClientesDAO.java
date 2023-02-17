@@ -5,7 +5,9 @@
  */
 package implementaciones;
 
+import com.google.protobuf.Internal;
 import dominio.Cliente;
+import dominio.CuentasClientesRecord;
 import excepciones.PersistenciaException;
 import interfaces.IClientesDAO;
 import interfaces.IConexionBD;
@@ -15,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +35,58 @@ public class ClientesDAO implements IClientesDAO {
 
     public ClientesDAO(IConexionBD generadorConexiones) {
         this.GENERADOR_CONEXIONES = generadorConexiones;
+    }
+
+    @Override
+    public Cliente consultar(String usuario, String clave) throws PersistenciaException {
+        Cliente cliente = null;
+        String codigoSQL = "SELECT idClientes FROM clientesCredenciales WHERE username LIKE (?) AND clave LIKE (?);";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+
+            //Se pasan los datos al statement
+            comando.setString(1, usuario);
+            comando.setString(2, clave);
+
+            ResultSet resultado = comando.executeQuery(); //Se ejecuta la Query
+            if (resultado.next()) {
+                int idCliente = resultado.getInt("idClientes");
+                cliente = this.consultar(idCliente);
+                cliente.setId(idCliente);
+            }
+            conexion.close();
+            return cliente;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+            return null;
+
+        }
+    }
+
+    @Override
+    public ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) {
+        String codigoSQL = "SELECT * FROM cuentasClientes WHERE idClientes=?";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);){
+            comando.setInt(1, idCliente);
+            ResultSet resultado=comando.executeQuery();
+            ArrayList<CuentasClientesRecord> listCuentas= new ArrayList();
+            
+            while(resultado.next()){
+                int idCuentasClientes=resultado.getInt("idCuentasClientes");
+                String nombre=resultado.getString("nombre");
+                float saldo=resultado.getFloat("saldo");
+                int numCuenta=resultado.getInt("numCuenta");
+                CuentasClientesRecord cuenta=new CuentasClientesRecord(idCuentasClientes,null,nombre,saldo,numCuenta,idCliente);
+                listCuentas.add(cuenta);
+            }
+            conexion.close();
+            return listCuentas;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
@@ -54,6 +109,7 @@ public class ClientesDAO implements IClientesDAO {
                 Date fechaNacimiento = resultado.getDate("fechaNacimiento");
                 cliente = new Cliente(fechaNacimiento, nombre, apellidoP, apellidoM, cp, calle, numDomicilio);
             }
+            conexion.close();
             return cliente;
 
         } catch (SQLException e) {
@@ -83,12 +139,13 @@ public class ClientesDAO implements IClientesDAO {
             if (generatedKeys.next()) {
                 int posicionLlavePrimaria = 1;
                 cliente.setId(generatedKeys.getInt(posicionLlavePrimaria));
-                PreparedStatement comandoCredenciales = conexion.prepareStatement(codigoSQLCredenciales, Statement.RETURN_GENERATED_KEYS);{
+                PreparedStatement comandoCredenciales = conexion.prepareStatement(codigoSQLCredenciales, Statement.RETURN_GENERATED_KEYS);
+                {
                     comandoCredenciales.setInt(1, cliente.getId());
                     comandoCredenciales.setString(2, clave);
                     comandoCredenciales.setString(3, usuario);
-                    
-                    comandoCredenciales.executeUpdate();                    
+
+                    comandoCredenciales.executeUpdate();
                 }
                 conexion.close();
                 return cliente;

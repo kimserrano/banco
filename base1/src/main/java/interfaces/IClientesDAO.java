@@ -6,7 +6,9 @@
 package interfaces;
 
 import dominio.Cliente;
+import dominio.CuentasClientesRecord;
 import excepciones.PersistenciaException;
+import java.util.ArrayList;
 import java.util.List;
 import utils.ConfiguracionPaginado;
 
@@ -16,7 +18,9 @@ import utils.ConfiguracionPaginado;
  */ 
 public interface IClientesDAO {
     Cliente consultar(Integer idCliente);
+    Cliente consultar(String usuario, String clave) throws  PersistenciaException;
     Cliente insertar(Cliente cliente, String usuario, String clave) throws  PersistenciaException ;
     Cliente eliminar(Integer idCliente);
     List <Cliente> consultar (ConfiguracionPaginado configPaginado) throws  PersistenciaException;
+   ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) throws PersistenciaException;
 }
