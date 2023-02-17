@@ -157,6 +157,9 @@ public class Register extends javax.swing.JFrame {
             }
         });
         txtFieldApellidoMat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldApellidoMatKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldApellidoMatKeyTyped(evt);
             }
@@ -218,6 +221,9 @@ public class Register extends javax.swing.JFrame {
             }
         });
         txtFieldNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldNombreKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldNombreKeyTyped(evt);
             }
@@ -277,6 +283,7 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldNombreFocusLost
 
     private void txtFieldNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNombreKeyTyped
+        txtFieldNombre.setText(txtFieldNombre.getText().trim());
         if (txtFieldNombre.getText().length() >= 50) {
             evt.consume();
         }
@@ -347,6 +354,7 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldApellidoMatActionPerformed
 
     private void txtFieldApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatKeyTyped
+         txtFieldApellidoMat.setText(txtFieldApellidoMat.getText().trim());
         if (txtFieldApellidoMat.getText().length() >= 50) {
             evt.consume();
         }
@@ -401,8 +409,18 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void txtFieldApellidoPatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatKeyReleased
-             txtFieldApellidoPat.setText(txtFieldApellidoPat.getText().trim());
+        txtFieldApellidoPat.setText(txtFieldApellidoPat.getText().trim());
     }//GEN-LAST:event_txtFieldApellidoPatKeyReleased
+
+    private void txtFieldNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNombreKeyReleased
+        // TODO add your handling code here:
+        txtFieldNombre.setText(txtFieldNombre.getText().trim());
+    }//GEN-LAST:event_txtFieldNombreKeyReleased
+
+    private void txtFieldApellidoMatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatKeyReleased
+        // TODO add your handling code here:
+        txtFieldApellidoMat.setText(txtFieldApellidoMat.getText().trim());
+    }//GEN-LAST:event_txtFieldApellidoMatKeyReleased
 
     /**
      * @param args the command line arguments

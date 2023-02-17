@@ -42,7 +42,7 @@ public class ClientesDAO implements IClientesDAO {
         Cliente cliente = null;
         String codigoSQL = "SELECT idClientes FROM clientesCredenciales WHERE username LIKE (?) AND clave LIKE (?);";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
 
             //Se pasan los datos al statement
             comando.setString(1, usuario);
@@ -67,22 +67,22 @@ public class ClientesDAO implements IClientesDAO {
     public ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) {
         String codigoSQL = "SELECT * FROM cuentasClientes WHERE idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);){
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, idCliente);
-            ResultSet resultado=comando.executeQuery();
-            ArrayList<CuentasClientesRecord> listCuentas= new ArrayList();
-            
-            while(resultado.next()){
-                int idCuentasClientes=resultado.getInt("idCuentasClientes");
-                String nombre=resultado.getString("nombre");
-                float saldo=resultado.getFloat("saldo");
-                int numCuenta=resultado.getInt("numCuenta");
-                CuentasClientesRecord cuenta=new CuentasClientesRecord(idCuentasClientes,null,nombre,saldo,numCuenta,idCliente);
+            ResultSet resultado = comando.executeQuery();
+            ArrayList<CuentasClientesRecord> listCuentas = new ArrayList();
+
+            while (resultado.next()) {
+                int idCuentasClientes = resultado.getInt("idCuentasClientes");
+                String nombre = resultado.getString("nombre");
+                float saldo = resultado.getFloat("saldo");
+                int numCuenta = resultado.getInt("numCuenta");
+                CuentasClientesRecord cuenta = new CuentasClientesRecord(idCuentasClientes, null, nombre, saldo, numCuenta, idCliente);
                 listCuentas.add(cuenta);
             }
             conexion.close();
             return listCuentas;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(ClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -93,7 +93,7 @@ public class ClientesDAO implements IClientesDAO {
     public Cliente consultar(Integer idCliente) {
         String codigoSQL = "select * from clientes where idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, idCliente);
             ResultSet resultado = comando.executeQuery();
 
@@ -124,7 +124,8 @@ public class ClientesDAO implements IClientesDAO {
         String codigoSQL = "insert into Clientes (nombres, apellidoPat, apellidoMat, fechaNacimiento,calle,numDomicilio,cp) values(?,?,?,?,?,?,?)";
 
         String codigoSQLCredenciales = "insert into ClientesCredenciales(idClientes,clave,username) VALUES(?,?,?)";
-        try ( Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
+        try (
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
             comando.setString(1, cliente.getNombre());
             comando.setString(2, cliente.getApellidoPaterno());
             comando.setString(3, cliente.getApellidoMaterno());
@@ -155,7 +156,7 @@ public class ClientesDAO implements IClientesDAO {
 
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, e.getMessage());
-            throw new PersistenciaException("No fue ´posibleregistrar al cliente");
+            throw new PersistenciaException("No fue posible registrar al cliente");
 
         }
 
@@ -163,26 +164,26 @@ public class ClientesDAO implements IClientesDAO {
 
     @Override
     public Cliente eliminar(Integer id) {
-        Cliente cliente = consultar(id);
-//        String codigoSQLProblema= 
-        try {
-            Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
-            PreparedStatement problema = conexion.prepareStatement("delete from problemas where id_cliente=?");
-            problema.setInt(1, id);
-            problema.execute();
-            PreparedStatement telefono = conexion.prepareStatement("delete from telefonos where id_cliente=?");
-            telefono.setInt(1, id);
-            telefono.execute();
-            PreparedStatement comando = conexion.prepareStatement("delete from clientes where id=?");
-            comando.setInt(1, id);
-            comando.execute();
-            conexion.close();
-            return cliente;
-
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, e.getMessage());
-            return null;
-        }
+//        Cliente cliente = consultar(id);
+////        String codigoSQLProblema= 
+//        try {
+//            Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
+//            PreparedStatement problema = conexion.prepareStatement("delete from problemas where id_cliente=?");
+//            problema.setInt(1, id);
+//            problema.execute();
+//            PreparedStatement telefono = conexion.prepareStatement("delete from telefonos where id_cliente=?");
+//            telefono.setInt(1, id);
+//            telefono.execute();
+//            PreparedStatement comando = conexion.prepareStatement("delete from clientes where id=?");
+//            comando.setInt(1, id);
+//            comando.execute();
+//            conexion.close();
+//            return cliente;
+//
+//        } catch (SQLException e) {
+//            LOG.log(Level.SEVERE, e.getMessage());
+        return null;
+//        }
     }
 
     /*
@@ -221,6 +222,29 @@ public class ClientesDAO implements IClientesDAO {
     @Override
     public List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public CuentasClientesRecord insetarCuenta(CuentasClientesRecord cuenta, Cliente cliente) throws PersistenciaException {
+        String codigoSQL = "insert into cuentasClientes (nombre, saldo, numCuenta, idClientes) values(?,?,?,?)";
+
+        String codigoSQLCredenciales = "insert into ClientesCredenciales(idClientes,clave,username) VALUES(?,?,?)";
+        try (Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
+            comando.setString(1, cuenta.nombre());
+            comando.setFloat(2, cuenta.saldo());
+            comando.setInt(3, cuenta.numCuenta());
+            comando.setInt(4, cliente.getId());
+            comando.executeUpdate();
+            ResultSet generatedKeys = comando.getGeneratedKeys();
+            conexion.close();
+            return cuenta;
+
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+            throw new PersistenciaException("No fue posible registrar esta cuenta");
+
+        }
+
     }
 
 }

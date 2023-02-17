@@ -21,14 +21,16 @@ import javax.swing.JOptionPane;
  * @author eruma
  */
 public class Login extends javax.swing.JFrame {
+
     private final IClientesDAO clientesDao;
+
     /**
      * Creates new form Login
      */
-    
+
     public Login(IClientesDAO clientesDao) {
         initComponents();
-        this.clientesDao=clientesDao;
+        this.clientesDao = clientesDao;
         this.pswFieldPassword.setEchoChar((char) 0); //Descifrar password field
     }
 
@@ -36,7 +38,6 @@ public class Login extends javax.swing.JFrame {
         this.clientesDao = null;
     }
 
-  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -125,6 +126,9 @@ public class Login extends javax.swing.JFrame {
             }
         });
         pswFieldPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pswFieldPasswordKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 pswFieldPasswordKeyTyped(evt);
             }
@@ -154,6 +158,9 @@ public class Login extends javax.swing.JFrame {
             }
         });
         txtFieldUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldUserKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldUserKeyTyped(evt);
             }
@@ -229,6 +236,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldUserFocusLost
 
     private void txtFieldUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldUserKeyTyped
+        txtFieldUser.setText(txtFieldUser.getText().trim());
         if (txtFieldUser.getText().equals("Ingrese su usuario")) {
             txtFieldUser.setText("");
         }
@@ -253,34 +261,35 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_pswFieldPasswordMouseExited
 
     private void pswFieldPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pswFieldPasswordKeyTyped
-if (pswFieldPassword.getText().equals("Ingrese su contraseña")) {
+        pswFieldPassword.setText(pswFieldPassword.getText().trim());
+        if (pswFieldPassword.getText().equals("Ingrese su contraseña")) {
             pswFieldPassword.setEchoChar('*');
             pswFieldPassword.setText("");
-            
+
         }
     }//GEN-LAST:event_pswFieldPasswordKeyTyped
 
     private void pswFieldPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pswFieldPasswordFocusLost
         if (pswFieldPassword.getText().equals("")) {
             pswFieldPassword.setText("Ingrese su contraseña");
-            this.pswFieldPassword.setEchoChar((char)0);
+            this.pswFieldPassword.setEchoChar((char) 0);
         }
     }//GEN-LAST:event_pswFieldPasswordFocusLost
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         try {
-           Cliente cliente=this.clientesDao.consultar(txtFieldUser.getText(), pswFieldPassword.getText());
-             System.out.println(cliente);
-            new Cuentas(clientesDao, cliente).setVisible(true); 
+            Cliente cliente = this.clientesDao.consultar(txtFieldUser.getText(), pswFieldPassword.getText());
+            System.out.println(cliente);
+            new Cuentas(clientesDao, cliente).setVisible(true);
             this.dispose();
         } catch (PersistenciaException ex) {
-            new JOptionPane().showMessageDialog(this,"Credenciales incorrectas", "¡Aviso!",JOptionPane.ERROR_MESSAGE);
+            new JOptionPane().showMessageDialog(this, "Credenciales incorrectas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        new Register(this.clientesDao).setVisible(true);
-        this.dispose();
+//        new Register(this.clientesDao).setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
@@ -291,6 +300,16 @@ if (pswFieldPassword.getText().equals("Ingrese su contraseña")) {
         new Register(this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblRegistroMouseClicked
+
+    private void txtFieldUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldUserKeyReleased
+        // TODO add your handling code here:
+        txtFieldUser.setText(txtFieldUser.getText().trim());
+    }//GEN-LAST:event_txtFieldUserKeyReleased
+
+    private void pswFieldPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pswFieldPasswordKeyReleased
+        // TODO add your handling code here:
+        pswFieldPassword.setText(pswFieldPassword.getText().trim());
+    }//GEN-LAST:event_pswFieldPasswordKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

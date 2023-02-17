@@ -77,7 +77,12 @@ public class Cuentas extends javax.swing.JFrame {
         jButton1.setBorder(null);
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
-        pnlFondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, -1, -1));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, -1, 20));
 
         lblSaldo1.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         lblSaldo1.setForeground(new java.awt.Color(153, 153, 153));
@@ -90,7 +95,7 @@ public class Cuentas extends javax.swing.JFrame {
                 cBoxCuentasActionPerformed(evt);
             }
         });
-        pnlFondo.add(cBoxCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 190, -1));
+        pnlFondo.add(cBoxCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, 190, -1));
 
         lblSaldo.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         lblSaldo.setForeground(new java.awt.Color(153, 153, 153));
@@ -100,7 +105,7 @@ public class Cuentas extends javax.swing.JFrame {
         lblCuentas.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         lblCuentas.setForeground(new java.awt.Color(153, 153, 153));
         lblCuentas.setText("Cuenta:");
-        pnlFondo.add(lblCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, 70, 30));
+        pnlFondo.add(lblCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, 70, 40));
 
         lblPestanaTransac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/penstana.png"))); // NOI18N
         pnlFondo.add(lblPestanaTransac, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, -1));
@@ -137,6 +142,10 @@ public class Cuentas extends javax.swing.JFrame {
     private void cBoxCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxCuentasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cBoxCuentasActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

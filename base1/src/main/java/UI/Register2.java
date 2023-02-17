@@ -5,6 +5,7 @@
 package UI;
 
 import dominio.Cliente;
+import dominio.CuentasClientesRecord;   // eliminar despues de probar que si agrega las cuentas
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
 import interfaces.IClientesDAO;
@@ -12,6 +13,7 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Label;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -89,6 +91,9 @@ public class Register2 extends javax.swing.JFrame {
             }
         });
         pswFieldPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pswFieldPasswordKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 pswFieldPasswordKeyTyped(evt);
             }
@@ -178,6 +183,9 @@ public class Register2 extends javax.swing.JFrame {
             }
         });
         txtFieldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldUsuarioKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldUsuarioKeyTyped(evt);
             }
@@ -207,6 +215,9 @@ public class Register2 extends javax.swing.JFrame {
             }
         });
         txtFieldCp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldCpKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldCpKeyTyped(evt);
             }
@@ -239,6 +250,9 @@ public class Register2 extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtFieldNoCasaKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldNoCasaKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldNoCasaKeyTyped(evt);
             }
@@ -268,6 +282,9 @@ public class Register2 extends javax.swing.JFrame {
             }
         });
         txtFieldCalle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldCalleKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFieldCalleKeyTyped(evt);
             }
@@ -327,6 +344,7 @@ public class Register2 extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldCalleFocusLost
 
     private void txtFieldCalleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCalleKeyTyped
+        txtFieldCalle.setText(txtFieldCalle.getText().trim());
         if (txtFieldCalle.getText().length() >= 100) {
             evt.consume();
         }
@@ -364,6 +382,7 @@ public class Register2 extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldNoCasaActionPerformed
 
     private void txtFieldNoCasaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNoCasaKeyTyped
+        txtFieldNoCasa.setText(txtFieldNoCasa.getText().trim());
         if (txtFieldNoCasa.getText().length() >= 5) {
             evt.consume();
         }
@@ -404,6 +423,7 @@ public class Register2 extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldCpActionPerformed
 
     private void txtFieldCpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCpKeyTyped
+        txtFieldCp.setText(txtFieldCp.getText().trim());
         if (txtFieldCp.getText().length() >= 7) {
             evt.consume();
         }
@@ -444,6 +464,7 @@ public class Register2 extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldUsuarioActionPerformed
 
     private void txtFieldUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldUsuarioKeyTyped
+        txtFieldUsuario.setText(txtFieldUsuario.getText().trim());
         if (txtFieldUsuario.getText().length() >= 10) {
             evt.consume();
         }
@@ -471,9 +492,21 @@ public class Register2 extends javax.swing.JFrame {
             this.cliente.setCp(Integer.parseInt(this.txtFieldCp.getText()));
             this.cliente.setNumDomicilio(Integer.parseInt(this.txtFieldNoCasa.getText()));
 
-            System.out.println(this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText()).getId());
-            new JOptionPane().showMessageDialog(this, "Usuario agregado exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-            new Login(this.clientesDao).setVisible(true);
+            // que no permita registar si no hace una cuenta para iniciar sesion
+            if (!txtFieldUsuario.getText().equals("") && !txtFieldUsuario.getText().equals("Usuario")
+                    && !pswFieldPassword.getText().equals("") && !pswFieldPassword.getText().equals("Clave")) {
+                
+                this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText()).getId();
+                new JOptionPane().showMessageDialog(this, "Usuario agregado exitosamente", "Confirmación",JOptionPane.INFORMATION_MESSAGE);
+                new Login(this.clientesDao).setVisible(true);
+            }
+
+            //SOLAMENTE ES PARA PROBAR QUE SE AGREGUE UNA CUENTA LOS DATOS ESTAN HARDCODEADOS
+            //CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, int numCuenta, int idClientes ) 
+            Date fechaApertura = new Date(2023, 02, 17);
+            CuentasClientesRecord cuenta = new CuentasClientesRecord(1, fechaApertura, "ahorro", 200, 183939, cliente.getId());
+            this.clientesDao.insetarCuenta(cuenta, cliente);
+
             this.dispose();
         } catch (PersistenciaException ex) {
             Logger.getLogger(Register2.class.getName()).log(Level.SEVERE, null, ex);
@@ -518,6 +551,7 @@ public class Register2 extends javax.swing.JFrame {
     }//GEN-LAST:event_pswFieldPasswordMouseExited
 
     private void pswFieldPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pswFieldPasswordKeyTyped
+        pswFieldPassword.setText(pswFieldPassword.getText().trim());
         if (pswFieldPassword.getText().equals("Clave")) {
             pswFieldPassword.setEchoChar('*');
             pswFieldPassword.setText("");
@@ -528,6 +562,31 @@ public class Register2 extends javax.swing.JFrame {
     private void pswFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswFieldPasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pswFieldPasswordActionPerformed
+
+    private void txtFieldCalleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCalleKeyReleased
+        // TODO add your handling code here:
+        txtFieldCalle.setText(txtFieldCalle.getText().trim());
+    }//GEN-LAST:event_txtFieldCalleKeyReleased
+
+    private void txtFieldNoCasaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNoCasaKeyReleased
+        // TODO add your handling code here:
+        txtFieldNoCasa.setText(txtFieldNoCasa.getText().trim());
+    }//GEN-LAST:event_txtFieldNoCasaKeyReleased
+
+    private void txtFieldCpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCpKeyReleased
+        // TODO add your handling code here:
+        txtFieldCp.setText(txtFieldCp.getText().trim());
+    }//GEN-LAST:event_txtFieldCpKeyReleased
+
+    private void txtFieldUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldUsuarioKeyReleased
+        // TODO add your handling code here:
+        txtFieldUsuario.setText(txtFieldUsuario.getText().trim());
+    }//GEN-LAST:event_txtFieldUsuarioKeyReleased
+
+    private void pswFieldPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pswFieldPasswordKeyReleased
+        // TODO add your handling code here:
+        pswFieldPassword.setText(pswFieldPassword.getText().trim());
+    }//GEN-LAST:event_pswFieldPasswordKeyReleased
 
     /**
      * @param args the command line arguments

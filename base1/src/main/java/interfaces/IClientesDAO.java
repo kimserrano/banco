@@ -15,12 +15,20 @@ import utils.ConfiguracionPaginado;
 /**
  *
  * @author kim
- */ 
+ */
 public interface IClientesDAO {
+
     Cliente consultar(Integer idCliente);
-    Cliente consultar(String usuario, String clave) throws  PersistenciaException;
-    Cliente insertar(Cliente cliente, String usuario, String clave) throws  PersistenciaException ;
+
+    Cliente consultar(String usuario, String clave) throws PersistenciaException;
+
+    Cliente insertar(Cliente cliente, String usuario, String clave) throws PersistenciaException;
+
     Cliente eliminar(Integer idCliente);
-    List <Cliente> consultar (ConfiguracionPaginado configPaginado) throws  PersistenciaException;
-   ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) throws PersistenciaException;
+
+    CuentasClientesRecord insetarCuenta(CuentasClientesRecord cuenta, Cliente cliente) throws PersistenciaException;
+
+    List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException;
+
+    ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) throws PersistenciaException;
 }
