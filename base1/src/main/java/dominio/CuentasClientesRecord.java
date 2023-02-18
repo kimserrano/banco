@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author eruma
  */
-public record CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, int numCuenta, int idClientes ) {
+public record CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, String numCuenta, int idClientes ) {
 
 //public record CuentasClientesRecord(String nombre,float saldo, int numCuenta, int idClientes ) {
     

@@ -503,9 +503,9 @@ public class Register2 extends javax.swing.JFrame {
 
             //SOLAMENTE ES PARA PROBAR QUE SE AGREGUE UNA CUENTA LOS DATOS ESTAN HARDCODEADOS
             //CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, int numCuenta, int idClientes ) 
-            Date fechaApertura = new Date(2023, 02, 17);
-            CuentasClientesRecord cuenta = new CuentasClientesRecord(1, fechaApertura, "ahorro", 200, 183939, cliente.getId());
-            this.clientesDao.insetarCuenta(cuenta, cliente);
+//            Date fechaApertura = new Date(2023, 02, 17);
+//            CuentasClientesRecord cuenta = new CuentasClientesRecord(1, fechaApertura, "ahorro", 200, 183939, cliente.getId());
+//            this.clientesDao.insetarCuenta(cuenta, cliente);
 
             this.dispose();
         } catch (PersistenciaException ex) {

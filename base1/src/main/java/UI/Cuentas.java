@@ -21,17 +21,18 @@ public class Cuentas extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDao;
     private final Cliente cliente;
+
     /**
      * Creates new form Cuentas
      */
     public Cuentas(IClientesDAO clientesDao, Cliente cliente) {
         initComponents();
         this.clientesDao = clientesDao;
-        this.cliente=cliente;
+        this.cliente = cliente;
         this.cargarCuentas();
     }
 
-    public void cargarCuentas(){
+    public void cargarCuentas() {
         ComboBoxModel cob = this.cBoxCuentas.getModel();
         try {
             ArrayList<CuentasClientesRecord> cuentas = clientesDao.cargarCuentas(cliente.getId());
@@ -55,7 +56,7 @@ public class Cuentas extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnAgregarCuenta = new javax.swing.JButton();
         lblSaldo1 = new javax.swing.JLabel();
         cBoxCuentas = new javax.swing.JComboBox<>();
         lblSaldo = new javax.swing.JLabel();
@@ -73,23 +74,32 @@ public class Cuentas extends javax.swing.JFrame {
 
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/anadirCuenta.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/anadirCuenta.png"))); // NOI18N
+        btnAgregarCuenta.setBorder(null);
+        btnAgregarCuenta.setBorderPainted(false);
+        btnAgregarCuenta.setContentAreaFilled(false);
+        btnAgregarCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAgregarCuentaActionPerformed(evt);
             }
         });
-        pnlFondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, -1, 20));
+        pnlFondo.add(btnAgregarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, -1, 20));
 
         lblSaldo1.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         lblSaldo1.setForeground(new java.awt.Color(153, 153, 153));
-        lblSaldo1.setText("saldoDelCliente");
         lblSaldo1.setFocusable(false);
+        lblSaldo1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                lblSaldo1KeyTyped(evt);
+            }
+        });
         pnlFondo.add(lblSaldo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 200, 30));
 
+        cBoxCuentas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cBoxCuentasItemStateChanged(evt);
+            }
+        });
         cBoxCuentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cBoxCuentasActionPerformed(evt);
@@ -143,14 +153,28 @@ public class Cuentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cBoxCuentasActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        new FrmRegistroCuentasBancarias(clientesDao, cliente).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAgregarCuentaActionPerformed
+
+    private void lblSaldo1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblSaldo1KeyTyped
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_lblSaldo1KeyTyped
+
+    private void cBoxCuentasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxCuentasItemStateChanged
+//        CuentasClientesRecord cuentaSeleccionada = (CuentasClientesRecord) cBoxCuentas.getSelectedItem();
+//        String saldoCadena = Float.toString(cuentaSeleccionada.saldo());
+//        lblSaldo1.setText(saldoCadena);
+    }//GEN-LAST:event_cBoxCuentasItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarCuenta;
     private javax.swing.JComboBox<String> cBoxCuentas;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblCuentas;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblPestanaCuenta;

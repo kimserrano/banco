@@ -77,7 +77,8 @@ public class ClientesDAO implements IClientesDAO {
                 String nombre = resultado.getString("nombre");
                 float saldo = resultado.getFloat("saldo");
                 int numCuenta = resultado.getInt("numCuenta");
-                CuentasClientesRecord cuenta = new CuentasClientesRecord(idCuentasClientes, null, nombre, saldo, numCuenta, idCliente);
+                String numCuentaCadena = String.valueOf(numCuenta);
+                CuentasClientesRecord cuenta = new CuentasClientesRecord(idCuentasClientes, null, nombre, saldo, numCuentaCadena, idCliente);
                 listCuentas.add(cuenta);
             }
             conexion.close();
@@ -226,14 +227,13 @@ public class ClientesDAO implements IClientesDAO {
 
     @Override
     public CuentasClientesRecord insetarCuenta(CuentasClientesRecord cuenta, Cliente cliente) throws PersistenciaException {
-        String codigoSQL = "insert into cuentasClientes (nombre, saldo, numCuenta, idClientes) values(?,?,?,?)";
+        String codigoSQL = "insert into cuentasClientes (nombre, saldo, idClientes) values(?,?,?)";
 
         String codigoSQLCredenciales = "insert into ClientesCredenciales(idClientes,clave,username) VALUES(?,?,?)";
         try (Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
             comando.setString(1, cuenta.nombre());
             comando.setFloat(2, cuenta.saldo());
-            comando.setInt(3, cuenta.numCuenta());
-            comando.setInt(4, cliente.getId());
+            comando.setInt(3, cliente.getId());
             comando.executeUpdate();
             ResultSet generatedKeys = comando.getGeneratedKeys();
             conexion.close();
