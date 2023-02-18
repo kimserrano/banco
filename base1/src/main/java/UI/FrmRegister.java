@@ -17,15 +17,15 @@ import java.sql.Date;
  *
  * @author eruma
  */
-public class Register extends javax.swing.JFrame {
+public class FrmRegister extends javax.swing.JFrame {
 
     private Cliente cliente;
     private final IClientesDAO clientesDao;
 
     /**
-     * Creates new form Login
+     * Creates new form FrmLogin
      */
-    public Register(IClientesDAO clientesDao) {
+    public FrmRegister(IClientesDAO clientesDao) {
         initComponents();
         this.clientesDao = clientesDao;
     }
@@ -391,7 +391,7 @@ public class Register extends javax.swing.JFrame {
         Date fechaNacimiento = new Date(ano, mes, dia);
 
         this.cliente = new Cliente(fechaNacimiento, this.txtFieldNombre.getText(), this.txtFieldApellidoPat.getText(), this.txtFieldApellidoMat.getText());
-        new Register2(cliente, this.clientesDao).setVisible(true);
+        new FrmRegister2(cliente, this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSigActionPerformed
 
@@ -404,7 +404,7 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasMouseEntered
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        new Login(this.clientesDao).setVisible(true);
+        new FrmLogin(this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
 

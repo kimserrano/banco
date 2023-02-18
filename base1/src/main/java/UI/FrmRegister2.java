@@ -22,15 +22,15 @@ import javax.swing.JOptionPane;
  *
  * @author eruma
  */
-public class Register2 extends javax.swing.JFrame {
+public class FrmRegister2 extends javax.swing.JFrame {
 
     private Cliente cliente;
     private final IClientesDAO clientesDao;
 
     /**
-     * Creates new form Login
+     * Creates new form FrmLogin
      */
-    public Register2(Cliente cliente, IClientesDAO clientesDao) {
+    public FrmRegister2(Cliente cliente, IClientesDAO clientesDao) {
         initComponents();
         this.cliente = cliente;
         this.clientesDao = clientesDao;
@@ -478,7 +478,7 @@ public class Register2 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasMouseEntered
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        new Register(this.clientesDao).setVisible(true);
+        new FrmRegister(this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
@@ -498,7 +498,7 @@ public class Register2 extends javax.swing.JFrame {
                 
                 this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText()).getId();
                 new JOptionPane().showMessageDialog(this, "Usuario agregado exitosamente", "Confirmación",JOptionPane.INFORMATION_MESSAGE);
-                new Login(this.clientesDao).setVisible(true);
+                new FrmLogin(this.clientesDao).setVisible(true);
             }
 
             //SOLAMENTE ES PARA PROBAR QUE SE AGREGUE UNA CUENTA LOS DATOS ESTAN HARDCODEADOS
@@ -509,7 +509,7 @@ public class Register2 extends javax.swing.JFrame {
 
             this.dispose();
         } catch (PersistenciaException ex) {
-            Logger.getLogger(Register2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmRegister2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -518,7 +518,7 @@ public class Register2 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        new Login(this.clientesDao).setVisible(true);
+        new FrmLogin(this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 

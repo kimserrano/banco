@@ -23,10 +23,10 @@ public class Base1 {
 
     public static void main(String[] args) {
         
-        IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost:3400/banco", "root", "twentyonepilots123");
+        IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost:3306/banco", "root", "beCCerrin123.");
 
             IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
             
-            new Login(clientesDAO).setVisible(true);
+            new FrmLogin(clientesDAO).setVisible(true);
     }
 }

@@ -59,36 +59,9 @@ public class ClientesDAO implements IClientesDAO {
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, e.getMessage());
             return null;
-
         }
     }
 
-    @Override
-    public ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) {
-        String codigoSQL = "SELECT * FROM cuentasClientes WHERE idClientes=?";
-        try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
-            comando.setInt(1, idCliente);
-            ResultSet resultado = comando.executeQuery();
-            ArrayList<CuentasClientesRecord> listCuentas = new ArrayList();
-
-            while (resultado.next()) {
-                int idCuentasClientes = resultado.getInt("idCuentasClientes");
-                String nombre = resultado.getString("nombre");
-                float saldo = resultado.getFloat("saldo");
-                int numCuenta = resultado.getInt("numCuenta");
-                String numCuentaCadena = String.valueOf(numCuenta);
-                CuentasClientesRecord cuenta = new CuentasClientesRecord(idCuentasClientes, null, nombre, saldo, numCuentaCadena, idCliente);
-                listCuentas.add(cuenta);
-            }
-            conexion.close();
-            return listCuentas;
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
 
     @Override
     public Cliente consultar(Integer idCliente) {
@@ -225,26 +198,11 @@ public class ClientesDAO implements IClientesDAO {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public CuentasClientesRecord insetarCuenta(CuentasClientesRecord cuenta, Cliente cliente) throws PersistenciaException {
-        String codigoSQL = "insert into cuentasClientes (nombre, saldo, idClientes) values(?,?,?)";
+   
 
-        String codigoSQLCredenciales = "insert into ClientesCredenciales(idClientes,clave,username) VALUES(?,?,?)";
-        try (Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
-            comando.setString(1, cuenta.nombre());
-            comando.setFloat(2, cuenta.saldo());
-            comando.setInt(3, cliente.getId());
-            comando.executeUpdate();
-            ResultSet generatedKeys = comando.getGeneratedKeys();
-            conexion.close();
-            return cuenta;
 
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, e.getMessage());
-            throw new PersistenciaException("No fue posible registrar esta cuenta");
-
-        }
-
+    public IConexionBD getGENERADOR_CONEXIONES() {
+        return GENERADOR_CONEXIONES;
     }
 
 }

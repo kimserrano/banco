@@ -26,9 +26,7 @@ public interface IClientesDAO {
 
     Cliente eliminar(Integer idCliente);
 
-    CuentasClientesRecord insetarCuenta(CuentasClientesRecord cuenta, Cliente cliente) throws PersistenciaException;
-
     List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException;
 
-    ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) throws PersistenciaException;
+    IConexionBD getGENERADOR_CONEXIONES();
 }

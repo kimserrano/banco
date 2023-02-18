@@ -8,6 +8,7 @@ import dominio.Cliente;
 import dominio.CuentasClientesRecord;
 import excepciones.PersistenciaException;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasClientesDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,13 +19,13 @@ import javax.swing.JOptionPane;
  */
 public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
 
-    private final IClientesDAO clientesDao;
+    private final ICuentasClientesDAO clientesDao;
     private final Cliente cliente;
 
     /**
      * Creates new form FrmCuentasBancarias
      */
-    public FrmRegistroCuentasBancarias(IClientesDAO clientesDao, Cliente cliente) {
+    public FrmRegistroCuentasBancarias(ICuentasClientesDAO clientesDao, Cliente cliente) {
         initComponents();
         this.clientesDao = clientesDao;
         this.cliente = cliente;
@@ -40,9 +41,13 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
+        btnAceptar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnRetiroSinCuenta = new javax.swing.JButton();
         lblNombreCuenta = new javax.swing.JLabel();
         txtFieldNombreCuenta = new javax.swing.JTextField();
-        btnCrearCuenta = new javax.swing.JButton();
+        lblRecuadro = new javax.swing.JLabel();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registrar cuenta");
@@ -54,10 +59,56 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
 
         pnlFondo.setMaximumSize(new java.awt.Dimension(1200, 800));
         pnlFondo.setMinimumSize(new java.awt.Dimension(1200, 800));
+        pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnAceptar.png"))); // NOI18N
+        btnAceptar.setBorder(null);
+        btnAceptar.setBorderPainted(false);
+        btnAceptar.setContentAreaFilled(false);
+        btnAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAceptarMouseEntered(evt);
+            }
+        });
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 530, -1, -1));
+
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnCancelar.png"))); // NOI18N
+        btnCancelar.setBorder(null);
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setContentAreaFilled(false);
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseEntered(evt);
+            }
+        });
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 530, -1, -1));
+
+        btnRetiroSinCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiro.png"))); // NOI18N
+        btnRetiroSinCuenta.setBorder(null);
+        btnRetiroSinCuenta.setBorderPainted(false);
+        btnRetiroSinCuenta.setContentAreaFilled(false);
+        btnRetiroSinCuenta.setFocusable(false);
+        btnRetiroSinCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetiroSinCuentaActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnRetiroSinCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(611, 423, -1, -1));
 
         lblNombreCuenta.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         lblNombreCuenta.setForeground(new java.awt.Color(153, 153, 153));
         lblNombreCuenta.setText("Nombre de la cuenta:");
+        pnlFondo.add(lblNombreCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 180, -1));
 
         txtFieldNombreCuenta.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         txtFieldNombreCuenta.setForeground(new java.awt.Color(153, 153, 153));
@@ -65,7 +116,6 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
         txtFieldNombreCuenta.setBorder(null);
         txtFieldNombreCuenta.setCaretPosition(5);
         txtFieldNombreCuenta.setPreferredSize(new java.awt.Dimension(27, 16));
-        txtFieldNombreCuenta.setScrollOffset(0);
         txtFieldNombreCuenta.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtFieldNombreCuentaFocusLost(evt);
@@ -92,47 +142,17 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
                 txtFieldNombreCuentaKeyTyped(evt);
             }
         });
-
-        btnCrearCuenta.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        btnCrearCuenta.setText("Crear cuenta");
-        btnCrearCuenta.setToolTipText("");
-        btnCrearCuenta.setBorderPainted(false);
-        btnCrearCuenta.setContentAreaFilled(false);
-        btnCrearCuenta.setMaximumSize(new java.awt.Dimension(113, 31));
-        btnCrearCuenta.setMinimumSize(new java.awt.Dimension(113, 31));
-        btnCrearCuenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearCuentaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
-        pnlFondo.setLayout(pnlFondoLayout);
-        pnlFondoLayout.setHorizontalGroup(
-            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFondoLayout.createSequentialGroup()
-                .addContainerGap(150, Short.MAX_VALUE)
-                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCrearCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlFondoLayout.createSequentialGroup()
-                        .addComponent(lblNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(96, 96, 96)
-                        .addComponent(txtFieldNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(398, 398, 398))
-        );
-        pnlFondoLayout.setVerticalGroup(
-            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlFondoLayout.createSequentialGroup()
-                .addGap(219, 219, 219)
-                .addGroup(pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFieldNombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(277, 277, 277)
-                .addComponent(btnCrearCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(486, Short.MAX_VALUE))
-        );
-
+        pnlFondo.add(txtFieldNombreCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 300, 290, 30));
         txtFieldNombreCuenta.getAccessibleContext().setAccessibleName("");
+
+        lblRecuadro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/recuadroWeb.png"))); // NOI18N
+        lblRecuadro.setAlignmentY(0.0F);
+        pnlFondo.add(lblRecuadro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 800));
+
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo.png"))); // NOI18N
+        lblFondo.setAlignmentY(0.0F);
+        lblFondo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        pnlFondo.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,13 +160,13 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 900, Short.MAX_VALUE))
+                .addGap(0, 976, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 400, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -198,23 +218,41 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldNombreCuentaMouseExited
 
-    private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
+    private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
         // TODO add your handling code here:
+    }//GEN-LAST:event_btnAceptarMouseEntered
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+       // TODO add your handling code here:
         //SOLAMENTE ES PARA PROBAR QUE SE AGREGUE UNA CUENTA LOS DATOS ESTAN HARDCODEADOS
         //CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, int numCuenta, int idClientes ) 
 
+           //IdCuentaClientes es Setteado a 0 ya que este id no es importante para la creación de la cuenta
         CuentasClientesRecord cuenta = new CuentasClientesRecord(0, null, txtFieldNombreCuenta.getText(), 0, null, cliente.getId());
         try {
             if (!txtFieldNombreCuenta.getText().equals("") && !txtFieldNombreCuenta.getText().equals("Ingrese el nombre de su nueva cuenta")) {
                 this.clientesDao.insetarCuenta(cuenta, cliente);
-                new Cuentas(clientesDao, cliente).setVisible(true);
+                new FrmCuentas(clientesDao, cliente).setVisible(true);
                 this.dispose();
             }
             new JOptionPane().showMessageDialog(this, "Cuenta creada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
         } catch (PersistenciaException ex) {
             new JOptionPane().showMessageDialog(this, "La cuenta no fue registrada", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnCrearCuentaActionPerformed
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarMouseEntered
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        new FrmCuentas(this.clientesDao,this.cliente).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRetiroSinCuentaActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -253,8 +291,12 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCrearCuenta;
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnRetiroSinCuenta;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblNombreCuenta;
+    private javax.swing.JLabel lblRecuadro;
     private javax.swing.JPanel pnlFondo;
     private javax.swing.JTextField txtFieldNombreCuenta;
     // End of variables declaration//GEN-END:variables

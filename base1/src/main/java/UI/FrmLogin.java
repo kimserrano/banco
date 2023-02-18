@@ -7,7 +7,9 @@ package UI;
 import dominio.Cliente;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
+import implementaciones.CuentasClientesDAO;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasClientesDAO;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -20,7 +22,7 @@ import javax.swing.JOptionPane;
  *
  * @author eruma
  */
-public class Login extends javax.swing.JFrame {
+public class FrmLogin extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDao;
 
@@ -28,13 +30,14 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
 
-    public Login(IClientesDAO clientesDao) {
+    public FrmLogin(IClientesDAO clientesDao) {
         initComponents();
         this.clientesDao = clientesDao;
         this.pswFieldPassword.setEchoChar((char) 0); //Descifrar password field
     }
 
-    public Login() {
+    
+    public FrmLogin() {
         this.clientesDao = null;
     }
 
@@ -279,8 +282,9 @@ public class Login extends javax.swing.JFrame {
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         try {
             Cliente cliente = this.clientesDao.consultar(txtFieldUser.getText(), pswFieldPassword.getText());
-            System.out.println(cliente);
-            new Cuentas(clientesDao, cliente).setVisible(true);
+        //    System.out.println(cliente);
+            ICuentasClientesDAO cuentasClientesDAO=new CuentasClientesDAO(this.clientesDao.getGENERADOR_CONEXIONES());
+            new FrmCuentas(cuentasClientesDAO, cliente).setVisible(true);
             this.dispose();
         } catch (PersistenciaException ex) {
             new JOptionPane().showMessageDialog(this, "Credenciales incorrectas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
@@ -288,7 +292,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-//        new Register(this.clientesDao).setVisible(true);
+//        new FrmRegister(this.clientesDao).setVisible(true);
 //        this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -297,7 +301,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRetiroSinCuentaActionPerformed
 
     private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseClicked
-        new Register(this.clientesDao).setVisible(true);
+        new FrmRegister(this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblRegistroMouseClicked
 
