@@ -12,7 +12,9 @@ import excepciones.PersistenciaException;
  * @author eruma
  */
 public interface ITransaccionesDAO {
-    
-    void realizarTransferencia(int id1, int id2, float monto) throws PersistenciaException;
+    // id1 es el de la cuenta actual 
+    // numCuenta es l cuenta a la que se desea transferir 
+    void realizarTransferencia(int id1, int numCuenta, float monto) throws PersistenciaException;
+
     
 }

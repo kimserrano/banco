@@ -94,7 +94,9 @@ public class ClientesDAO implements IClientesDAO {
 
     @Override
     public Cliente insertar(Cliente cliente, String usuario, String clave) throws PersistenciaException {
+       
 
+//  String codigoSQL = "call edadNecesaria(?,?,?,?,?,?,?)";
         String codigoSQL = "insert into Clientes (nombres, apellidoPat, apellidoMat, fechaNacimiento,calle,numDomicilio,cp) values(?,?,?,?,?,?,?)";
 
         String codigoSQLCredenciales = "insert into ClientesCredenciales(idClientes,clave,username) VALUES(?,?,?)";
@@ -110,7 +112,7 @@ public class ClientesDAO implements IClientesDAO {
 
             comando.executeUpdate();
             ResultSet generatedKeys = comando.getGeneratedKeys();
-
+        
             if (generatedKeys.next()) {
                 int posicionLlavePrimaria = 1;
                 cliente.setId(generatedKeys.getInt(posicionLlavePrimaria));

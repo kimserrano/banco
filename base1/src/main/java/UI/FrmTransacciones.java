@@ -10,23 +10,25 @@ import interfaces.ICuentasClientesDAO;
 import interfaces.ITransaccionesDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author eruma
  */
 public class FrmTransacciones extends javax.swing.JFrame {
-    
+
     private final ITransaccionesDAO transaccionesDAO;
     private final Cliente cliente;
+
     /**
      * Creates new form FrmTransacciones
      */
     public FrmTransacciones(ITransaccionesDAO transaccionesDAO, Cliente cliente) {
         initComponents();
-        this.transaccionesDAO=transaccionesDAO;
-        this.cliente=cliente;
-        
+        this.transaccionesDAO = transaccionesDAO;
+        this.cliente = cliente;
+
     }
 
     /**
@@ -205,10 +207,25 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionActionPerformed
+        String numCuentaTransferencia = null;
+        String montoTransferencia = null;
         try {
-            this.transaccionesDAO.realizarTransferencia(1, 2, 100);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(FrmTransacciones.class.getName()).log(Level.SEVERE, null, ex);
+            numCuentaTransferencia = new JOptionPane().showInputDialog(this, "Número de cuenta al que quieres transferir");
+            if (numCuentaTransferencia.matches("^([+]?\\d*\\.?\\d*)$")) {
+                montoTransferencia = new JOptionPane().showInputDialog(this, "Monto que deseas transferir");
+                if (!montoTransferencia.matches("^([+]?\\d*\\.?\\d*)$")) {
+                    new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros y un punto para decimales, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                }
+                int numCuenta = Integer.parseInt(numCuentaTransferencia);
+                float monto = Float.parseFloat(montoTransferencia);
+                this.transaccionesDAO.realizarTransferencia(cliente.getId(), numCuenta, monto);
+                
+            } else {
+                new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (PersistenciaException e) {
+            Logger.getLogger(FrmTransacciones.class.getName()).log(Level.SEVERE, null, e);     
         }
     }//GEN-LAST:event_btnTransaccionActionPerformed
 
