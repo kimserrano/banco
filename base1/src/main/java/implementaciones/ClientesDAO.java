@@ -17,6 +17,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,16 +95,18 @@ public class ClientesDAO implements IClientesDAO {
         }
     }
 
-    @Override
+  @Override
     public Cliente insertar(Cliente cliente, String usuario, String clave) throws PersistenciaException {
-       
 
-//  String codigoSQL = "call edadNecesaria(?,?,?,?,?,?,?)";
-        String codigoSQL = "insert into Clientes (nombres, apellidoPat, apellidoMat, fechaNacimiento,calle,numDomicilio,cp) values(?,?,?,?,?,?,?)";
-
-        String codigoSQLCredenciales = "insert into ClientesCredenciales(idClientes,clave,username) VALUES(?,?,?)";
+        String codigoSQL = "call edadNecesaria(?,?,?,?,?,?,?,?,?)";
         try (
                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
+           int ano=cliente.getFechaNacimiento().getYear()+1900;
+           int mes=cliente.getFechaNacimiento().getMonth();
+           
+            Period edad=Period.between(LocalDate.of(ano, mes, cliente.getFechaNacimiento().getDate()), LocalDate.now());
+
+            if(edad.getYears()>=18){
             comando.setString(1, cliente.getNombre());
             comando.setString(2, cliente.getApellidoPaterno());
             comando.setString(3, cliente.getApellidoMaterno());
@@ -109,33 +114,20 @@ public class ClientesDAO implements IClientesDAO {
             comando.setString(5, cliente.getCalle());
             comando.setInt(6, cliente.getNumDomicilio());
             comando.setInt(7, cliente.getCp());
-
+            comando.setString(8, usuario);
+            comando.setString(9, clave);
             comando.executeUpdate();
-            ResultSet generatedKeys = comando.getGeneratedKeys();
-        
-            if (generatedKeys.next()) {
-                int posicionLlavePrimaria = 1;
-                cliente.setId(generatedKeys.getInt(posicionLlavePrimaria));
-                PreparedStatement comandoCredenciales = conexion.prepareStatement(codigoSQLCredenciales, Statement.RETURN_GENERATED_KEYS);
-                {
-                    comandoCredenciales.setInt(1, cliente.getId());
-                    comandoCredenciales.setString(2, clave);
-                    comandoCredenciales.setString(3, usuario);
-
-                    comandoCredenciales.executeUpdate();
-                }
-                conexion.close();
-                return cliente;
+            conexion.close();
+            
+           
+            
+            return cliente;
             }
-            LOG.log(Level.WARNING, "Cliente registrado, pero id no generado ");
-            throw new PersistenciaException("Cliente registrado, pero id no generado ");
-
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, e.getMessage());
-            throw new PersistenciaException("No fue posible registrar al cliente");
-
+            return null;
         }
-
+        return null;
     }
 
     @Override

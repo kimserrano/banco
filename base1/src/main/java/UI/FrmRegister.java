@@ -387,7 +387,7 @@ public class FrmRegister extends javax.swing.JFrame {
         int ano = this.jDateChooser1.getDate().getYear();
         int mes = this.jDateChooser1.getDate().getMonth();
         int dia = this.jDateChooser1.getDate().getDay();
-
+        
         Date fechaNacimiento = new Date(ano, mes, dia);
 
         this.cliente = new Cliente(fechaNacimiento, this.txtFieldNombre.getText(), this.txtFieldApellidoPat.getText(), this.txtFieldApellidoMat.getText());

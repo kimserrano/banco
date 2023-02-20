@@ -495,10 +495,14 @@ public class FrmRegister2 extends javax.swing.JFrame {
             // que no permita registar si no hace una cuenta para iniciar sesion
             if (!txtFieldUsuario.getText().equals("") && !txtFieldUsuario.getText().equals("Usuario")
                     && !pswFieldPassword.getText().equals("") && !pswFieldPassword.getText().equals("Clave")) {
-                
-                this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText()).getId();
+                Cliente clienteInsertado=this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText());
+                if(clienteInsertado!=null){
                 new JOptionPane().showMessageDialog(this, "Usuario agregado exitosamente", "Confirmación",JOptionPane.INFORMATION_MESSAGE);
                 new FrmLogin(this.clientesDao).setVisible(true);
+                }else{
+                    new JOptionPane().showMessageDialog(this, "Usuario menor de edad", "Error",JOptionPane.INFORMATION_MESSAGE);
+                   new FrmLogin(this.clientesDao).setVisible(true);
+                }
             }
 
             //SOLAMENTE ES PARA PROBAR QUE SE AGREGUE UNA CUENTA LOS DATOS ESTAN HARDCODEADOS
