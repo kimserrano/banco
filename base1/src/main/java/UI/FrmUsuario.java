@@ -4,17 +4,27 @@
  */
 package UI;
 
+import dominio.Cliente;
+import implementaciones.ClientesDAO;
+import implementaciones.CuentasClientesDAO;
+import implementaciones.TransaccionesDAO;
+import interfaces.IClientesDAO;
+
 /**
  *
  * @author eruma
  */
 public class FrmUsuario extends javax.swing.JFrame {
-
+    private final IClientesDAO clientesDAO;
+    private final Cliente cliente;
     /**
      * Creates new form FrmUsuario
      */
-    public FrmUsuario() {
+    public FrmUsuario(ClientesDAO clientesDAO, Cliente cliente) {
+       this.clientesDAO=clientesDAO;
+        this.cliente=cliente;
         initComponents();
+       
     }
 
     /**
@@ -26,57 +36,542 @@ public class FrmUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        txtFieldNumDomicilio = new javax.swing.JTextField();
+        txtFieldCp = new javax.swing.JTextField();
+        txtFieldCalle = new javax.swing.JTextField();
+        txtFieldApellidoMat1 = new javax.swing.JTextField();
+        txtFieldApellidoPat = new javax.swing.JTextField();
+        txtFieldNombre = new javax.swing.JTextField();
+        btnEditarDomicilio = new javax.swing.JButton();
+        btnEditarDatosPersonales = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnUser = new javax.swing.JButton();
+        btnCuenta = new javax.swing.JButton();
+        btnDesconectarse = new javax.swing.JButton();
+        btnTransacciones = new javax.swing.JButton();
+        lblPestanaCuenta = new javax.swing.JLabel();
+        lblPestanaUser = new javax.swing.JLabel();
+        lblPestanaTransac = new javax.swing.JLabel();
+        lblRecuadro = new javax.swing.JLabel();
+        lblFondo = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1200, 800));
+        setMinimumSize(new java.awt.Dimension(1200, 800));
+        setPreferredSize(new java.awt.Dimension(1200, 800));
+        setResizable(false);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtFieldNumDomicilio.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtFieldNumDomicilio.setForeground(new java.awt.Color(153, 153, 153));
+        txtFieldNumDomicilio.setText(String.valueOf(this.cliente.getNumDomicilio()));
+        txtFieldNumDomicilio.setBorder(null);
+        txtFieldNumDomicilio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFieldNumDomicilioFocusLost(evt);
+            }
+        });
+        txtFieldNumDomicilio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtFieldNumDomicilioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtFieldNumDomicilioMouseExited(evt);
+            }
+        });
+        txtFieldNumDomicilio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldNumDomicilioActionPerformed(evt);
+            }
+        });
+        txtFieldNumDomicilio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldNumDomicilioKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFieldNumDomicilioKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtFieldNumDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 398, 270, 20));
+
+        txtFieldCp.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtFieldCp.setForeground(new java.awt.Color(153, 153, 153));
+        txtFieldCp.setText(String.valueOf(this.cliente.getCp()));
+        txtFieldCp.setBorder(null);
+        txtFieldCp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFieldCpFocusLost(evt);
+            }
+        });
+        txtFieldCp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtFieldCpMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtFieldCpMouseExited(evt);
+            }
+        });
+        txtFieldCp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldCpActionPerformed(evt);
+            }
+        });
+        txtFieldCp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldCpKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFieldCpKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtFieldCp, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 433, 270, 20));
+
+        txtFieldCalle.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtFieldCalle.setForeground(new java.awt.Color(153, 153, 153));
+        txtFieldCalle.setText(this.cliente.getCalle());
+        txtFieldCalle.setBorder(null);
+        txtFieldCalle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFieldCalleFocusLost(evt);
+            }
+        });
+        txtFieldCalle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtFieldCalleMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtFieldCalleMouseExited(evt);
+            }
+        });
+        txtFieldCalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldCalleActionPerformed(evt);
+            }
+        });
+        txtFieldCalle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldCalleKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFieldCalleKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtFieldCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 363, 270, 20));
+
+        txtFieldApellidoMat1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtFieldApellidoMat1.setForeground(new java.awt.Color(153, 153, 153));
+        txtFieldApellidoMat1.setText(this.cliente.getApellidoMaterno());
+        txtFieldApellidoMat1.setBorder(null);
+        txtFieldApellidoMat1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFieldApellidoMat1FocusLost(evt);
+            }
+        });
+        txtFieldApellidoMat1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtFieldApellidoMat1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtFieldApellidoMat1MouseExited(evt);
+            }
+        });
+        txtFieldApellidoMat1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldApellidoMat1ActionPerformed(evt);
+            }
+        });
+        txtFieldApellidoMat1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldApellidoMat1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFieldApellidoMat1KeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtFieldApellidoMat1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 331, 270, 20));
+
+        txtFieldApellidoPat.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtFieldApellidoPat.setForeground(new java.awt.Color(153, 153, 153));
+        txtFieldApellidoPat.setText(this.cliente.getApellidoPaterno());
+        txtFieldApellidoPat.setBorder(null);
+        txtFieldApellidoPat.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFieldApellidoPatFocusLost(evt);
+            }
+        });
+        txtFieldApellidoPat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtFieldApellidoPatMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtFieldApellidoPatMouseExited(evt);
+            }
+        });
+        txtFieldApellidoPat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldApellidoPatActionPerformed(evt);
+            }
+        });
+        txtFieldApellidoPat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldApellidoPatKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFieldApellidoPatKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtFieldApellidoPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 292, 270, 20));
+
+        txtFieldNombre.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtFieldNombre.setForeground(new java.awt.Color(153, 153, 153));
+        txtFieldNombre.setText(this.cliente.getNombre());
+        txtFieldNombre.setBorder(null);
+        txtFieldNombre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFieldNombreFocusLost(evt);
+            }
+        });
+        txtFieldNombre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtFieldNombreMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtFieldNombreMouseExited(evt);
+            }
+        });
+        txtFieldNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldNombreActionPerformed(evt);
+            }
+        });
+        txtFieldNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldNombreKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFieldNombreKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 251, 270, 20));
+
+        btnEditarDomicilio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editarDomic.png"))); // NOI18N
+        btnEditarDomicilio.setBorder(null);
+        btnEditarDomicilio.setBorderPainted(false);
+        btnEditarDomicilio.setContentAreaFilled(false);
+        btnEditarDomicilio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarDomicilioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditarDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 570, 160, 40));
+
+        btnEditarDatosPersonales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editarDatPer.png"))); // NOI18N
+        btnEditarDatosPersonales.setBorder(null);
+        btnEditarDatosPersonales.setBorderPainted(false);
+        btnEditarDatosPersonales.setContentAreaFilled(false);
+        btnEditarDatosPersonales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarDatosPersonalesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditarDatosPersonales, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 570, 210, 40));
+
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
+        btnEditar.setBorder(null);
+        btnEditar.setBorderPainted(false);
+        btnEditar.setContentAreaFilled(false);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 250, -1, 20));
+
+        btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/userSelected.png"))); // NOI18N
+        btnUser.setBorder(null);
+        btnUser.setBorderPainted(false);
+        btnUser.setContentAreaFilled(false);
+        btnUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 111, 40, -1));
+
+        btnCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgTransacciones/btnCuentas.png"))); // NOI18N
+        btnCuenta.setBorder(null);
+        btnCuenta.setBorderPainted(false);
+        btnCuenta.setContentAreaFilled(false);
+        btnCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCuentaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(287, 120, 50, -1));
+
+        btnDesconectarse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/desconectarse.png"))); // NOI18N
+        btnDesconectarse.setBorder(null);
+        btnDesconectarse.setBorderPainted(false);
+        btnDesconectarse.setContentAreaFilled(false);
+        btnDesconectarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesconectarseActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDesconectarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(988, 740, -1, -1));
+
+        btnTransacciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/btnTransacciones.png"))); // NOI18N
+        btnTransacciones.setBorder(null);
+        btnTransacciones.setBorderPainted(false);
+        btnTransacciones.setContentAreaFilled(false);
+        btnTransacciones.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imgTransacciones/btnTransaccionesSelected.png"))); // NOI18N
+        btnTransacciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransaccionesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTransacciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(407, 110, 50, -1));
+
+        lblPestanaCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/penstana.png"))); // NOI18N
+        jPanel1.add(lblPestanaCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        lblPestanaUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/penstana.png"))); // NOI18N
+        jPanel1.add(lblPestanaUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 1140, -1));
+
+        lblPestanaTransac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/penstana.png"))); // NOI18N
+        jPanel1.add(lblPestanaTransac, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 1080, -1));
+
+        lblRecuadro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/operaciones.png"))); // NOI18N
+        jPanel1.add(lblRecuadro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo.png"))); // NOI18N
+        lblFondo.setAlignmentY(0.0F);
+        lblFondo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUserActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmUsuario().setVisible(true);
-            }
-        });
-    }
+    private void btnCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuentaActionPerformed
+         new FrmCuentas(new CuentasClientesDAO(this.clientesDAO.getGENERADOR_CONEXIONES()),this.cliente).setVisible(true);
+         this.dispose();
+    }//GEN-LAST:event_btnCuentaActionPerformed
+
+    private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
+        new FrmTransacciones(new TransaccionesDAO(this.clientesDAO.getGENERADOR_CONEXIONES()), this.cliente).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnTransaccionesActionPerformed
+
+    private void btnEditarDatosPersonalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDatosPersonalesActionPerformed
+     //   new FrmRegistroCuentasBancarias(cuentasClientesDAO, cliente).setVisible(true);
+     //   this.dispose();
+    }//GEN-LAST:event_btnEditarDatosPersonalesActionPerformed
+
+    private void txtFieldNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldNombreFocusLost
+        if (txtFieldNombre.getText().equals("")) {
+            txtFieldNombre.setText("Ingrese su usuario");
+        }
+    }//GEN-LAST:event_txtFieldNombreFocusLost
+
+    private void txtFieldNombreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNombreMouseEntered
+        if (txtFieldNombre.getText().equals("Ingrese su usuario"))
+        txtFieldNombre.setText("");
+    }//GEN-LAST:event_txtFieldNombreMouseEntered
+
+    private void txtFieldNombreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNombreMouseExited
+        if (txtFieldNombre.getText().equals("")) {
+            txtFieldNombre.setText("Ingrese su usuario");
+        } else if (!txtFieldNombre.getText().equals("Ingrese su usuario")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtFieldNombreMouseExited
+
+    private void txtFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldNombreActionPerformed
+
+    }//GEN-LAST:event_txtFieldNombreActionPerformed
+
+    private void txtFieldNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNombreKeyReleased
+        // TODO add your handling code here:
+        txtFieldNombre.setText(txtFieldNombre.getText().trim());
+    }//GEN-LAST:event_txtFieldNombreKeyReleased
+
+    private void txtFieldNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNombreKeyTyped
+        txtFieldNombre.setText(txtFieldNombre.getText().trim());
+        if (txtFieldNombre.getText().equals("Ingrese su usuario")) {
+            txtFieldNombre.setText("");
+        }
+    }//GEN-LAST:event_txtFieldNombreKeyTyped
+
+    private void txtFieldApellidoPatFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoPatFocusLost
+
+    private void txtFieldApellidoPatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoPatMouseEntered
+
+    private void txtFieldApellidoPatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoPatMouseExited
+
+    private void txtFieldApellidoPatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoPatActionPerformed
+
+    private void txtFieldApellidoPatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoPatKeyReleased
+
+    private void txtFieldApellidoPatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoPatKeyTyped
+
+    private void txtFieldCpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldCpFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCpFocusLost
+
+    private void txtFieldCpMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldCpMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCpMouseEntered
+
+    private void txtFieldCpMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldCpMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCpMouseExited
+
+    private void txtFieldCpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldCpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCpActionPerformed
+
+    private void txtFieldCpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCpKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCpKeyReleased
+
+    private void txtFieldCpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCpKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCpKeyTyped
+
+    private void txtFieldApellidoMat1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoMat1FocusLost
+
+    private void txtFieldApellidoMat1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoMat1MouseEntered
+
+    private void txtFieldApellidoMat1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoMat1MouseExited
+
+    private void txtFieldApellidoMat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoMat1ActionPerformed
+
+    private void txtFieldApellidoMat1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoMat1KeyReleased
+
+    private void txtFieldApellidoMat1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldApellidoMat1KeyTyped
+
+    private void txtFieldNumDomicilioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldNumDomicilioFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldNumDomicilioFocusLost
+
+    private void txtFieldNumDomicilioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNumDomicilioMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldNumDomicilioMouseEntered
+
+    private void txtFieldNumDomicilioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNumDomicilioMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldNumDomicilioMouseExited
+
+    private void txtFieldNumDomicilioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldNumDomicilioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldNumDomicilioActionPerformed
+
+    private void txtFieldNumDomicilioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNumDomicilioKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldNumDomicilioKeyReleased
+
+    private void txtFieldNumDomicilioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNumDomicilioKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldNumDomicilioKeyTyped
+
+    private void txtFieldCalleFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldCalleFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCalleFocusLost
+
+    private void txtFieldCalleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldCalleMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCalleMouseEntered
+
+    private void txtFieldCalleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldCalleMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCalleMouseExited
+
+    private void txtFieldCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldCalleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCalleActionPerformed
+
+    private void txtFieldCalleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCalleKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCalleKeyReleased
+
+    private void txtFieldCalleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldCalleKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCalleKeyTyped
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEditarDomicilioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDomicilioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarDomicilioActionPerformed
+
+    private void btnDesconectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesconectarseActionPerformed
+
+        new FrmLogin(new ClientesDAO(this.clientesDAO.getGENERADOR_CONEXIONES())).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDesconectarseActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCuenta;
+    private javax.swing.JButton btnDesconectarse;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEditarDatosPersonales;
+    private javax.swing.JButton btnEditarDomicilio;
+    private javax.swing.JButton btnTransacciones;
+    private javax.swing.JButton btnUser;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblPestanaCuenta;
+    private javax.swing.JLabel lblPestanaTransac;
+    private javax.swing.JLabel lblPestanaUser;
+    private javax.swing.JLabel lblRecuadro;
+    private javax.swing.JTextField txtFieldApellidoMat1;
+    private javax.swing.JTextField txtFieldApellidoPat;
+    private javax.swing.JTextField txtFieldCalle;
+    private javax.swing.JTextField txtFieldCp;
+    private javax.swing.JTextField txtFieldNombre;
+    private javax.swing.JTextField txtFieldNumDomicilio;
     // End of variables declaration//GEN-END:variables
 }

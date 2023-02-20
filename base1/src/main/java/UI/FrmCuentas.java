@@ -380,7 +380,8 @@ public class FrmCuentas extends javax.swing.JFrame {
     }//GEN-LAST:event_cBoxCuentasMouseClicked
 
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        // TODO add your handling code here:
+            new FrmUsuario(new ClientesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES()),this.cliente).setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnUserActionPerformed
 
     private void btnAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuentaActionPerformed
