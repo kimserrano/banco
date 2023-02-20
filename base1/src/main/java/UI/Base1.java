@@ -22,6 +22,7 @@ public class Base1 {
 
     public static void main(String[] args) {
 
+        // comentario elmer
        // IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost:3306/banco", "root", "beCCerrin123.");
         IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost:3306/banco", "root", "beCCerrin123.");
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
