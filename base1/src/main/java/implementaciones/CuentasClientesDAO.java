@@ -109,6 +109,23 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
         return null;
     }
 
+     public CuentasClientesRecord eliminar(int idCuentasClientes){
+         String codigoSQL = "DELETE  FROM cuentasClientes WHERE idCuentasClientes=?";
+         try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                CuentasClientesRecord cuentaEliminada= this.consultar(idCuentasClientes);
+                 comando.setInt(1, idCuentasClientes);
+                comando.executeUpdate();
+                
+                     conexion.close();
+                     return cuentaEliminada;
+                 
+        } catch (SQLException ex) {
+            Logger.getLogger(CuentasClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+         
+     }
     
     @Override
     public CuentasClientesRecord consultar(String nombre, int idCliente) {

@@ -30,5 +30,7 @@ public interface ICuentasClientesDAO {
     
     ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) throws PersistenciaException;
     
+    CuentasClientesRecord eliminar(int idCuentasClientes);
+    
     IConexionBD getGENERADOR_CONEXIONES();
 }

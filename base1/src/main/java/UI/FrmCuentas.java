@@ -7,6 +7,7 @@ package UI;
 import dominio.Cliente;
 import dominio.CuentasClientesRecord;
 import excepciones.PersistenciaException;
+import implementaciones.ClientesDAO;
 import implementaciones.TransaccionesDAO;
 import interfaces.IClientesDAO;
 import interfaces.ICuentasClientesDAO;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,15 +38,13 @@ public class FrmCuentas extends javax.swing.JFrame {
         this.cliente = cliente;
         this.cargarCuentas();
         mostrarSaldo();
-        
-        
     }
 
     /**
      * Metodo vacío que carga todas las cuentas del cliente a la comboBox
      * mediante un ArrayList
      */
-    public void cargarCuentas() {
+    private void cargarCuentas() {
         try {
             cuentas = cuentasClientesDAO.cargarCuentas(cliente.getId());
             for (int i = 0; i < cuentas.size(); i++) {
@@ -56,19 +56,23 @@ public class FrmCuentas extends javax.swing.JFrame {
             Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 
     /**
      * Metodo que carga el salgo de la cuenta que esté seleccionada en la
      * comboBox cuentas para mostrarlo
      */
-    public void mostrarSaldo() {
+    
+    private void mostrarSaldo() {
         for (int i = 0; i < this.cuentas.size(); i++) {
             if (this.cBoxCuentas.getModel().getSelectedItem().equals(cuentas.get(i).nombre())) {
                 this.lblNumSaldo.setText(String.valueOf(this.cuentas.get(i).saldo()));
+                this.lblNumTarjeta.setText(this.cuentas.get(i).numCuenta());
             }
         }
     }
 
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,13 +84,17 @@ public class FrmCuentas extends javax.swing.JFrame {
 
         pnlFondo = new javax.swing.JPanel();
         btnAnadirFondos = new javax.swing.JButton();
-        btnUser = new javax.swing.JButton();
+        btnDesconectarse = new javax.swing.JButton();
         btnTransacciones = new javax.swing.JButton();
         btnCuenta = new javax.swing.JButton();
-        btnAgregarCuenta = new javax.swing.JButton();
+        btnEliminarCuenta = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        lblNumSaldo = new javax.swing.JLabel();
+        btnAgregarCuenta = new javax.swing.JButton();
+        lblNumTarjeta = new javax.swing.JLabel();
         cBoxCuentas = new javax.swing.JComboBox<>();
+        btnUser = new javax.swing.JButton();
+        lblNumSaldo = new javax.swing.JLabel();
+        lblTarjeta = new javax.swing.JLabel();
         lblEstado = new javax.swing.JLabel();
         lblOperacion = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
@@ -101,7 +109,6 @@ public class FrmCuentas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cuentas");
-        setPreferredSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
         pnlFondo.setPreferredSize(new java.awt.Dimension(1200, 800));
@@ -116,18 +123,18 @@ public class FrmCuentas extends javax.swing.JFrame {
                 btnAnadirFondosActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnAnadirFondos, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 540, -1, -1));
+        pnlFondo.add(btnAnadirFondos, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 560, -1, -1));
 
-        btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/btnUser.png"))); // NOI18N
-        btnUser.setBorder(null);
-        btnUser.setBorderPainted(false);
-        btnUser.setContentAreaFilled(false);
-        btnUser.addActionListener(new java.awt.event.ActionListener() {
+        btnDesconectarse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/desconectarse.png"))); // NOI18N
+        btnDesconectarse.setBorder(null);
+        btnDesconectarse.setBorderPainted(false);
+        btnDesconectarse.setContentAreaFilled(false);
+        btnDesconectarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUserActionPerformed(evt);
+                btnDesconectarseActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 111, 40, -1));
+        pnlFondo.add(btnDesconectarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(988, 740, -1, -1));
 
         btnTransacciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/btnTransacciones.png"))); // NOI18N
         btnTransacciones.setBorder(null);
@@ -152,6 +159,18 @@ public class FrmCuentas extends javax.swing.JFrame {
         });
         pnlFondo.add(btnCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(287, 120, 50, -1));
 
+        btnEliminarCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/eliminarCuenta.png"))); // NOI18N
+        btnEliminarCuenta.setBorder(null);
+        btnEliminarCuenta.setBorderPainted(false);
+        btnEliminarCuenta.setContentAreaFilled(false);
+        btnEliminarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarCuentaActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnEliminarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 270, -1, 20));
+        pnlFondo.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, 120, -1));
+
         btnAgregarCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/anadirCuenta.png"))); // NOI18N
         btnAgregarCuenta.setBorder(null);
         btnAgregarCuenta.setBorderPainted(false);
@@ -162,7 +181,44 @@ public class FrmCuentas extends javax.swing.JFrame {
             }
         });
         pnlFondo.add(btnAgregarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, -1, 20));
-        pnlFondo.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, 120, -1));
+
+        lblNumTarjeta.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        lblNumTarjeta.setForeground(new java.awt.Color(255, 255, 255));
+        lblNumTarjeta.setFocusable(false);
+        lblNumTarjeta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                lblNumTarjetaKeyTyped(evt);
+            }
+        });
+        pnlFondo.add(lblNumTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 490, 220, 30));
+
+        cBoxCuentas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cBoxCuentasItemStateChanged(evt);
+            }
+        });
+        cBoxCuentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cBoxCuentasMouseClicked(evt);
+            }
+        });
+        cBoxCuentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cBoxCuentasActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(cBoxCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, 190, -1));
+
+        btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/btnUser.png"))); // NOI18N
+        btnUser.setBorder(null);
+        btnUser.setBorderPainted(false);
+        btnUser.setContentAreaFilled(false);
+        btnUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 111, 40, -1));
 
         lblNumSaldo.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         lblNumSaldo.setForeground(new java.awt.Color(153, 153, 153));
@@ -174,17 +230,8 @@ public class FrmCuentas extends javax.swing.JFrame {
         });
         pnlFondo.add(lblNumSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 200, 30));
 
-        cBoxCuentas.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cBoxCuentasItemStateChanged(evt);
-            }
-        });
-        cBoxCuentas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cBoxCuentasActionPerformed(evt);
-            }
-        });
-        pnlFondo.add(cBoxCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, 190, -1));
+        lblTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/tarjeta.png"))); // NOI18N
+        pnlFondo.add(lblTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, -1));
 
         lblEstado.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         lblEstado.setForeground(new java.awt.Color(153, 153, 153));
@@ -252,17 +299,24 @@ public class FrmCuentas extends javax.swing.JFrame {
         mostrarSaldo();
     }//GEN-LAST:event_cBoxCuentasActionPerformed
 
-    private void btnAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuentaActionPerformed
+    private void btnEliminarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCuentaActionPerformed
+            String respuesta = new JOptionPane().showInputDialog(this, "Para eliminar esta cuenta escriba ' SI ' ","CUIDADO");
+            if(respuesta.equals("SI")){
+                try {
+                    this.cuentasClientesDAO.eliminar(cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), cliente.getId()).idCuentasClientes());
+                    new FrmCuentas(this.cuentasClientesDAO,this.cliente).setVisible(true);
+                    this.dispose();
+                } catch (PersistenciaException ex) {
+                    Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+    }//GEN-LAST:event_btnEliminarCuentaActionPerformed
+
+    private void lblNumTarjetaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblNumTarjetaKeyTyped
         // TODO add your handling code here:
-        new FrmRegistroCuentasBancarias(cuentasClientesDAO, cliente).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnAgregarCuentaActionPerformed
-
-    private void lblNumSaldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblNumSaldoKeyTyped
-        // TODO add your handling code here:
 
 
-    }//GEN-LAST:event_lblNumSaldoKeyTyped
+    }//GEN-LAST:event_lblNumTarjetaKeyTyped
 
 
     private void cBoxCuentasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxCuentasItemStateChanged
@@ -275,11 +329,23 @@ public class FrmCuentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCuentaActionPerformed
 
-    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnUserActionPerformed
+    private void btnDesconectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesconectarseActionPerformed
+        
+        new FrmLogin(new ClientesDAO(cuentasClientesDAO.getGENERADOR_CONEXIONES())).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDesconectarseActionPerformed
 
 
+   
+    
+    private void cargarSaldoALista(CuentasClientesRecord cuenta){
+        for(int i=0;i<this.cuentas.size();i++){
+            if(this.cuentas.get(i).idCuentasClientes()==cuenta.idCuentasClientes()){
+                cuentas.set(i, new CuentasClientesRecord(cuenta.idCuentasClientes(), cuenta.fechaHoraApertura(), cuenta.nombre(),Float.parseFloat(this.lblNumSaldo.getText()) , cuenta.numCuenta(), cuenta.idClientes()));
+            }
+        }
+    }
+    
     private void btnAnadirFondosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirFondosActionPerformed
         try {
             String saldoAnadido = new JOptionPane().showInputDialog(this, "Ingrese la cantidad a añadir");
@@ -291,6 +357,7 @@ public class FrmCuentas extends javax.swing.JFrame {
                 //Se actualiza el saldo en el label
                 this.lblNumSaldo.setText(String.valueOf((Float) cuentaParaAnadir.saldo()));
                 new JOptionPane().showMessageDialog(this, "🔥🔥Saldo añadido bro🔥🔥", "¡Bien!", JOptionPane.OK_OPTION);
+                this.cargarSaldoALista(cuentaParaAnadir);
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros y un punto para decimales y no se acpetan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
 
@@ -303,16 +370,35 @@ public class FrmCuentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnadirFondosActionPerformed
 
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
-    ITransaccionesDAO transaccionesDAO=new TransaccionesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES());
+        ITransaccionesDAO transaccionesDAO = new TransaccionesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES());
         new FrmTransacciones(transaccionesDAO, this.cliente).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnTransaccionesActionPerformed
+
+    private void cBoxCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cBoxCuentasMouseClicked
+
+    }//GEN-LAST:event_cBoxCuentasMouseClicked
+
+    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUserActionPerformed
+
+    private void btnAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuentaActionPerformed
+            new FrmRegistroCuentasBancarias(cuentasClientesDAO, cliente).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAgregarCuentaActionPerformed
+
+    private void lblNumSaldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblNumSaldoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblNumSaldoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarCuenta;
     private javax.swing.JButton btnAnadirFondos;
     private javax.swing.JButton btnCuenta;
+    private javax.swing.JButton btnDesconectarse;
+    private javax.swing.JButton btnEliminarCuenta;
     private javax.swing.JButton btnTransacciones;
     private javax.swing.JButton btnUser;
     private javax.swing.JComboBox<String> cBoxCuentas;
@@ -323,12 +409,14 @@ public class FrmCuentas extends javax.swing.JFrame {
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblHistorial;
     private javax.swing.JLabel lblNumSaldo;
+    private javax.swing.JLabel lblNumTarjeta;
     private javax.swing.JLabel lblOperacion;
     private javax.swing.JLabel lblPestanaCuenta;
     private javax.swing.JLabel lblPestanaTransac;
     private javax.swing.JLabel lblPestanaUser;
     private javax.swing.JLabel lblRecuadro;
     private javax.swing.JLabel lblSaldo;
+    private javax.swing.JLabel lblTarjeta;
     private javax.swing.JPanel pnlFondo;
     // End of variables declaration//GEN-END:variables
 }

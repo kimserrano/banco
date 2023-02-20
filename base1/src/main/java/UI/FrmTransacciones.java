@@ -7,6 +7,7 @@ package UI;
 import dominio.Cliente;
 import dominio.CuentasClientesRecord;
 import excepciones.PersistenciaException;
+import implementaciones.ClientesDAO;
 import implementaciones.CuentasClientesDAO;
 import interfaces.ICuentasClientesDAO;
 import interfaces.ITransaccionesDAO;
@@ -34,7 +35,21 @@ public class FrmTransacciones extends javax.swing.JFrame {
         this.transaccionesDAO = transaccionesDAO;
         this.cuentasClientesDAO = new CuentasClientesDAO(transaccionesDAO.getGENERADOR_CONEXIONES());
         this.cliente = cliente;
-
+        cargarCuentas();
+        mostrarSaldo();
+    }
+    
+    public void cargarCuentas() {
+        try {
+            cuentas = cuentasClientesDAO.cargarCuentas(cliente.getId());
+            for (int i = 0; i < cuentas.size(); i++) {
+                if (cuentas.get(i) != null) {
+                    this.cBoxCuentas.addItem(cuentas.get(i).nombre());
+                }
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -53,6 +68,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
         btnCuenta = new javax.swing.JButton();
         btnUser = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
+        btnDesconectarse = new javax.swing.JButton();
         lblPestanaCuenta = new javax.swing.JLabel();
         lblPestanaUser = new javax.swing.JLabel();
         lblPestanaTransac = new javax.swing.JLabel();
@@ -64,7 +80,6 @@ public class FrmTransacciones extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Transferencias🔥");
-        setPreferredSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -140,6 +155,17 @@ public class FrmTransacciones extends javax.swing.JFrame {
         });
         jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, -1, -1));
 
+        btnDesconectarse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/desconectarse.png"))); // NOI18N
+        btnDesconectarse.setBorder(null);
+        btnDesconectarse.setBorderPainted(false);
+        btnDesconectarse.setContentAreaFilled(false);
+        btnDesconectarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesconectarseActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDesconectarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(988, 740, -1, -1));
+
         lblPestanaCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/penstana.png"))); // NOI18N
         jPanel1.add(lblPestanaCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, -1));
 
@@ -212,22 +238,6 @@ public class FrmTransacciones extends javax.swing.JFrame {
         //        this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    /**
-     * Metodo vacío que carga todas las cuentas del cliente a la comboBox
-     * mediante un ArrayList
-     */
-    public void cargarCuentas() {
-        try {
-            cuentas = cuentasClientesDAO.cargarCuentas(cliente.getId());
-            for (int i = 0; i < cuentas.size(); i++) {
-                if (cuentas.get(i) != null) {
-                    this.cBoxCuentas.addItem(cuentas.get(i).nombre());
-                }
-            }
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Metodo que carga el salgo de la cuenta que esté seleccionada en la
@@ -253,7 +263,9 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 }
                 int numCuenta = Integer.parseInt(numCuentaTransferencia);
                 float monto = Float.parseFloat(montoTransferencia);
-                this.transaccionesDAO.realizarTransferencia(cliente.getId(), numCuenta, monto);
+                CuentasClientesRecord cuenta= this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(),this.cliente.getId());
+                System.out.println(cuenta);
+                this.transaccionesDAO.realizarTransferencia(cuenta.idCuentasClientes(), numCuenta, monto);
 
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
@@ -269,16 +281,25 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUserActionPerformed
 
     private void btnCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuentaActionPerformed
-        // TODO add your handling code here:
+       
+        new FrmCuentas(cuentasClientesDAO,cliente).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCuentaActionPerformed
 
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTransaccionesActionPerformed
 
+    private void btnDesconectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesconectarseActionPerformed
+
+        new FrmLogin(new ClientesDAO(cuentasClientesDAO.getGENERADOR_CONEXIONES())).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDesconectarseActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCuenta;
+    private javax.swing.JButton btnDesconectarse;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnTransaccion;
     private javax.swing.JButton btnTransacciones;
