@@ -19,8 +19,6 @@ import java.util.logging.Logger;
  * @author eruma
  */
 public class Base1 {
-    
-    //COMENTARIO KIM
 
     public static void main(String[] args) {
 
