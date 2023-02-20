@@ -48,4 +48,20 @@ public class TransaccionesDAO implements ITransaccionesDAO {
         }
     }
 
+//    @Override
+//    public Connection getConexion() {
+//        Connection conexion = null;
+//        try {
+//            conexion = this.GENERADOR_CONEXIONES.crearConexion();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(TransaccionesDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return conexion;
+//    }
+
+    @Override
+    public IConexionBD getGENERADOR_CONEXIONES() {
+        return GENERADOR_CONEXIONES;
+    }
+
 }

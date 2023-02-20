@@ -5,9 +5,12 @@
 package UI;
 
 import dominio.Cliente;
+import dominio.CuentasClientesRecord;
 import excepciones.PersistenciaException;
+import implementaciones.CuentasClientesDAO;
 import interfaces.ICuentasClientesDAO;
 import interfaces.ITransaccionesDAO;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,6 +23,8 @@ public class FrmTransacciones extends javax.swing.JFrame {
 
     private final ITransaccionesDAO transaccionesDAO;
     private final Cliente cliente;
+    private ArrayList<CuentasClientesRecord> cuentas;
+    private final ICuentasClientesDAO cuentasClientesDAO;
 
     /**
      * Creates new form FrmTransacciones
@@ -27,6 +32,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
     public FrmTransacciones(ITransaccionesDAO transaccionesDAO, Cliente cliente) {
         initComponents();
         this.transaccionesDAO = transaccionesDAO;
+        this.cuentasClientesDAO = new CuentasClientesDAO(transaccionesDAO.getGENERADOR_CONEXIONES());
         this.cliente = cliente;
 
     }
@@ -193,7 +199,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_cBoxCuentasItemStateChanged
 
     private void cBoxCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxCuentasActionPerformed
-
+        mostrarSaldo();
     }//GEN-LAST:event_cBoxCuentasActionPerformed
 
     private void lblNumSaldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblNumSaldoKeyTyped
@@ -205,6 +211,35 @@ public class FrmTransacciones extends javax.swing.JFrame {
         //        new FrmRegister(this.clientesDao).setVisible(true);
         //        this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    /**
+     * Metodo vacío que carga todas las cuentas del cliente a la comboBox
+     * mediante un ArrayList
+     */
+    public void cargarCuentas() {
+        try {
+            cuentas = cuentasClientesDAO.cargarCuentas(cliente.getId());
+            for (int i = 0; i < cuentas.size(); i++) {
+                if (cuentas.get(i) != null) {
+                    this.cBoxCuentas.addItem(cuentas.get(i).nombre());
+                }
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Metodo que carga el salgo de la cuenta que esté seleccionada en la
+     * comboBox cuentas para mostrarlo
+     */
+    public void mostrarSaldo() {
+        for (int i = 0; i < this.cuentas.size(); i++) {
+            if (this.cBoxCuentas.getModel().getSelectedItem().equals(cuentas.get(i).nombre())) {
+                this.lblNumSaldo.setText(String.valueOf(this.cuentas.get(i).saldo()));
+            }
+        }
+    }
 
     private void btnTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionActionPerformed
         String numCuentaTransferencia = null;
@@ -219,13 +254,13 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 int numCuenta = Integer.parseInt(numCuentaTransferencia);
                 float monto = Float.parseFloat(montoTransferencia);
                 this.transaccionesDAO.realizarTransferencia(cliente.getId(), numCuenta, monto);
-                
+
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
             }
-            
+
         } catch (PersistenciaException e) {
-            Logger.getLogger(FrmTransacciones.class.getName()).log(Level.SEVERE, null, e);     
+            Logger.getLogger(FrmTransacciones.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_btnTransaccionActionPerformed
 

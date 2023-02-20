@@ -6,6 +6,7 @@ package interfaces;
 
 import dominio.Transacciones;
 import excepciones.PersistenciaException;
+import java.sql.Connection;
 
 /**
  *
@@ -15,6 +16,7 @@ public interface ITransaccionesDAO {
     // id1 es el de la cuenta actual 
     // numCuenta es l cuenta a la que se desea transferir 
     void realizarTransferencia(int id1, int numCuenta, float monto) throws PersistenciaException;
-
+     
+   IConexionBD getGENERADOR_CONEXIONES();
     
 }
