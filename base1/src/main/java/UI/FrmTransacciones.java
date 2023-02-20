@@ -6,10 +6,13 @@ package UI;
 
 import dominio.Cliente;
 import dominio.CuentasClientesRecord;
+import dominio.RetirosSinCuenta;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
 import implementaciones.CuentasClientesDAO;
+import implementaciones.RetirosSinCuentaDAO;
 import interfaces.ICuentasClientesDAO;
+import interfaces.IRetiroSinCuentaDAO;
 import interfaces.ITransaccionesDAO;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -26,6 +29,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
     private final Cliente cliente;
     private ArrayList<CuentasClientesRecord> cuentas;
     private final ICuentasClientesDAO cuentasClientesDAO;
+    private final IRetiroSinCuentaDAO restiroSinCuentaDAO;
 
     /**
      * Creates new form FrmTransacciones
@@ -34,11 +38,12 @@ public class FrmTransacciones extends javax.swing.JFrame {
         initComponents();
         this.transaccionesDAO = transaccionesDAO;
         this.cuentasClientesDAO = new CuentasClientesDAO(transaccionesDAO.getGENERADOR_CONEXIONES());
+        this.restiroSinCuentaDAO = new RetirosSinCuentaDAO(transaccionesDAO.getGENERADOR_CONEXIONES());
         this.cliente = cliente;
         cargarCuentas();
         mostrarSaldo();
     }
-    
+
     public void cargarCuentas() {
         try {
             cuentas = cuentasClientesDAO.cargarCuentas(cliente.getId());
@@ -234,10 +239,27 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_lblNumSaldoKeyTyped
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        //        new FrmRegister(this.clientesDao).setVisible(true);
-        //        this.dispose();
-    }//GEN-LAST:event_btnRegistrarActionPerformed
 
+        String montoRetirar = null;
+        try {
+            montoRetirar = new JOptionPane().showInputDialog(this, "Monto que deseas retirar");
+            if (montoRetirar.matches("^([+]?\\d*\\.?\\d*)$")) {
+
+                float monto = Float.parseFloat(montoRetirar);
+                CuentasClientesRecord cuenta = this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), this.cliente.getId()); 
+                int idRetiroSinCuenta = this.restiroSinCuentaDAO.crearRetiro(cuenta.idCuentasClientes(), monto);
+                System.out.println("PRIMARY KEY   "+ idRetiroSinCuenta);
+                RetirosSinCuenta retiroCreado =this.restiroSinCuentaDAO.consultar(idRetiroSinCuenta);
+                new JOptionPane().showMessageDialog(this, "Tu folio es: "+ retiroCreado.getFolio()+"  y tu clave es: "+
+                        retiroCreado.getClave(), "Información para cobrar retiro", JOptionPane.YES_OPTION);
+            } else {
+                new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (PersistenciaException e) {
+            Logger.getLogger(FrmTransacciones.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * Metodo que carga el salgo de la cuenta que esté seleccionada en la
@@ -263,7 +285,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 }
                 int numCuenta = Integer.parseInt(numCuentaTransferencia);
                 float monto = Float.parseFloat(montoTransferencia);
-                CuentasClientesRecord cuenta= this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(),this.cliente.getId());
+                CuentasClientesRecord cuenta = this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), this.cliente.getId());
                 System.out.println(cuenta);
                 this.transaccionesDAO.realizarTransferencia(cuenta.idCuentasClientes(), numCuenta, monto);
 
@@ -281,8 +303,8 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUserActionPerformed
 
     private void btnCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuentaActionPerformed
-       
-        new FrmCuentas(cuentasClientesDAO,cliente).setVisible(true);
+
+        new FrmCuentas(cuentasClientesDAO, cliente).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCuentaActionPerformed
 

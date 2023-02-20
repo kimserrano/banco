@@ -8,8 +8,10 @@ import dominio.Cliente;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
 import implementaciones.CuentasClientesDAO;
+import implementaciones.RetirosSinCuentaDAO;
 import interfaces.IClientesDAO;
 import interfaces.ICuentasClientesDAO;
+import interfaces.IRetiroSinCuentaDAO;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -25,20 +27,16 @@ import javax.swing.JOptionPane;
 public class FrmLogin extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDao;
+    private final IRetiroSinCuentaDAO restiroSinCuentaDAO;
 
     /**
      * Creates new form Login
      */
-
     public FrmLogin(IClientesDAO clientesDao) {
         initComponents();
         this.clientesDao = clientesDao;
+        this.restiroSinCuentaDAO = new RetirosSinCuentaDAO(clientesDao.getGENERADOR_CONEXIONES());
         this.pswFieldPassword.setEchoChar((char) 0); //Descifrar password field
-    }
-
-    
-    public FrmLogin() {
-        this.clientesDao = null;
     }
 
     /**
@@ -282,8 +280,8 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         try {
             Cliente cliente = this.clientesDao.consultar(txtFieldUser.getText(), pswFieldPassword.getText());
-        //    System.out.println(cliente);
-            ICuentasClientesDAO cuentasClientesDAO=new CuentasClientesDAO(this.clientesDao.getGENERADOR_CONEXIONES());
+            //    System.out.println(cliente);
+            ICuentasClientesDAO cuentasClientesDAO = new CuentasClientesDAO(this.clientesDao.getGENERADOR_CONEXIONES());
             new FrmCuentas(cuentasClientesDAO, cliente).setVisible(true);
             this.dispose();
         } catch (PersistenciaException ex) {
@@ -294,6 +292,26 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
 //        new FrmRegister(this.clientesDao).setVisible(true);
 //        this.dispose();
+        String folioRetiro = null;
+        String claveRetiro = null;
+        try {
+            folioRetiro = new JOptionPane().showInputDialog(this, "Ingrese su folio");
+            if (folioRetiro.matches("^([+]?\\d*\\.?\\d*)$")) {
+                claveRetiro = new JOptionPane().showInputDialog(this, "Ingrese su clave");
+                if (!claveRetiro.matches("^([+]?\\d*\\.?\\d*)$")) {
+                    new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros y un punto para decimales, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                }
+                int folio = Integer.parseInt(folioRetiro);
+                int clave = Integer.parseInt(claveRetiro);
+
+                this.restiroSinCuentaDAO.retirar(clave, folio);
+
+            } else {
+                new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
