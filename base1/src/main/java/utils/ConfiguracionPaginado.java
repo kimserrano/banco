@@ -6,10 +6,12 @@
 package utils;
 
 /**
- *
- * @author lv1013
+ * Clase que muestra los atributos y métodos de acceso para el paginado del historial 
+ * de transacciones de una cuenta
+ * @author Elmer y Kim
  */
 public class ConfiguracionPaginado {
+    
 
     private int numeroPagina;
     private int conteoPorPagina;

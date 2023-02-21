@@ -9,14 +9,32 @@ import excepciones.PersistenciaException;
 import java.sql.Connection;
 
 /**
+ * Interfaz que declara el método de realizar transferencia
  *
- * @author eruma
+ * @author Elmer y Kim
  */
 public interface ITransaccionesDAO {
-    // id1 es el de la cuenta actual 
-    // numCuenta es l cuenta a la que se desea transferir 
+
+    /**
+     * Declaración de método realizarTransferencia(int id1, int numCuenta, float
+     * monto) cuya funfionalidad es crear una transferencia de una cuenta
+     * bancaria a otra
+     *
+     * @param id1 pertenece al id de la cuenta que esta haciendo la transfrencia
+     * @param numCuenta pertenece a la cuenta bancaria a la que llega el dinero
+     * de la transferencia
+     * @param monto la cantidad de dinero que se manda en la transferencia
+     * @throws PersistenciaException Lanza esta excepción en caso de que la
+     * transferencia no se realiza
+     */
     void realizarTransferencia(int id1, int numCuenta, float monto) throws PersistenciaException;
-     
-   IConexionBD getGENERADOR_CONEXIONES();
-    
+
+    /**
+     * Declacaración de método getGENERADOR_CONEXIONES() que es usado para
+     * conectarte a la base
+     *
+     * @return regresa la conexión a la base de datos
+     */
+    IConexionBD getGENERADOR_CONEXIONES();
+
 }

@@ -17,11 +17,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Clase para las transferencias bancarias
  *
- * @author eruma
+ * @author Elmer y Kim
  */
 public class TransaccionesDAO implements ITransaccionesDAO {
 
+    /**
+     * 
+     */
     private final IConexionBD GENERADOR_CONEXIONES;
     private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
 
@@ -47,17 +51,6 @@ public class TransaccionesDAO implements ITransaccionesDAO {
 
         }
     }
-
-//    @Override
-//    public Connection getConexion() {
-//        Connection conexion = null;
-//        try {
-//            conexion = this.GENERADOR_CONEXIONES.crearConexion();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(TransaccionesDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return conexion;
-//    }
 
     @Override
     public IConexionBD getGENERADOR_CONEXIONES() {
