@@ -51,5 +51,11 @@ public interface IRetiroSinCuentaDAO {
      * contrario
      */
     RetirosSinCuenta consultar(Integer idRetiro);
+    
+    /**
+     * Metodo que autogenera una clave de 8 digitos para los retiros
+     * @return 
+     */
+    int clave();
 
 }

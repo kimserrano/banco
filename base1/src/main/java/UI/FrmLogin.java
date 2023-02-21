@@ -333,6 +333,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 int clave = Integer.parseInt(claveRetiro);
 
                 this.restiroSinCuentaDAO.retirar(clave, folio);
+                  new JOptionPane().showMessageDialog(this, "Retirado de manera correcta", "¡Bien bro 🔥!", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);

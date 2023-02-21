@@ -265,10 +265,12 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 float monto = Float.parseFloat(montoRetirar);
                 CuentasClientesRecord cuenta = this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), this.cliente.getId());
                 int idRetiroSinCuenta = this.restiroSinCuentaDAO.crearRetiro(cuenta.idCuentasClientes(), monto);
-                System.out.println("PRIMARY KEY   " + idRetiroSinCuenta);
+               
+            //    System.out.println("PRIMARY KEY   " + idRetiroSinCuenta);
+                
                 RetirosSinCuenta retiroCreado = this.restiroSinCuentaDAO.consultar(idRetiroSinCuenta);
                 new JOptionPane().showMessageDialog(this, "Tu folio es: " + retiroCreado.getFolio() + "  y tu clave es: "
-                        + retiroCreado.getClave(), "Información para cobrar retiro", JOptionPane.YES_OPTION);
+                        + retiroCreado.getClave(), "Información para cobrar retiro", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
             }

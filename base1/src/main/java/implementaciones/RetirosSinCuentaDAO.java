@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,14 +58,15 @@ public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
     @Override
     public int crearRetiro(int idCuenta, float monto) throws PersistenciaException {
         String sqlLastKey = "select last_insert_id()";
-        String codigoSQL = "call crearRetiro(" + idCuenta + "," + monto + ")";
+        int clave=this.clave();
+        String codigoSQL = "call crearRetiro(" + idCuenta + "," + monto + ","+ clave +")";
         try (Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL)) {
             PreparedStatement comando2 = conexion.prepareStatement(sqlLastKey);
             comando.execute();
             ResultSet ultimaKey = comando2.executeQuery();
 
             if (ultimaKey.next()) {
-                System.out.println("ENTRA AL IFFFF");
+            //    System.out.println("ENTRA AL IFFFF");
                 int posicionLlavePrimaria = 1;
                 int id = ultimaKey.getInt(posicionLlavePrimaria);
                 System.out.println(id);
@@ -114,7 +116,8 @@ public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
      */
     @Override
     public RetirosSinCuenta consultar(Integer idRetiro) {
-        String codigoSQL = "select * from retirossincuenta where idRetirosSinCuenta=?";
+        String codigoSQL = "select idRetirosSinCuenta, idCuentaCliente, fechaHora, \n" +
+"cast(aes_decrypt(clave, 'yorx') as char), folio, estado, monto from retirossincuenta where idRetirosSinCuenta=?";
         try (
                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, idRetiro);
@@ -125,7 +128,7 @@ public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
             if (resultado.next()) {
                 int idCuenta = resultado.getInt("idCuentaCliente");
                 Date fecha = resultado.getDate("fechaHora");
-                int clave = resultado.getInt("clave");
+                int clave = resultado.getInt("cast(aes_decrypt(clave, 'yorx') as char)");
                 int folio = resultado.getInt("folio");
                 String estado = resultado.getString("estado");
                 float monto = resultado.getFloat("monto");
@@ -139,6 +142,19 @@ public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
             LOG.log(Level.SEVERE, e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Metodo que autogenera una clave para los retiros
+     * @return 
+     */
+    @Override
+    public int clave() {
+        Random random= new Random();
+        int min=10000000;
+        int max=99999999;
+        int rand=random.nextInt(min, max);
+        return rand;
     }
 
 }
