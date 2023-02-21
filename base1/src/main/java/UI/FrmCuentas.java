@@ -25,7 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import utils.ConfiguracionPaginado;
 
 /**
- *Clase que administra el uso de las cuentas del cliente
+ * Clase que administra el uso de las cuentas del cliente
+ *
  * @author Elmer y Kim
  */
 public class FrmCuentas extends javax.swing.JFrame {
@@ -34,15 +35,17 @@ public class FrmCuentas extends javax.swing.JFrame {
     private final Cliente cliente;
     private ArrayList<CuentasClientesRecord> cuentas;
     private ConfiguracionPaginado configPaginado;
-    private String order="";
+    private String order = "";
+
     /**
-     * Creates new form Cuentas, carga las cuentas del cliente y muestra el saldo, además de cargar el historial
+     * Creates new form Cuentas, carga las cuentas del cliente y muestra el
+     * saldo, además de cargar el historial
      */
     public FrmCuentas(ICuentasClientesDAO cuentasClientesDAO, Cliente cliente) {
         initComponents();
         this.cuentasClientesDAO = cuentasClientesDAO;
         this.cliente = cliente;
-        this.configPaginado=new ConfiguracionPaginado(0,3);
+        this.configPaginado = new ConfiguracionPaginado(0, 3);
         this.cargarCuentas();
         mostrarSaldo();
         cargarHistorial();
@@ -51,24 +54,25 @@ public class FrmCuentas extends javax.swing.JFrame {
     /**
      * Metodo que carga el historial de movimientos de la cuenta
      */
-    private void cargarHistorial(){
-        try { 
-            if(cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(),cliente.getId())==null){
-               return; 
+    private void cargarHistorial() {
+        try {
+            if (cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), cliente.getId()) == null) {
+                return;
             }
-            int idCuentaCliente=cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(),cliente.getId()).idCuentasClientes();
-            ArrayList<Historiales>listaMovimientos=this.cuentasClientesDAO.consultarHistorial(configPaginado,idCuentaCliente, this.order);
-            DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
+            int idCuentaCliente = cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), cliente.getId()).idCuentasClientes();
+            ArrayList<Historiales> listaMovimientos = this.cuentasClientesDAO.consultarHistorial(configPaginado, idCuentaCliente, this.order);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
             modeloTabla.setRowCount(0);
-            for(Historiales historial : listaMovimientos){
-                Object[] fila={historial.getIdHistorial(),historial.getFechaOperacion().toString(), historial.getOperacion()};
+            for (Historiales historial : listaMovimientos) {
+                Object[] fila = {historial.getIdHistorial(), historial.getFechaOperacion().toString(), historial.getOperacion()};
                 modeloTabla.addRow(fila);
             }
         } catch (PersistenciaException ex) {
             Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
+
     /**
      * Metodo vacío que carga todas las cuentas del cliente a la comboBox
      * mediante un ArrayList
@@ -85,7 +89,6 @@ public class FrmCuentas extends javax.swing.JFrame {
             Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     /**
      * Metodo que carga el salgo de la cuenta que esté seleccionada en la
@@ -100,7 +103,6 @@ public class FrmCuentas extends javax.swing.JFrame {
         }
     }
 
-  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -412,20 +414,26 @@ public class FrmCuentas extends javax.swing.JFrame {
     }//GEN-LAST:event_cBoxCuentasActionPerformed
 
     /**
-     * boton que ejecuta la acción de eliminar la cuenta seleccionada en la cBoxCuentas
-     * @param evt 
+     * boton que ejecuta la acción de eliminar la cuenta seleccionada en la
+     * cBoxCuentas
+     *
+     * @param evt
      */
     private void btnEliminarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCuentaActionPerformed
-            String respuesta = new JOptionPane().showInputDialog(this, "Para eliminar esta cuenta escriba ' SI ' ","CUIDADO");
-            if(respuesta.equals("SI")){
-                try {
-                    this.cuentasClientesDAO.eliminar(cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), cliente.getId()).idCuentasClientes());
-                    new FrmCuentas(this.cuentasClientesDAO,this.cliente).setVisible(true);
-                    this.dispose();
-                } catch (PersistenciaException ex) {
-                    Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (this.cBoxCuentas.getModel().getSize() == 0) {
+            new JOptionPane().showMessageDialog(this, "Usted no tiene ninguna cuenta", "¡Awas!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String respuesta = new JOptionPane().showInputDialog(this, "Para eliminar esta cuenta escriba ' SI ' ", "CUIDADO");
+        if (respuesta.equals("SI")) {
+            try {
+                this.cuentasClientesDAO.eliminar(cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), cliente.getId()).idCuentasClientes());
+                new FrmCuentas(this.cuentasClientesDAO, this.cliente).setVisible(true);
+                this.dispose();
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(FrmCuentas.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
     }//GEN-LAST:event_btnEliminarCuentaActionPerformed
 
     private void lblNumTarjetaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblNumTarjetaKeyTyped
@@ -447,35 +455,40 @@ public class FrmCuentas extends javax.swing.JFrame {
 
     /**
      * botón para desconectarse a la pantalla login
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnDesconectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesconectarseActionPerformed
-        
+
         new FrmLogin(new ClientesDAO(cuentasClientesDAO.getGENERADOR_CONEXIONES())).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnDesconectarseActionPerformed
 
-
-   
     /**
      * Metodo que carga el saldo a la lista de cuentas de la clase
+     *
      * @param cuenta Objeto de la cuenta a la cual cargar el saldo
      */
-    private void cargarSaldoALista(CuentasClientesRecord cuenta){
-        for(int i=0;i<this.cuentas.size();i++){
-            if(this.cuentas.get(i).idCuentasClientes()==cuenta.idCuentasClientes()){
-                cuentas.set(i, new CuentasClientesRecord(cuenta.idCuentasClientes(), cuenta.fechaHoraApertura(), cuenta.nombre(),Float.parseFloat(this.lblNumSaldo.getText()) , cuenta.numCuenta(), cuenta.idClientes()));
+    private void cargarSaldoALista(CuentasClientesRecord cuenta) {
+        for (int i = 0; i < this.cuentas.size(); i++) {
+            if (this.cuentas.get(i).idCuentasClientes() == cuenta.idCuentasClientes()) {
+                cuentas.set(i, new CuentasClientesRecord(cuenta.idCuentasClientes(), cuenta.fechaHoraApertura(), cuenta.nombre(), Float.parseFloat(this.lblNumSaldo.getText()), cuenta.numCuenta(), cuenta.idClientes()));
             }
         }
     }
-    
-    
+
     /**
-     * Botón que añade los fondos que se quieran a la cuenta seleccionada en la cBoxCuentas
-     * @param evt 
+     * Botón que añade los fondos que se quieran a la cuenta seleccionada en la
+     * cBoxCuentas
+     *
+     * @param evt
      */
     private void btnAnadirFondosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirFondosActionPerformed
         try {
+            if (this.cBoxCuentas.getModel().getSize() == 0) {
+                new JOptionPane().showMessageDialog(this, "?? Usted no tiene ninguna cuenta", "¡Awas!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             String saldoAnadido = new JOptionPane().showInputDialog(this, "Ingrese la cantidad a añadir");
             if (saldoAnadido.matches("^([+]?\\d*\\.?\\d*)$")) {
 
@@ -499,7 +512,8 @@ public class FrmCuentas extends javax.swing.JFrame {
 
     /**
      * Boton para relizar las transacciones en el FrmTransacciones
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
         ITransaccionesDAO transaccionesDAO = new TransaccionesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES());
@@ -512,78 +526,86 @@ public class FrmCuentas extends javax.swing.JFrame {
     }//GEN-LAST:event_cBoxCuentasMouseClicked
 
     /**
-     * Botón que no slleva al FrmUsuario para realizar sus respectivas acciones ahí
-     * @param evt 
+     * Botón que no slleva al FrmUsuario para realizar sus respectivas acciones
+     * ahí
+     *
+     * @param evt
      */
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-            new FrmUsuario(new ClientesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES()),this.cliente).setVisible(true);
-            this.dispose();
+        new FrmUsuario(new ClientesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES()), this.cliente).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnUserActionPerformed
 
     /**
      * Botón para agregar una cuenta nueva
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuentaActionPerformed
-            new FrmRegistroCuentasBancarias(cuentasClientesDAO, cliente).setVisible(true);
+        new FrmRegistroCuentasBancarias(cuentasClientesDAO, cliente).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAgregarCuentaActionPerformed
 
     private void lblNumSaldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblNumSaldoKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_lblNumSaldoKeyTyped
-/**
- * Cambia el órden de los movimientos a descendente
- * @param evt 
- */
+    /**
+     * Cambia el órden de los movimientos a descendente
+     *
+     * @param evt
+     */
     private void btnDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescActionPerformed
-        this.order="Desc";
+        this.order = "Desc";
         this.cargarHistorial();
     }//GEN-LAST:event_btnDescActionPerformed
-/**
- * cambia el órden de los movimientos a ascendente
- * @param evt 
- */
+    /**
+     * cambia el órden de los movimientos a ascendente
+     *
+     * @param evt
+     */
     private void btnAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAscActionPerformed
-       this.order="";
-       this.cargarHistorial();
+        this.order = "";
+        this.cargarHistorial();
     }//GEN-LAST:event_btnAscActionPerformed
 
     /**
      * Actualiza la información en la pantalla cuando una cuenta nueva es creada
-     * @param evt 
+     *
+     * @param evt
      */
     private void cBoxCantidadRegistrosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxCantidadRegistrosItemStateChanged
-       if(evt.getStateChange()==ItemEvent.SELECTED){
-        int elementoPorPagina=Integer.parseInt(evt.getItem().toString());
-        this.configPaginado.setConteoPorPagina(elementoPorPagina);
-        this.cargarHistorial();
-        if(this.tblClientes.getModel().getRowCount()==0){
-            this.configPaginado.retrocederPagina();
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int elementoPorPagina = Integer.parseInt(evt.getItem().toString());
+            this.configPaginado.setConteoPorPagina(elementoPorPagina);
             this.cargarHistorial();
+            if (this.tblClientes.getModel().getRowCount() == 0) {
+                this.configPaginado.retrocederPagina();
+                this.cargarHistorial();
+            }
         }
-    }
     }//GEN-LAST:event_cBoxCantidadRegistrosItemStateChanged
 
     /**
      * Regreso a la pagina anterior del historial
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         this.configPaginado.retrocederPagina();
         this.cargarHistorial();
     }//GEN-LAST:event_btnAtrasActionPerformed
-/**
- * Navegación a la página siguiente del historial
- * @param evt 
- */
+    /**
+     * Navegación a la página siguiente del historial
+     *
+     * @param evt
+     */
     private void btnSigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigActionPerformed
-       if(this.tblClientes.getModel().getRowCount()<this.cBoxCantidadRegistros.getModel().getSize()-1){
-           return;
-       }
-        
+        if (this.tblClientes.getModel().getRowCount() < this.cBoxCantidadRegistros.getModel().getSize() - 1) {
+            return;
+        }
+
         this.configPaginado.avanzarPagina();
-       this.cargarHistorial();
+        this.cargarHistorial();
     }//GEN-LAST:event_btnSigActionPerformed
 
 

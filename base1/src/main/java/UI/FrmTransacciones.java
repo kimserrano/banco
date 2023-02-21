@@ -20,6 +20,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
+ * Frame para qu el usuario pueda ver sus cuentas y su cantidad de dinero en
+ * cada una de ellas. tambien para que pueda hacer transferencias y retiro sin
+ * cuenta.
  *
  * @author Kim y Elmer
  */
@@ -44,6 +47,11 @@ public class FrmTransacciones extends javax.swing.JFrame {
         mostrarSaldo();
     }
 
+    /**
+     * Este metodo se encarga de cargar las cuentas con sus nombres para despues
+     * meterlas en el combobox con la finalidad de que el usuario pueda navegar
+     * entre sus cuentas
+     */
     public void cargarCuentas() {
         try {
             cuentas = cuentasClientesDAO.cargarCuentas(cliente.getId());
@@ -105,7 +113,6 @@ public class FrmTransacciones extends javax.swing.JFrame {
         btnTransaccion.setBorder(null);
         btnTransaccion.setBorderPainted(false);
         btnTransaccion.setContentAreaFilled(false);
-        btnTransaccion.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
         btnTransaccion.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
         btnTransaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,20 +245,30 @@ public class FrmTransacciones extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lblNumSaldoKeyTyped
 
+    /**
+     * para que el usuario pueda crera un retiro sin cuenta, si este retiro se
+     * crea se le encia un mensaje al usuario donde se muestra el folio y la
+     * clave generados para que pueda cobrar su retiro
+     *
+     * @param evt
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-
+        if (this.cBoxCuentas.getModel().getSize() == 0) {
+            new JOptionPane().showMessageDialog(this, "?? Usted no tiene ninguna cuenta", "¡Awas!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String montoRetirar = null;
         try {
             montoRetirar = new JOptionPane().showInputDialog(this, "Monto que deseas retirar");
             if (montoRetirar.matches("^([+]?\\d*\\.?\\d*)$")) {
 
                 float monto = Float.parseFloat(montoRetirar);
-                CuentasClientesRecord cuenta = this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), this.cliente.getId()); 
+                CuentasClientesRecord cuenta = this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), this.cliente.getId());
                 int idRetiroSinCuenta = this.restiroSinCuentaDAO.crearRetiro(cuenta.idCuentasClientes(), monto);
-                System.out.println("PRIMARY KEY   "+ idRetiroSinCuenta);
-                RetirosSinCuenta retiroCreado =this.restiroSinCuentaDAO.consultar(idRetiroSinCuenta);
-                new JOptionPane().showMessageDialog(this, "Tu folio es: "+ retiroCreado.getFolio()+"  y tu clave es: "+
-                        retiroCreado.getClave(), "Información para cobrar retiro", JOptionPane.YES_OPTION);
+                System.out.println("PRIMARY KEY   " + idRetiroSinCuenta);
+                RetirosSinCuenta retiroCreado = this.restiroSinCuentaDAO.consultar(idRetiroSinCuenta);
+                new JOptionPane().showMessageDialog(this, "Tu folio es: " + retiroCreado.getFolio() + "  y tu clave es: "
+                        + retiroCreado.getClave(), "Información para cobrar retiro", JOptionPane.YES_OPTION);
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
             }
@@ -273,7 +290,18 @@ public class FrmTransacciones extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo que permite al usuario realizar una transferencia entre dos
+     * cuentas, pideindole el numero de cuenta de la cuenta destino y la
+     * cantidad de dinero que quiere enviar.
+     *
+     * @param evt
+     */
     private void btnTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionActionPerformed
+        if (this.cBoxCuentas.getModel().getSize() == 0) {
+            new JOptionPane().showMessageDialog(this, "?? Usted no tiene ninguna cuenta", "¡Awas!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String numCuentaTransferencia = null;
         String montoTransferencia = null;
         try {
@@ -297,7 +325,8 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransaccionActionPerformed
 
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        // TODO add your handling code here:
+        new FrmUsuario(new ClientesDAO(cuentasClientesDAO.getGENERADOR_CONEXIONES()), cliente).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnUserActionPerformed
 
     private void btnCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuentaActionPerformed

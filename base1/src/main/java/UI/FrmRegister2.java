@@ -19,7 +19,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *Formulario Register 2, segunda parte del registro (A prueba de balas)
+ * Formulario Register 2, segunda parte del registro (A prueba de balas)
+ *
  * @author Kim y Elmer
  */
 public class FrmRegister2 extends javax.swing.JFrame {
@@ -329,7 +330,6 @@ public class FrmRegister2 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldCalleActionPerformed
 
-    
     //De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
     private void txtFieldCalleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldCalleMouseEntered
         if (txtFieldCalle.getText().equals("Calle"))
@@ -397,7 +397,7 @@ public class FrmRegister2 extends javax.swing.JFrame {
         int key = evt.getKeyChar();
 //Solo se deben ingresar números
         boolean numeros = key >= 48 && key <= 57;
-        
+
         if (!numeros) {
             evt.consume();
         }
@@ -494,13 +494,19 @@ public class FrmRegister2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarMouseEntered
 
-    
     /**
-     * Intenta crear un cliente mediante los datos que se le fueron brindados en los txtFields
-     * @param evt  evento
+     * Intenta crear un cliente mediante los datos que se le fueron brindados en
+     * los txtFields
+     *
+     * @param evt evento
      */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
+            if (this.txtFieldCalle.getText().equals("Calle") || this.txtFieldCp.getText().equals("Codigo Postal") || this.txtFieldNoCasa.getText().equals("No. Casa")
+                    || this.txtFieldUsuario.getText().equals("Usuario") || this.pswFieldPassword.getText().equals("Clave")) {
+                new JOptionPane().showMessageDialog(this, "Asegúrese de llenar todos los campos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             this.cliente.setCalle(this.txtFieldCalle.getText());
             this.cliente.setCp(Integer.parseInt(this.txtFieldCp.getText()));
             this.cliente.setNumDomicilio(Integer.parseInt(this.txtFieldNoCasa.getText()));
@@ -508,13 +514,13 @@ public class FrmRegister2 extends javax.swing.JFrame {
             // que no permita registar si no hace una cuenta para iniciar sesion
             if (!txtFieldUsuario.getText().equals("") && !txtFieldUsuario.getText().equals("Usuario")
                     && !pswFieldPassword.getText().equals("") && !pswFieldPassword.getText().equals("Clave")) {
-                Cliente clienteInsertado=this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText());
-                if(clienteInsertado!=null){
-                new JOptionPane().showMessageDialog(this, "Usuario agregado exitosamente", "Confirmación",JOptionPane.INFORMATION_MESSAGE);
-                new FrmLogin(this.clientesDao).setVisible(true);
-                }else{
-                    new JOptionPane().showMessageDialog(this, "Usuario menor de edad", "Error",JOptionPane.INFORMATION_MESSAGE);
-                   new FrmLogin(this.clientesDao).setVisible(true);
+                Cliente clienteInsertado = this.clientesDao.insertar(cliente, txtFieldUsuario.getText(), pswFieldPassword.getText());
+                if (clienteInsertado != null) {
+                    new JOptionPane().showMessageDialog(this, "Usuario agregado exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                    new FrmLogin(this.clientesDao).setVisible(true);
+                } else {
+                    new JOptionPane().showMessageDialog(this, "Usuario menor de edad", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    new FrmLogin(this.clientesDao).setVisible(true);
                 }
             }
 
@@ -530,17 +536,16 @@ public class FrmRegister2 extends javax.swing.JFrame {
 
     /**
      * Cancela la cración de la cuenta y regresamos al Frm Login
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         new FrmLogin(this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-  
-    
+
 //De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
 
-    
     private void txtFieldNoCasaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNoCasaKeyPressed
 
     }//GEN-LAST:event_txtFieldNoCasaKeyPressed

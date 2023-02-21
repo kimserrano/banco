@@ -13,6 +13,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
+ * Frame encargado de que el usuario pueda ver sus datos y editar los mismos
  *
  * @author Elmer y Kim
  */
@@ -672,20 +673,25 @@ public class FrmUsuario extends javax.swing.JFrame {
             this.txtFieldNumDomicilio.setForeground(Color.GRAY);
         }
     }//GEN-LAST:event_btnEditarNumDomicilioActionPerformed
-
+    /**
+     * Boton qu actualiza los datos de los clientes con los que ellos ingresaron
+     * en los txtField
+     *
+     * @param evt
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-       if(this.txtFieldNumDomicilio.getText().matches("^([+]?\\d*\\.?\\d*)$") && this.txtFieldCp.getText().matches("^([+]?\\d*\\.?\\d*)$")){
-        
-        clientesDAO.actualizarNumDomicilio(cliente.getId(), Integer.parseInt(this.txtFieldNumDomicilio.getText()));
-        clientesDAO.actualizarCalle(cliente.getId(), this.txtFieldCalle.getText());
-        clientesDAO.actualizarCP(cliente.getId(), Integer.parseInt(this.txtFieldCp.getText()));
-        clientesDAO.actualizarApellidoMat(cliente.getId(), this.txtFieldApellidoMat.getText());
-        clientesDAO.actualizarApellidoPat(cliente.getId(), this.txtFieldApellidoPat.getText());
-        clientesDAO.actualizarNombre(cliente.getId(), this.txtFieldNombre.getText());
+        if (this.txtFieldNumDomicilio.getText().matches("^([+]?\\d*\\.?\\d*)$") && this.txtFieldCp.getText().matches("^([+]?\\d*\\.?\\d*)$")) {
 
-       }else{
-           new JOptionPane().showConfirmDialog(this,"Error en num Domicilio o CP\nUsar solo números","Error!!",JOptionPane.YES_NO_OPTION);
-       }
+            clientesDAO.actualizarNumDomicilio(cliente.getId(), Integer.parseInt(this.txtFieldNumDomicilio.getText()));
+            clientesDAO.actualizarCalle(cliente.getId(), this.txtFieldCalle.getText());
+            clientesDAO.actualizarCP(cliente.getId(), Integer.parseInt(this.txtFieldCp.getText()));
+            clientesDAO.actualizarApellidoMat(cliente.getId(), this.txtFieldApellidoMat.getText());
+            clientesDAO.actualizarApellidoPat(cliente.getId(), this.txtFieldApellidoPat.getText());
+            clientesDAO.actualizarNombre(cliente.getId(), this.txtFieldNombre.getText());
+
+        } else {
+            new JOptionPane().showConfirmDialog(this, "Error en num Domicilio o CP\nUsar solo números", "Error!!", JOptionPane.YES_NO_OPTION);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

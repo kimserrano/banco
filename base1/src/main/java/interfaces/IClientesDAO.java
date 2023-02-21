@@ -51,7 +51,6 @@ public interface IClientesDAO {
      */
     Cliente insertar(Cliente cliente, String usuario, String clave) throws PersistenciaException;
 
-
     /**
      * Declaración del método actualizar nombre que actualiza el nombre del
      * usuario

@@ -7,11 +7,11 @@ package dominio;
 import java.sql.Date;
 
 /**
+ * Claase que tiene los atributos para crear y obtener las cuentas bancarias de
+ * los clientes registrados
  *
  * @author Elmer y Kim
  */
-public record CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, String numCuenta, int idClientes ) {
+public record CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre, float saldo, String numCuenta, int idClientes) {
 
-//public record CuentasClientesRecord(String nombre,float saldo, int numCuenta, int idClientes ) {
-    
 }

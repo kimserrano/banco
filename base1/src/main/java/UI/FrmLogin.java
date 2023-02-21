@@ -21,7 +21,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *Frm de login para iniciar sesión o realizar un retiro sin cuenta
+ * Frm de login para iniciar sesión o realizar un retiro sin cuenta
+ *
  * @author Kim y Elmer
  */
 public class FrmLogin extends javax.swing.JFrame {
@@ -221,7 +222,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private void txtFieldUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldUserActionPerformed
 
     }//GEN-LAST:event_txtFieldUserActionPerformed
-    
 
 //De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
 
@@ -287,15 +287,17 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_pswFieldPasswordFocusLost
 
     /**
-     * Consulta las credenciales de los campos de texto para iniciar sesión y si el inicio es exitoso pasamos al FrmCuentas
-     * @param evt 
+     * Consulta las credenciales de los campos de texto para iniciar sesión y si
+     * el inicio es exitoso pasamos al FrmCuentas
+     *
+     * @param evt
      */
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         try {
             Cliente cliente = this.clientesDao.consultar(txtFieldUser.getText(), pswFieldPassword.getText());
-            if(cliente==null){
-                  new JOptionPane().showMessageDialog(this, "Credenciales incorrectas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
-                  return;
+            if (cliente == null) {
+                new JOptionPane().showMessageDialog(this, "Credenciales incorrectas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                return;
             }
             ICuentasClientesDAO cuentasClientesDAO = new CuentasClientesDAO(this.clientesDao.getGENERADOR_CONEXIONES());
             new FrmCuentas(cuentasClientesDAO, cliente).setVisible(true);
@@ -306,8 +308,10 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**
-     * Botón que inicia el proceso de realizar un retiro sin cuenta mediante un folio y una clave de retiro
-     * @param evt 
+     * Botón que inicia el proceso de realizar un retiro sin cuenta mediante un
+     * folio y una clave de retiro
+     *
+     * @param evt
      */
     private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
 //        new FrmRegister(this.clientesDao).setVisible(true);
@@ -321,9 +325,9 @@ public class FrmLogin extends javax.swing.JFrame {
                 if (!claveRetiro.matches("^([+]?\\d*\\.?\\d*)$")) {
                     new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros y un punto para decimales, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
                 }
-                if(folioRetiro.equals("") || claveRetiro.equals("")){
-                            new JOptionPane().showMessageDialog(this, "Formato incorrecto, Por favor llene las casillas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
-                            return;
+                if (folioRetiro.equals("") || claveRetiro.equals("")) {
+                    new JOptionPane().showMessageDialog(this, "Formato incorrecto, Por favor llene las casillas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
                 int folio = Integer.parseInt(folioRetiro);
                 int clave = Integer.parseInt(claveRetiro);

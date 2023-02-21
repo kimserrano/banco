@@ -12,9 +12,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Label;
 import java.sql.Date;
+import javax.swing.JOptionPane;
 
 /**
- *Frm Register 1, primera parte del registro de un cliente
+ * Frm Register 1, primera parte del registro de un cliente
+ *
  * @author Elmer y Kim
  */
 public class FrmRegister extends javax.swing.JFrame {
@@ -268,11 +270,8 @@ public class FrmRegister extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldNombreActionPerformed
 
-        
-
 //De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
 
-    
     private void txtFieldNombreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNombreMouseEntered
         if (txtFieldNombre.getText().equals("Nombre"))
             txtFieldNombre.setText("");
@@ -365,7 +364,7 @@ public class FrmRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFieldApellidoMatActionPerformed
 
     private void txtFieldApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatKeyTyped
-         txtFieldApellidoMat.setText(txtFieldApellidoMat.getText().trim());
+        txtFieldApellidoMat.setText(txtFieldApellidoMat.getText().trim());
         if (txtFieldApellidoMat.getText().length() >= 50) {
             evt.consume();
         }
@@ -394,16 +393,26 @@ public class FrmRegister extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldFechaNacimientoKeyTyped
 
-    
     /**
-     * Pasamos al FrmRegister 2 el cual recibe los datos de este cliente y su clientesDAO
+     * Pasamos al FrmRegister 2 el cual recibe los datos de este cliente y su
+     * clientesDAO
+     *
      * @param evt se ejecuta al activarse el evento
      */
     private void btnSigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigActionPerformed
+        if (this.jDateChooser1.getDate() == null) {
+            new JOptionPane().showMessageDialog(this, "Llene la fecha por favor", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (this.txtFieldApellidoMat.getText().equals("Apellido Mat.")
+                || this.txtFieldApellidoPat.getText().equals("Apellido Pat.") || this.txtFieldNombre.getText().equals("Nombre")) {
+            new JOptionPane().showMessageDialog(this, "Asegúrese de llenar todos los campos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         int ano = this.jDateChooser1.getDate().getYear();
         int mes = this.jDateChooser1.getDate().getMonth();
         int dia = this.jDateChooser1.getDate().getDay();
-        
+
         Date fechaNacimiento = new Date(ano, mes, dia);
 
         this.cliente = new Cliente(fechaNacimiento, this.txtFieldNombre.getText(), this.txtFieldApellidoPat.getText(), this.txtFieldApellidoMat.getText());

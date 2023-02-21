@@ -28,12 +28,13 @@ import java.util.logging.Logger;
 import utils.ConfiguracionPaginado;
 
 /**
- *Clase que lleva el control de los metodos de Clientes
+ * Clase que lleva el control de los metodos de Clientes
+ *
  * @author Elmer y Kim
  */
 public class ClientesDAO implements IClientesDAO {
 
-     /**
+    /**
      * Atributo final para las excepciones del logger
      */
     private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
@@ -44,6 +45,7 @@ public class ClientesDAO implements IClientesDAO {
 
     /**
      * Constructor que implementa el generador de conexiones
+     *
      * @param generadorConexiones Atributo de IConexionBD que genera la conexión
      */
     public ClientesDAO(IConexionBD generadorConexiones) {
@@ -51,22 +53,24 @@ public class ClientesDAO implements IClientesDAO {
     }
 
     /**
-     * Metodo que  consulta los datos de un cliente mediante s us credenciales de inicio de seisión
+     * Metodo que consulta los datos de un cliente mediante s us credenciales de
+     * inicio de seisión
+     *
      * @param usuario Usuario para iniciar sesión del cliente
      * @param clave Clave para inciar sesión con un cliente
      * @return Regresa un objeto cliente con su Id
-     * @throws PersistenciaException Lanza una persistencia exception si algo sale mal
+     * @throws PersistenciaException Lanza una persistencia exception si algo
+     * sale mal
      */
     @Override
     public Cliente consultar(String usuario, String clave) throws PersistenciaException {
         Cliente cliente = null;
-        String codigoSQL = "SELECT idClientes FROM clientesCredenciales WHERE username LIKE (?) AND clave LIKE (?);";
+        String codigoSQL = "SELECT idClientes FROM clientesCredenciales WHERE username LIKE (?) AND clave = (aes_encrypt('" + clave + "','yorx'));";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
 
             //Se pasan los datos al statement
             comando.setString(1, usuario);
-            comando.setString(2, clave);
 
             ResultSet resultado = comando.executeQuery(); //Se ejecuta la Query
             if (resultado.next()) {
@@ -84,6 +88,7 @@ public class ClientesDAO implements IClientesDAO {
 
     /**
      * Metodo que consulta un cliente mediante su id
+     *
      * @param idCliente id del cliente a consultar
      * @return cliente con sus atributos, null si una excepción es lanzada
      */
@@ -91,7 +96,7 @@ public class ClientesDAO implements IClientesDAO {
     public Cliente consultar(Integer idCliente) {
         String codigoSQL = "select * from clientes where idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, idCliente);
             ResultSet resultado = comando.executeQuery();
 
@@ -115,8 +120,11 @@ public class ClientesDAO implements IClientesDAO {
             return null;
         }
     }
+
     /**
-     * Metodo que registra a un cliente y sus credenciales para iniciar sesión una vez se comprueba que es mayor de edad
+     * Metodo que registra a un cliente y sus credenciales para iniciar sesión
+     * una vez se comprueba que es mayor de edad
+     *
      * @param cliente Cliente a ingresar
      * @param usuario Usuario del cliente
      * @param clave Clave del cliente
@@ -128,7 +136,7 @@ public class ClientesDAO implements IClientesDAO {
 
         String codigoSQL = "call edadNecesaria(?,?,?,?,?,?,?,?,?)";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
             int ano = cliente.getFechaNacimiento().getYear() + 1900;
             int mes = cliente.getFechaNacimiento().getMonth();
 
@@ -156,23 +164,26 @@ public class ClientesDAO implements IClientesDAO {
         return null;
     }
 
-/**
- * Getter del generador de conexiones
- * @return Conexion con la base de datos
- */
+    /**
+     * Getter del generador de conexiones
+     *
+     * @return Conexion con la base de datos
+     */
     public IConexionBD getGENERADOR_CONEXIONES() {
         return GENERADOR_CONEXIONES;
     }
-/**
- * Metodo que actualiza el nombre de un cliente mediante su id
- * @param idCliente id del cliente a ingresar
- * @param nombre nuevo nombre del cliente a ingresar
- */
+
+    /**
+     * Metodo que actualiza el nombre de un cliente mediante su id
+     *
+     * @param idCliente id del cliente a ingresar
+     * @param nombre nuevo nombre del cliente a ingresar
+     */
     @Override
     public void actualizarNombre(Integer idCliente, String nombre) {
         String codigoSQL = "UPDATE clientes SET nombres=? WHERE idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, nombre);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -181,8 +192,10 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
+
     /**
      * Metodo que actualiza el apellido materno de un cliente
+     *
      * @param idCliente id del cliente a actualizar
      * @param apellidoMat nuevo apellido materno a actualizar
      */
@@ -190,7 +203,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarApellidoMat(Integer idCliente, String apellidoMat) {
         String codigoSQL = "UPDATE clientes SET apellidoMat=? WHERE idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, apellidoMat);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -199,16 +212,18 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
-/**
- * metodo que actualiza el apellido paterno de un cliente
- * @param idCliente id del cliente a actualizar
- * @param apellidoPat apellido paterno de un cliente a actualizar
- */
+
+    /**
+     * metodo que actualiza el apellido paterno de un cliente
+     *
+     * @param idCliente id del cliente a actualizar
+     * @param apellidoPat apellido paterno de un cliente a actualizar
+     */
     @Override
     public void actualizarApellidoPat(Integer idCliente, String apellidoPat) {
         String codigoSQL = "UPDATE clientes SET apellidoPat=? WHERE idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, apellidoPat);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -217,16 +232,18 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
-/**
- * Metodo que actualizar la calle de un cliente
- * @param idCliente id del cliente a actualizar
- * @param calle  calle nueva a actualizar 
- */
+
+    /**
+     * Metodo que actualizar la calle de un cliente
+     *
+     * @param idCliente id del cliente a actualizar
+     * @param calle calle nueva a actualizar
+     */
     @Override
     public void actualizarCalle(Integer idCliente, String calle) {
         String codigoSQL = "UPDATE clientes SET calle=? WHERE idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, calle);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -235,16 +252,18 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
-/**
- * ¨Metodo que actualiza el número de domiciio de un cliente
- * @param idCliente id del cliente a actualizar
- * @param numDomicilio  nuevo numDeDomicilio a actualizar
- */
+
+    /**
+     * ¨Metodo que actualiza el número de domiciio de un cliente
+     *
+     * @param idCliente id del cliente a actualizar
+     * @param numDomicilio nuevo numDeDomicilio a actualizar
+     */
     @Override
     public void actualizarNumDomicilio(Integer idCliente, int numDomicilio) {
         String codigoSQL = "UPDATE clientes SET numDomicilio=? WHERE idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, numDomicilio);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -256,6 +275,7 @@ public class ClientesDAO implements IClientesDAO {
 
     /**
      * Metodo que actualiza el cp de un cliente
+     *
      * @param idCliente id del cliente a actualizar
      * @param CP Cp nuevo a actualizar
      */
@@ -263,7 +283,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarCP(Integer idCliente, int CP) {
         String codigoSQL = "UPDATE clientes SET cp=? WHERE idClientes=?";
         try (
-                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, CP);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
