@@ -38,7 +38,5 @@ public interface IClientesDAO {
 
     void actualizarCP(Integer idCliente, int CP);
 
-    List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException;
-
     IConexionBD getGENERADOR_CONEXIONES();
 }

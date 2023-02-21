@@ -6,6 +6,7 @@ package implementaciones;
 
 import dominio.Cliente;
 import dominio.CuentasClientesRecord;
+import dominio.Historiales;
 import excepciones.PersistenciaException;
 import interfaces.IConexionBD;
 import interfaces.ICuentasClientesDAO;
@@ -16,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -179,6 +181,38 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
             Logger.getLogger(ClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<Historiales> consultarHistorial(ConfiguracionPaginado configPaginado, int idCuentaCliente, String order) throws PersistenciaException {
+        String codigoSQL = "select fechaOperacion, operacion, idHistorial FROM historiales WHERE idCuentaCliente1=? OR idCuentaCliente2=? ORDER BY fechaOperacion "+order+"  limit ? offset ?";
+        ArrayList<Historiales> listaHistoriales = new ArrayList<>();
+        
+        try (
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
+                PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            
+            comando.setInt(1, idCuentaCliente);
+            comando.setInt(2, idCuentaCliente);
+            comando.setInt(3, configPaginado.getConteoPorPagina());
+            comando.setInt(4, configPaginado.getElementosASaltar());
+            ResultSet resultado = comando.executeQuery();
+
+            Historiales movimiento = null;
+
+            while (resultado.next()) {
+                String operacion = resultado.getString("operacion");
+                Date fechaOperacion = resultado.getDate("fechaOperacion");
+                int idHistorial = resultado.getInt("idHistorial");
+                movimiento = new Historiales(operacion, fechaOperacion, idHistorial);
+                listaHistoriales.add(movimiento);
+            }
+            return listaHistoriales;
+
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+            throw new PersistenciaException ("No fue posible consultar la lista de historiales");   
+        }
     }
 
 }

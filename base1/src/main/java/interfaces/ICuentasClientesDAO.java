@@ -7,6 +7,7 @@ package interfaces;
 
 import dominio.Cliente;
 import dominio.CuentasClientesRecord;
+import dominio.Historiales;
 import excepciones.PersistenciaException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +33,7 @@ public interface ICuentasClientesDAO {
     
     CuentasClientesRecord eliminar(int idCuentasClientes);
     
+    ArrayList<Historiales> consultarHistorial(ConfiguracionPaginado configPaginado, int idCuentaCliente, String order) throws PersistenciaException;
+
     IConexionBD getGENERADOR_CONEXIONES();
 }

@@ -286,9 +286,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 int numCuenta = Integer.parseInt(numCuentaTransferencia);
                 float monto = Float.parseFloat(montoTransferencia);
                 CuentasClientesRecord cuenta = this.cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(), this.cliente.getId());
-                System.out.println(cuenta);
                 this.transaccionesDAO.realizarTransferencia(cuenta.idCuentasClientes(), numCuenta, monto);
-
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
             }

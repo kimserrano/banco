@@ -184,10 +184,6 @@ public class ClientesDAO implements IClientesDAO {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
      */
-    @Override
-    public List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     public IConexionBD getGENERADOR_CONEXIONES() {
         return GENERADOR_CONEXIONES;
