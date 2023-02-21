@@ -50,6 +50,9 @@ public class FrmCuentas extends javax.swing.JFrame {
 
     private void cargarHistorial(){
         try { 
+            if(cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(),cliente.getId())==null){
+               return; 
+            }
             int idCuentaCliente=cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(),cliente.getId()).idCuentasClientes();
             ArrayList<Historiales>listaMovimientos=this.cuentasClientesDAO.consultarHistorial(configPaginado,idCuentaCliente, this.order);
             DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
