@@ -19,12 +19,18 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *Formulario Register 2, segunda parte del registro (A prueba de balas)
  * @author Kim y Elmer
  */
 public class FrmRegister2 extends javax.swing.JFrame {
 
+    /**
+     * Objeto cliente con los datos del Formulario Register pasado (1)
+     */
     private Cliente cliente;
+    /**
+     * Interfaz ClientesDAO
+     */
     private final IClientesDAO clientesDao;
 
     /**
@@ -323,6 +329,8 @@ public class FrmRegister2 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldCalleActionPerformed
 
+    
+    //De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
     private void txtFieldCalleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldCalleMouseEntered
         if (txtFieldCalle.getText().equals("Calle"))
             txtFieldCalle.setText("");
@@ -387,9 +395,9 @@ public class FrmRegister2 extends javax.swing.JFrame {
             evt.consume();
         }
         int key = evt.getKeyChar();
-
+//Solo se deben ingresar números
         boolean numeros = key >= 48 && key <= 57;
-
+        
         if (!numeros) {
             evt.consume();
         }
@@ -428,7 +436,7 @@ public class FrmRegister2 extends javax.swing.JFrame {
             evt.consume();
         }
         int key = evt.getKeyChar();
-
+// solo se deben ingresar números
         boolean numeros = key >= 48 && key <= 57;
 
         if (!numeros) {
@@ -486,6 +494,11 @@ public class FrmRegister2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarMouseEntered
 
+    
+    /**
+     * Intenta crear un cliente mediante los datos que se le fueron brindados en los txtFields
+     * @param evt  evento
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
             this.cliente.setCalle(this.txtFieldCalle.getText());
@@ -505,12 +518,6 @@ public class FrmRegister2 extends javax.swing.JFrame {
                 }
             }
 
-            //SOLAMENTE ES PARA PROBAR QUE SE AGREGUE UNA CUENTA LOS DATOS ESTAN HARDCODEADOS
-            //CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, int numCuenta, int idClientes ) 
-//            Date fechaApertura = new Date(2023, 02, 17);
-//            CuentasClientesRecord cuenta = new CuentasClientesRecord(1, fechaApertura, "ahorro", 200, 183939, cliente.getId());
-//            this.clientesDao.insetarCuenta(cuenta, cliente);
-
             this.dispose();
         } catch (PersistenciaException ex) {
             Logger.getLogger(FrmRegister2.class.getName()).log(Level.SEVERE, null, ex);
@@ -521,11 +528,19 @@ public class FrmRegister2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarMouseEntered
 
+    /**
+     * Cancela la cración de la cuenta y regresamos al Frm Login
+     * @param evt 
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         new FrmLogin(this.clientesDao).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+  
+    
+//De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
 
+    
     private void txtFieldNoCasaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldNoCasaKeyPressed
 
     }//GEN-LAST:event_txtFieldNoCasaKeyPressed

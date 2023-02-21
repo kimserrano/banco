@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import utils.ConfiguracionPaginado;
 
 /**
- *
+ *Clase que administra el uso de las cuentas del cliente
  * @author Elmer y Kim
  */
 public class FrmCuentas extends javax.swing.JFrame {
@@ -36,7 +36,7 @@ public class FrmCuentas extends javax.swing.JFrame {
     private ConfiguracionPaginado configPaginado;
     private String order="";
     /**
-     * Creates new form Cuentas
+     * Creates new form Cuentas, carga las cuentas del cliente y muestra el saldo, además de cargar el historial
      */
     public FrmCuentas(ICuentasClientesDAO cuentasClientesDAO, Cliente cliente) {
         initComponents();
@@ -48,6 +48,9 @@ public class FrmCuentas extends javax.swing.JFrame {
         cargarHistorial();
     }
 
+    /**
+     * Metodo que carga el historial de movimientos de la cuenta
+     */
     private void cargarHistorial(){
         try { 
             if(cuentasClientesDAO.consultar((String) this.cBoxCuentas.getModel().getSelectedItem(),cliente.getId())==null){
@@ -58,7 +61,6 @@ public class FrmCuentas extends javax.swing.JFrame {
             DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
             modeloTabla.setRowCount(0);
             for(Historiales historial : listaMovimientos){
-                String operacion= historial.getOperacion();
                 Object[] fila={historial.getIdHistorial(),historial.getFechaOperacion().toString(), historial.getOperacion()};
                 modeloTabla.addRow(fila);
             }
@@ -89,7 +91,6 @@ public class FrmCuentas extends javax.swing.JFrame {
      * Metodo que carga el salgo de la cuenta que esté seleccionada en la
      * comboBox cuentas para mostrarlo
      */
-    
     private void mostrarSaldo() {
         for (int i = 0; i < this.cuentas.size(); i++) {
             if (this.cBoxCuentas.getModel().getSelectedItem().equals(cuentas.get(i).nombre())) {
@@ -410,6 +411,10 @@ public class FrmCuentas extends javax.swing.JFrame {
         mostrarSaldo();
     }//GEN-LAST:event_cBoxCuentasActionPerformed
 
+    /**
+     * boton que ejecuta la acción de eliminar la cuenta seleccionada en la cBoxCuentas
+     * @param evt 
+     */
     private void btnEliminarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCuentaActionPerformed
             String respuesta = new JOptionPane().showInputDialog(this, "Para eliminar esta cuenta escriba ' SI ' ","CUIDADO");
             if(respuesta.equals("SI")){
@@ -440,6 +445,10 @@ public class FrmCuentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCuentaActionPerformed
 
+    /**
+     * botón para desconectarse a la pantalla login
+     * @param evt 
+     */
     private void btnDesconectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesconectarseActionPerformed
         
         new FrmLogin(new ClientesDAO(cuentasClientesDAO.getGENERADOR_CONEXIONES())).setVisible(true);
@@ -448,7 +457,10 @@ public class FrmCuentas extends javax.swing.JFrame {
 
 
    
-    
+    /**
+     * Metodo que carga el saldo a la lista de cuentas de la clase
+     * @param cuenta Objeto de la cuenta a la cual cargar el saldo
+     */
     private void cargarSaldoALista(CuentasClientesRecord cuenta){
         for(int i=0;i<this.cuentas.size();i++){
             if(this.cuentas.get(i).idCuentasClientes()==cuenta.idCuentasClientes()){
@@ -457,6 +469,11 @@ public class FrmCuentas extends javax.swing.JFrame {
         }
     }
     
+    
+    /**
+     * Botón que añade los fondos que se quieran a la cuenta seleccionada en la cBoxCuentas
+     * @param evt 
+     */
     private void btnAnadirFondosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirFondosActionPerformed
         try {
             String saldoAnadido = new JOptionPane().showInputDialog(this, "Ingrese la cantidad a añadir");
@@ -480,6 +497,10 @@ public class FrmCuentas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAnadirFondosActionPerformed
 
+    /**
+     * Boton para relizar las transacciones en el FrmTransacciones
+     * @param evt 
+     */
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
         ITransaccionesDAO transaccionesDAO = new TransaccionesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES());
         new FrmTransacciones(transaccionesDAO, this.cliente).setVisible(true);
@@ -490,11 +511,19 @@ public class FrmCuentas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cBoxCuentasMouseClicked
 
+    /**
+     * Botón que no slleva al FrmUsuario para realizar sus respectivas acciones ahí
+     * @param evt 
+     */
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
             new FrmUsuario(new ClientesDAO(this.cuentasClientesDAO.getGENERADOR_CONEXIONES()),this.cliente).setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnUserActionPerformed
 
+    /**
+     * Botón para agregar una cuenta nueva
+     * @param evt 
+     */
     private void btnAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCuentaActionPerformed
             new FrmRegistroCuentasBancarias(cuentasClientesDAO, cliente).setVisible(true);
         this.dispose();
@@ -503,17 +532,27 @@ public class FrmCuentas extends javax.swing.JFrame {
     private void lblNumSaldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblNumSaldoKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_lblNumSaldoKeyTyped
-
+/**
+ * Cambia el órden de los movimientos a descendente
+ * @param evt 
+ */
     private void btnDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescActionPerformed
         this.order="Desc";
         this.cargarHistorial();
     }//GEN-LAST:event_btnDescActionPerformed
-
+/**
+ * cambia el órden de los movimientos a ascendente
+ * @param evt 
+ */
     private void btnAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAscActionPerformed
        this.order="";
        this.cargarHistorial();
     }//GEN-LAST:event_btnAscActionPerformed
 
+    /**
+     * Actualiza la información en la pantalla cuando una cuenta nueva es creada
+     * @param evt 
+     */
     private void cBoxCantidadRegistrosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxCantidadRegistrosItemStateChanged
        if(evt.getStateChange()==ItemEvent.SELECTED){
         int elementoPorPagina=Integer.parseInt(evt.getItem().toString());
@@ -526,11 +565,18 @@ public class FrmCuentas extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_cBoxCantidadRegistrosItemStateChanged
 
+    /**
+     * Regreso a la pagina anterior del historial
+     * @param evt 
+     */
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         this.configPaginado.retrocederPagina();
         this.cargarHistorial();
     }//GEN-LAST:event_btnAtrasActionPerformed
-
+/**
+ * Navegación a la página siguiente del historial
+ * @param evt 
+ */
     private void btnSigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigActionPerformed
        if(this.tblClientes.getModel().getRowCount()<this.cBoxCantidadRegistros.getModel().getSize()-1){
            return;

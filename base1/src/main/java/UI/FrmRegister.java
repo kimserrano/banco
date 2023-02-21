@@ -14,12 +14,18 @@ import java.awt.Label;
 import java.sql.Date;
 
 /**
- *
+ *Frm Register 1, primera parte del registro de un cliente
  * @author Elmer y Kim
  */
 public class FrmRegister extends javax.swing.JFrame {
 
+    /**
+     * Objeto tipo cliente que será llenado con los datos del nuevo cliente
+     */
     private Cliente cliente;
+    /**
+     * Interfaz ClientesDAO
+     */
     private final IClientesDAO clientesDao;
 
     /**
@@ -262,6 +268,11 @@ public class FrmRegister extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldNombreActionPerformed
 
+        
+
+//De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
+
+    
     private void txtFieldNombreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNombreMouseEntered
         if (txtFieldNombre.getText().equals("Nombre"))
             txtFieldNombre.setText("");
@@ -383,6 +394,11 @@ public class FrmRegister extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtFieldFechaNacimientoKeyTyped
 
+    
+    /**
+     * Pasamos al FrmRegister 2 el cual recibe los datos de este cliente y su clientesDAO
+     * @param evt se ejecuta al activarse el evento
+     */
     private void btnSigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigActionPerformed
         int ano = this.jDateChooser1.getDate().getYear();
         int mes = this.jDateChooser1.getDate().getMonth();
@@ -398,6 +414,7 @@ public class FrmRegister extends javax.swing.JFrame {
     private void btnSigMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSigMouseEntered
 
     }//GEN-LAST:event_btnSigMouseEntered
+    //De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
 
     private void btnAtrasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAtrasMouseEntered
         // TODO add your handling code here:

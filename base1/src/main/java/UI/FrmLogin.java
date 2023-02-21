@@ -21,12 +21,18 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *Frm de login para iniciar sesión o realizar un retiro sin cuenta
  * @author Kim y Elmer
  */
 public class FrmLogin extends javax.swing.JFrame {
 
+    /**
+     * ClientesDAO
+     */
     private final IClientesDAO clientesDao;
+    /**
+     * Interfaz RetiroSinCuentaDAO
+     */
     private final IRetiroSinCuentaDAO restiroSinCuentaDAO;
 
     /**
@@ -49,8 +55,8 @@ public class FrmLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
+        btnEaster = new javax.swing.JButton();
         btnRetiroSinCuenta = new javax.swing.JButton();
-        btnRegistrar = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
         pswFieldPassword = new javax.swing.JPasswordField();
         txtFieldUser = new javax.swing.JTextField();
@@ -69,31 +75,31 @@ public class FrmLogin extends javax.swing.JFrame {
         pnlFondo.setFocusable(false);
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnRetiroSinCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiro.png"))); // NOI18N
+        btnEaster.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiro.png"))); // NOI18N
+        btnEaster.setBorder(null);
+        btnEaster.setBorderPainted(false);
+        btnEaster.setContentAreaFilled(false);
+        btnEaster.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSelected.png"))); // NOI18N
+        btnEaster.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiro.png"))); // NOI18N
+        btnEaster.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEasterActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnEaster, new org.netbeans.lib.awtextra.AbsoluteConstraints(611, 423, -1, -1));
+
+        btnRetiroSinCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuenta.png"))); // NOI18N
         btnRetiroSinCuenta.setBorder(null);
         btnRetiroSinCuenta.setBorderPainted(false);
         btnRetiroSinCuenta.setContentAreaFilled(false);
-        btnRetiroSinCuenta.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSelected.png"))); // NOI18N
-        btnRetiroSinCuenta.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiro.png"))); // NOI18N
+        btnRetiroSinCuenta.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
+        btnRetiroSinCuenta.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
         btnRetiroSinCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRetiroSinCuentaActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRetiroSinCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(611, 423, -1, -1));
-
-        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuenta.png"))); // NOI18N
-        btnRegistrar.setBorder(null);
-        btnRegistrar.setBorderPainted(false);
-        btnRegistrar.setContentAreaFilled(false);
-        btnRegistrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
-        btnRegistrar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiroSinCuentaSelected.png"))); // NOI18N
-        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarActionPerformed(evt);
-            }
-        });
-        pnlFondo.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 390, -1, -1));
+        pnlFondo.add(btnRetiroSinCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 390, -1, -1));
 
         btnIniciarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIniciarSesion.png"))); // NOI18N
         btnIniciarSesion.setBorder(null);
@@ -215,6 +221,9 @@ public class FrmLogin extends javax.swing.JFrame {
     private void txtFieldUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldUserActionPerformed
 
     }//GEN-LAST:event_txtFieldUserActionPerformed
+    
+
+//De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
 
     private void txtFieldUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldUserMouseEntered
         if (txtFieldUser.getText().equals("Ingrese su usuario"))
@@ -277,10 +286,17 @@ public class FrmLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pswFieldPasswordFocusLost
 
+    /**
+     * Consulta las credenciales de los campos de texto para iniciar sesión y si el inicio es exitoso pasamos al FrmCuentas
+     * @param evt 
+     */
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         try {
             Cliente cliente = this.clientesDao.consultar(txtFieldUser.getText(), pswFieldPassword.getText());
-            //    System.out.println(cliente);
+            if(cliente==null){
+                  new JOptionPane().showMessageDialog(this, "Credenciales incorrectas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                  return;
+            }
             ICuentasClientesDAO cuentasClientesDAO = new CuentasClientesDAO(this.clientesDao.getGENERADOR_CONEXIONES());
             new FrmCuentas(cuentasClientesDAO, cliente).setVisible(true);
             this.dispose();
@@ -289,7 +305,11 @@ public class FrmLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
-    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+    /**
+     * Botón que inicia el proceso de realizar un retiro sin cuenta mediante un folio y una clave de retiro
+     * @param evt 
+     */
+    private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
 //        new FrmRegister(this.clientesDao).setVisible(true);
 //        this.dispose();
         String folioRetiro = null;
@@ -300,6 +320,10 @@ public class FrmLogin extends javax.swing.JFrame {
                 claveRetiro = new JOptionPane().showInputDialog(this, "Ingrese su clave");
                 if (!claveRetiro.matches("^([+]?\\d*\\.?\\d*)$")) {
                     new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros y un punto para decimales, no se aceptan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                }
+                if(folioRetiro.equals("") || claveRetiro.equals("")){
+                            new JOptionPane().showMessageDialog(this, "Formato incorrecto, Por favor llene las casillas", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
+                            return;
                 }
                 int folio = Integer.parseInt(folioRetiro);
                 int clave = Integer.parseInt(claveRetiro);
@@ -312,11 +336,11 @@ public class FrmLogin extends javax.swing.JFrame {
         } catch (PersistenciaException ex) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnRegistrarActionPerformed
-
-    private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnRetiroSinCuentaActionPerformed
+
+    private void btnEasterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEasterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEasterActionPerformed
 
     private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseClicked
         new FrmRegister(this.clientesDao).setVisible(true);
@@ -335,8 +359,8 @@ public class FrmLogin extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEaster;
     private javax.swing.JButton btnIniciarSesion;
-    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRetiroSinCuenta;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblIconos;

@@ -14,12 +14,18 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *Formulario para el registro de Cuentas Bancarias
  * @author Elmer y Kim
  */
 public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
 
+    /**
+     *  atributo ClientesDAO para realizar la operaciones
+     */
     private final ICuentasClientesDAO clientesDao;
+    /**
+     * Cliente que inició sesión
+     */
     private final Cliente cliente;
 
     /**
@@ -172,6 +178,9 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    
+
+//De aquí hacia abajo son algunos métodos que validan si el mouse entró, salió, etc de un txtField para dejar al usuario escribir
 
     private void txtFieldNombreCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldNombreCuentaActionPerformed
         // TODO add your handling code here:
@@ -222,6 +231,11 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarMouseEntered
 
+    
+    /**
+     * Crea una cuenta con el nombre que se le asignó en la pantalla
+     * @param evt evento
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        // TODO add your handling code here:
         //SOLAMENTE ES PARA PROBAR QUE SE AGREGUE UNA CUENTA LOS DATOS ESTAN HARDCODEADOS
@@ -245,6 +259,10 @@ public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarMouseEntered
 
+    /**
+     * Cancela el crear una cuenta y se regresa al formulario Cuentas
+     * @param evt evento
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         new FrmCuentas(this.clientesDao,this.cliente).setVisible(true);
         this.dispose();
