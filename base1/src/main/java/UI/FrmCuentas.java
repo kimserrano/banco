@@ -83,12 +83,13 @@ public class FrmCuentas extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
+        pnlTablaHistoriales = new javax.swing.JScrollPane();
+        tblClientes = new javax.swing.JTable();
         btnAnadirFondos = new javax.swing.JButton();
         btnDesconectarse = new javax.swing.JButton();
         btnTransacciones = new javax.swing.JButton();
         btnCuenta = new javax.swing.JButton();
         btnEliminarCuenta = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         btnAgregarCuenta = new javax.swing.JButton();
         lblNumTarjeta = new javax.swing.JLabel();
         cBoxCuentas = new javax.swing.JComboBox<>();
@@ -113,6 +114,33 @@ public class FrmCuentas extends javax.swing.JFrame {
 
         pnlFondo.setPreferredSize(new java.awt.Dimension(1200, 800));
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Fecha", "Operación", "Estado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        pnlTablaHistoriales.setViewportView(tblClientes);
+
+        pnlFondo.add(pnlTablaHistoriales, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, 320, 390));
 
         btnAnadirFondos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/btnAnadirFondos.png"))); // NOI18N
         btnAnadirFondos.setBorder(null);
@@ -169,7 +197,6 @@ public class FrmCuentas extends javax.swing.JFrame {
             }
         });
         pnlFondo.add(btnEliminarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 270, -1, 20));
-        pnlFondo.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, 120, -1));
 
         btnAgregarCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/anadirCuenta.png"))); // NOI18N
         btnAgregarCuenta.setBorder(null);
@@ -356,7 +383,7 @@ public class FrmCuentas extends javax.swing.JFrame {
 
                 //Se actualiza el saldo en el label
                 this.lblNumSaldo.setText(String.valueOf((Float) cuentaParaAnadir.saldo()));
-                new JOptionPane().showMessageDialog(this, "🔥🔥Saldo añadido bro🔥🔥", "¡Bien!", JOptionPane.OK_OPTION);
+                new JOptionPane().showMessageDialog(this, "🔥🔥Saldo añadido bro🔥🔥", "¡Bien!", JOptionPane.INFORMATION_MESSAGE);
                 this.cargarSaldoALista(cuentaParaAnadir);
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros y un punto para decimales y no se acpetan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
@@ -403,7 +430,6 @@ public class FrmCuentas extends javax.swing.JFrame {
     private javax.swing.JButton btnTransacciones;
     private javax.swing.JButton btnUser;
     private javax.swing.JComboBox<String> cBoxCuentas;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel lblCuentas;
     private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblFecha;
@@ -419,5 +445,7 @@ public class FrmCuentas extends javax.swing.JFrame {
     private javax.swing.JLabel lblSaldo;
     private javax.swing.JLabel lblTarjeta;
     private javax.swing.JPanel pnlFondo;
+    private javax.swing.JScrollPane pnlTablaHistoriales;
+    private javax.swing.JTable tblClientes;
     // End of variables declaration//GEN-END:variables
 }

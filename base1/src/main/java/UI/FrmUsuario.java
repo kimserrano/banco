@@ -9,22 +9,26 @@ import implementaciones.ClientesDAO;
 import implementaciones.CuentasClientesDAO;
 import implementaciones.TransaccionesDAO;
 import interfaces.IClientesDAO;
+import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author eruma
  */
 public class FrmUsuario extends javax.swing.JFrame {
+
     private final IClientesDAO clientesDAO;
     private final Cliente cliente;
+
     /**
      * Creates new form FrmUsuario
      */
     public FrmUsuario(ClientesDAO clientesDAO, Cliente cliente) {
-       this.clientesDAO=clientesDAO;
-        this.cliente=cliente;
+        this.clientesDAO = clientesDAO;
+        this.cliente = cliente;
         initComponents();
-       
+
     }
 
     /**
@@ -40,16 +44,21 @@ public class FrmUsuario extends javax.swing.JFrame {
         txtFieldNumDomicilio = new javax.swing.JTextField();
         txtFieldCp = new javax.swing.JTextField();
         txtFieldCalle = new javax.swing.JTextField();
-        txtFieldApellidoMat1 = new javax.swing.JTextField();
+        txtFieldApellidoMat = new javax.swing.JTextField();
         txtFieldApellidoPat = new javax.swing.JTextField();
         txtFieldNombre = new javax.swing.JTextField();
-        btnEditarDomicilio = new javax.swing.JButton();
-        btnEditarDatosPersonales = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
+        btnEditarApellidoMat = new javax.swing.JButton();
+        btnEditarCalle = new javax.swing.JButton();
+        btnEditarCp = new javax.swing.JButton();
+        btnEditarNumDomicilio = new javax.swing.JButton();
+        btnEditarApellidoPat = new javax.swing.JButton();
+        btnEditarNombre = new javax.swing.JButton();
         btnUser = new javax.swing.JButton();
         btnCuenta = new javax.swing.JButton();
         btnDesconectarse = new javax.swing.JButton();
         btnTransacciones = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
+        lblBotonDerecha = new javax.swing.JLabel();
         lblPestanaCuenta = new javax.swing.JLabel();
         lblPestanaUser = new javax.swing.JLabel();
         lblPestanaTransac = new javax.swing.JLabel();
@@ -57,7 +66,6 @@ public class FrmUsuario extends javax.swing.JFrame {
         lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
@@ -67,6 +75,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         txtFieldNumDomicilio.setForeground(new java.awt.Color(153, 153, 153));
         txtFieldNumDomicilio.setText(String.valueOf(this.cliente.getNumDomicilio()));
         txtFieldNumDomicilio.setBorder(null);
+        txtFieldNumDomicilio.setFocusable(false);
         txtFieldNumDomicilio.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtFieldNumDomicilioFocusLost(evt);
@@ -99,6 +108,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         txtFieldCp.setForeground(new java.awt.Color(153, 153, 153));
         txtFieldCp.setText(String.valueOf(this.cliente.getCp()));
         txtFieldCp.setBorder(null);
+        txtFieldCp.setFocusable(false);
         txtFieldCp.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtFieldCpFocusLost(evt);
@@ -131,6 +141,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         txtFieldCalle.setForeground(new java.awt.Color(153, 153, 153));
         txtFieldCalle.setText(this.cliente.getCalle());
         txtFieldCalle.setBorder(null);
+        txtFieldCalle.setFocusable(false);
         txtFieldCalle.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtFieldCalleFocusLost(evt);
@@ -159,42 +170,44 @@ public class FrmUsuario extends javax.swing.JFrame {
         });
         jPanel1.add(txtFieldCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 363, 270, 20));
 
-        txtFieldApellidoMat1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        txtFieldApellidoMat1.setForeground(new java.awt.Color(153, 153, 153));
-        txtFieldApellidoMat1.setText(this.cliente.getApellidoMaterno());
-        txtFieldApellidoMat1.setBorder(null);
-        txtFieldApellidoMat1.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtFieldApellidoMat.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtFieldApellidoMat.setForeground(new java.awt.Color(153, 153, 153));
+        txtFieldApellidoMat.setText(this.cliente.getApellidoMaterno());
+        txtFieldApellidoMat.setBorder(null);
+        txtFieldApellidoMat.setFocusable(false);
+        txtFieldApellidoMat.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFieldApellidoMat1FocusLost(evt);
+                txtFieldApellidoMatFocusLost(evt);
             }
         });
-        txtFieldApellidoMat1.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtFieldApellidoMat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtFieldApellidoMat1MouseEntered(evt);
+                txtFieldApellidoMatMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                txtFieldApellidoMat1MouseExited(evt);
+                txtFieldApellidoMatMouseExited(evt);
             }
         });
-        txtFieldApellidoMat1.addActionListener(new java.awt.event.ActionListener() {
+        txtFieldApellidoMat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldApellidoMat1ActionPerformed(evt);
+                txtFieldApellidoMatActionPerformed(evt);
             }
         });
-        txtFieldApellidoMat1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtFieldApellidoMat.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtFieldApellidoMat1KeyReleased(evt);
+                txtFieldApellidoMatKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFieldApellidoMat1KeyTyped(evt);
+                txtFieldApellidoMatKeyTyped(evt);
             }
         });
-        jPanel1.add(txtFieldApellidoMat1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 331, 270, 20));
+        jPanel1.add(txtFieldApellidoMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 331, 270, 20));
 
         txtFieldApellidoPat.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         txtFieldApellidoPat.setForeground(new java.awt.Color(153, 153, 153));
         txtFieldApellidoPat.setText(this.cliente.getApellidoPaterno());
         txtFieldApellidoPat.setBorder(null);
+        txtFieldApellidoPat.setFocusable(false);
         txtFieldApellidoPat.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtFieldApellidoPatFocusLost(evt);
@@ -227,6 +240,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         txtFieldNombre.setForeground(new java.awt.Color(153, 153, 153));
         txtFieldNombre.setText(this.cliente.getNombre());
         txtFieldNombre.setBorder(null);
+        txtFieldNombre.setFocusable(false);
         txtFieldNombre.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtFieldNombreFocusLost(evt);
@@ -255,38 +269,71 @@ public class FrmUsuario extends javax.swing.JFrame {
         });
         jPanel1.add(txtFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 251, 270, 20));
 
-        btnEditarDomicilio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editarDomic.png"))); // NOI18N
-        btnEditarDomicilio.setBorder(null);
-        btnEditarDomicilio.setBorderPainted(false);
-        btnEditarDomicilio.setContentAreaFilled(false);
-        btnEditarDomicilio.addActionListener(new java.awt.event.ActionListener() {
+        btnEditarApellidoMat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
+        btnEditarApellidoMat.setBorder(null);
+        btnEditarApellidoMat.setBorderPainted(false);
+        btnEditarApellidoMat.setContentAreaFilled(false);
+        btnEditarApellidoMat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarDomicilioActionPerformed(evt);
+                btnEditarApellidoMatActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditarDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 570, 160, 40));
+        jPanel1.add(btnEditarApellidoMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 330, -1, -1));
 
-        btnEditarDatosPersonales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editarDatPer.png"))); // NOI18N
-        btnEditarDatosPersonales.setBorder(null);
-        btnEditarDatosPersonales.setBorderPainted(false);
-        btnEditarDatosPersonales.setContentAreaFilled(false);
-        btnEditarDatosPersonales.addActionListener(new java.awt.event.ActionListener() {
+        btnEditarCalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
+        btnEditarCalle.setBorder(null);
+        btnEditarCalle.setBorderPainted(false);
+        btnEditarCalle.setContentAreaFilled(false);
+        btnEditarCalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarDatosPersonalesActionPerformed(evt);
+                btnEditarCalleActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditarDatosPersonales, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 570, 210, 40));
+        jPanel1.add(btnEditarCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 362, -1, -1));
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
-        btnEditar.setBorder(null);
-        btnEditar.setBorderPainted(false);
-        btnEditar.setContentAreaFilled(false);
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnEditarCp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
+        btnEditarCp.setBorder(null);
+        btnEditarCp.setBorderPainted(false);
+        btnEditarCp.setContentAreaFilled(false);
+        btnEditarCp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnEditarCpActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 250, -1, 20));
+        jPanel1.add(btnEditarCp, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 437, -1, -1));
+
+        btnEditarNumDomicilio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
+        btnEditarNumDomicilio.setBorder(null);
+        btnEditarNumDomicilio.setBorderPainted(false);
+        btnEditarNumDomicilio.setContentAreaFilled(false);
+        btnEditarNumDomicilio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarNumDomicilioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditarNumDomicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 401, -1, -1));
+
+        btnEditarApellidoPat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
+        btnEditarApellidoPat.setBorder(null);
+        btnEditarApellidoPat.setBorderPainted(false);
+        btnEditarApellidoPat.setContentAreaFilled(false);
+        btnEditarApellidoPat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarApellidoPatActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditarApellidoPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 292, -1, -1));
+
+        btnEditarNombre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/editar.png"))); // NOI18N
+        btnEditarNombre.setBorder(null);
+        btnEditarNombre.setBorderPainted(false);
+        btnEditarNombre.setContentAreaFilled(false);
+        btnEditarNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarNombreActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditarNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 252, -1, -1));
 
         btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgUsuarios/userSelected.png"))); // NOI18N
         btnUser.setBorder(null);
@@ -333,6 +380,21 @@ public class FrmUsuario extends javax.swing.JFrame {
         });
         jPanel1.add(btnTransacciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(407, 110, 50, -1));
 
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnAceptar.png"))); // NOI18N
+        btnAceptar.setBorder(null);
+        btnAceptar.setBorderPainted(false);
+        btnAceptar.setContentAreaFilled(false);
+        btnAceptar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imgTransacciones/btnTransaccionesSelected.png"))); // NOI18N
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 590, 40, 30));
+
+        lblBotonDerecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnRetiro.png"))); // NOI18N
+        jPanel1.add(lblBotonDerecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(746, 485, -1, -1));
+
         lblPestanaCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/penstana.png"))); // NOI18N
         jPanel1.add(lblPestanaCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -369,19 +431,14 @@ public class FrmUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUserActionPerformed
 
     private void btnCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuentaActionPerformed
-         new FrmCuentas(new CuentasClientesDAO(this.clientesDAO.getGENERADOR_CONEXIONES()),this.cliente).setVisible(true);
-         this.dispose();
+        new FrmCuentas(new CuentasClientesDAO(this.clientesDAO.getGENERADOR_CONEXIONES()), this.cliente).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCuentaActionPerformed
 
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
         new FrmTransacciones(new TransaccionesDAO(this.clientesDAO.getGENERADOR_CONEXIONES()), this.cliente).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnTransaccionesActionPerformed
-
-    private void btnEditarDatosPersonalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDatosPersonalesActionPerformed
-     //   new FrmRegistroCuentasBancarias(cuentasClientesDAO, cliente).setVisible(true);
-     //   this.dispose();
-    }//GEN-LAST:event_btnEditarDatosPersonalesActionPerformed
 
     private void txtFieldNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldNombreFocusLost
         if (txtFieldNombre.getText().equals("")) {
@@ -391,7 +448,7 @@ public class FrmUsuario extends javax.swing.JFrame {
 
     private void txtFieldNombreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNombreMouseEntered
         if (txtFieldNombre.getText().equals("Ingrese su usuario"))
-        txtFieldNombre.setText("");
+            txtFieldNombre.setText("");
     }//GEN-LAST:event_txtFieldNombreMouseEntered
 
     private void txtFieldNombreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldNombreMouseExited
@@ -466,29 +523,29 @@ public class FrmUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFieldCpKeyTyped
 
-    private void txtFieldApellidoMat1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1FocusLost
+    private void txtFieldApellidoMatFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldApellidoMat1FocusLost
+    }//GEN-LAST:event_txtFieldApellidoMatFocusLost
 
-    private void txtFieldApellidoMat1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1MouseEntered
+    private void txtFieldApellidoMatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldApellidoMat1MouseEntered
+    }//GEN-LAST:event_txtFieldApellidoMatMouseEntered
 
-    private void txtFieldApellidoMat1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1MouseExited
+    private void txtFieldApellidoMatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldApellidoMat1MouseExited
+    }//GEN-LAST:event_txtFieldApellidoMatMouseExited
 
-    private void txtFieldApellidoMat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1ActionPerformed
+    private void txtFieldApellidoMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldApellidoMat1ActionPerformed
+    }//GEN-LAST:event_txtFieldApellidoMatActionPerformed
 
-    private void txtFieldApellidoMat1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1KeyReleased
+    private void txtFieldApellidoMatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldApellidoMat1KeyReleased
+    }//GEN-LAST:event_txtFieldApellidoMatKeyReleased
 
-    private void txtFieldApellidoMat1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMat1KeyTyped
+    private void txtFieldApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldApellidoMatKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldApellidoMat1KeyTyped
+    }//GEN-LAST:event_txtFieldApellidoMatKeyTyped
 
     private void txtFieldNumDomicilioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFieldNumDomicilioFocusLost
         // TODO add your handling code here:
@@ -538,13 +595,18 @@ public class FrmUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFieldCalleKeyTyped
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void btnEditarDomicilioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDomicilioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarDomicilioActionPerformed
+    private void btnEditarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarNombreActionPerformed
+        if (this.txtFieldNombre.isFocusable() == false) {
+            this.txtFieldNombre.setForeground(Color.BLACK);
+
+            this.txtFieldNombre.setFocusable(true);
+        } else {
+            this.txtFieldNombre.setFocusable(false);
+            this.txtFieldNombre.setForeground(Color.GRAY);
+
+        }
+    }//GEN-LAST:event_btnEditarNombreActionPerformed
 
     private void btnDesconectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesconectarseActionPerformed
 
@@ -552,21 +614,98 @@ public class FrmUsuario extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnDesconectarseActionPerformed
 
+    private void btnEditarApellidoPatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarApellidoPatActionPerformed
+        if (this.txtFieldApellidoPat.isFocusable() == false) {
+            this.txtFieldApellidoPat.setForeground(Color.BLACK);
+
+            this.txtFieldApellidoPat.setFocusable(true);
+        } else {
+            this.txtFieldApellidoPat.setFocusable(false);
+            this.txtFieldApellidoPat.setForeground(Color.GRAY);
+
+        }
+    }//GEN-LAST:event_btnEditarApellidoPatActionPerformed
+
+    private void btnEditarApellidoMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarApellidoMatActionPerformed
+        if (this.txtFieldApellidoMat.isFocusable() == false) {
+            this.txtFieldApellidoMat.setForeground(Color.BLACK);
+
+            this.txtFieldApellidoMat.setFocusable(true);
+        } else {
+            this.txtFieldApellidoMat.setFocusable(false);
+            this.txtFieldApellidoMat.setForeground(Color.GRAY);
+
+        }
+    }//GEN-LAST:event_btnEditarApellidoMatActionPerformed
+
+    private void btnEditarCpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCpActionPerformed
+        if (this.txtFieldCp.isFocusable() == false) {
+            this.txtFieldCp.setForeground(Color.BLACK);
+
+            this.txtFieldCp.setFocusable(true);
+        } else {
+            this.txtFieldCp.setFocusable(false);
+            this.txtFieldCp.setForeground(Color.GRAY);
+
+        }    }//GEN-LAST:event_btnEditarCpActionPerformed
+
+    private void btnEditarCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCalleActionPerformed
+        if (this.txtFieldCalle.isFocusable() == false) {
+            this.txtFieldCalle.setForeground(Color.BLACK);
+
+            this.txtFieldCalle.setFocusable(true);
+        } else {
+            this.txtFieldCalle.setFocusable(false);
+            this.txtFieldCalle.setForeground(Color.GRAY);
+
+        }
+    }//GEN-LAST:event_btnEditarCalleActionPerformed
+
+    private void btnEditarNumDomicilioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarNumDomicilioActionPerformed
+        if (this.txtFieldNumDomicilio.isFocusable() == false) {
+            this.txtFieldNumDomicilio.setFocusable(true);
+            this.txtFieldNumDomicilio.setForeground(Color.BLACK);
+        } else {
+            this.txtFieldNumDomicilio.setFocusable(false);
+            this.txtFieldNumDomicilio.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_btnEditarNumDomicilioActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+       if(this.txtFieldNumDomicilio.getText().matches("^([+]?\\d*\\.?\\d*)$") && this.txtFieldCp.getText().matches("^([+]?\\d*\\.?\\d*)$")){
+        
+        clientesDAO.actualizarNumDomicilio(cliente.getId(), Integer.parseInt(this.txtFieldNumDomicilio.getText()));
+        clientesDAO.actualizarCalle(cliente.getId(), this.txtFieldCalle.getText());
+        clientesDAO.actualizarCP(cliente.getId(), Integer.parseInt(this.txtFieldCp.getText()));
+        clientesDAO.actualizarApellidoMat(cliente.getId(), this.txtFieldApellidoMat.getText());
+        clientesDAO.actualizarApellidoPat(cliente.getId(), this.txtFieldApellidoPat.getText());
+        clientesDAO.actualizarNombre(cliente.getId(), this.txtFieldNombre.getText());
+
+       }else{
+           new JOptionPane().showConfirmDialog(this,"Error en num Domicilio o CP\nUsar solo números","Error!!",JOptionPane.YES_NO_OPTION);
+       }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCuenta;
     private javax.swing.JButton btnDesconectarse;
-    private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnEditarDatosPersonales;
-    private javax.swing.JButton btnEditarDomicilio;
+    private javax.swing.JButton btnEditarApellidoMat;
+    private javax.swing.JButton btnEditarApellidoPat;
+    private javax.swing.JButton btnEditarCalle;
+    private javax.swing.JButton btnEditarCp;
+    private javax.swing.JButton btnEditarNombre;
+    private javax.swing.JButton btnEditarNumDomicilio;
     private javax.swing.JButton btnTransacciones;
     private javax.swing.JButton btnUser;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblBotonDerecha;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblPestanaCuenta;
     private javax.swing.JLabel lblPestanaTransac;
     private javax.swing.JLabel lblPestanaUser;
     private javax.swing.JLabel lblRecuadro;
-    private javax.swing.JTextField txtFieldApellidoMat1;
+    private javax.swing.JTextField txtFieldApellidoMat;
     private javax.swing.JTextField txtFieldApellidoPat;
     private javax.swing.JTextField txtFieldCalle;
     private javax.swing.JTextField txtFieldCp;

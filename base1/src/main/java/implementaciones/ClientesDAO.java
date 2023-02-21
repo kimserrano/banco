@@ -45,7 +45,7 @@ public class ClientesDAO implements IClientesDAO {
         Cliente cliente = null;
         String codigoSQL = "SELECT idClientes FROM clientesCredenciales WHERE username LIKE (?) AND clave LIKE (?);";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
 
             //Se pasan los datos al statement
             comando.setString(1, usuario);
@@ -65,12 +65,11 @@ public class ClientesDAO implements IClientesDAO {
         }
     }
 
-
     @Override
     public Cliente consultar(Integer idCliente) {
         String codigoSQL = "select * from clientes where idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, idCliente);
             ResultSet resultado = comando.executeQuery();
 
@@ -95,33 +94,31 @@ public class ClientesDAO implements IClientesDAO {
         }
     }
 
-  @Override
+    @Override
     public Cliente insertar(Cliente cliente, String usuario, String clave) throws PersistenciaException {
 
         String codigoSQL = "call edadNecesaria(?,?,?,?,?,?,?,?,?)";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
-           int ano=cliente.getFechaNacimiento().getYear()+1900;
-           int mes=cliente.getFechaNacimiento().getMonth();
-           
-            Period edad=Period.between(LocalDate.of(ano, mes, cliente.getFechaNacimiento().getDate()), LocalDate.now());
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
+            int ano = cliente.getFechaNacimiento().getYear() + 1900;
+            int mes = cliente.getFechaNacimiento().getMonth();
 
-            if(edad.getYears()>=18){
-            comando.setString(1, cliente.getNombre());
-            comando.setString(2, cliente.getApellidoPaterno());
-            comando.setString(3, cliente.getApellidoMaterno());
-            comando.setDate(4, cliente.getFechaNacimiento());
-            comando.setString(5, cliente.getCalle());
-            comando.setInt(6, cliente.getNumDomicilio());
-            comando.setInt(7, cliente.getCp());
-            comando.setString(8, usuario);
-            comando.setString(9, clave);
-            comando.executeUpdate();
-            conexion.close();
-            
-           
-            
-            return cliente;
+            Period edad = Period.between(LocalDate.of(ano, mes, cliente.getFechaNacimiento().getDate()), LocalDate.now());
+
+            if (edad.getYears() >= 18) {
+                comando.setString(1, cliente.getNombre());
+                comando.setString(2, cliente.getApellidoPaterno());
+                comando.setString(3, cliente.getApellidoMaterno());
+                comando.setDate(4, cliente.getFechaNacimiento());
+                comando.setString(5, cliente.getCalle());
+                comando.setInt(6, cliente.getNumDomicilio());
+                comando.setInt(7, cliente.getCp());
+                comando.setString(8, usuario);
+                comando.setString(9, clave);
+                comando.executeUpdate();
+                conexion.close();
+
+                return cliente;
             }
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, e.getMessage());
@@ -192,12 +189,92 @@ public class ClientesDAO implements IClientesDAO {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
-   
-
-
     public IConexionBD getGENERADOR_CONEXIONES() {
         return GENERADOR_CONEXIONES;
+    }
+
+    @Override
+    public void actualizarNombre(Integer idCliente, String nombre) {
+        String codigoSQL = "UPDATE clientes SET nombres=? WHERE idClientes=?";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            comando.setString(1, nombre);
+            comando.setInt(2, idCliente);
+            int cambio = comando.executeUpdate();
+            conexion.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarApellidoMat(Integer idCliente, String apellidoMat) {
+        String codigoSQL = "UPDATE clientes SET apellidoMat=? WHERE idClientes=?";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            comando.setString(1, apellidoMat);
+            comando.setInt(2, idCliente);
+            int cambio = comando.executeUpdate();
+            conexion.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarApellidoPat(Integer idCliente, String apellidoPat) {
+        String codigoSQL = "UPDATE clientes SET apellidoPat=? WHERE idClientes=?";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            comando.setString(1, apellidoPat);
+            comando.setInt(2, idCliente);
+            int cambio = comando.executeUpdate();
+            conexion.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarCalle(Integer idCliente, String calle) {
+        String codigoSQL = "UPDATE clientes SET calle=? WHERE idClientes=?";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            comando.setString(1, calle);
+            comando.setInt(2, idCliente);
+            int cambio = comando.executeUpdate();
+            conexion.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarNumDomicilio(Integer idCliente, int numDomicilio) {
+        String codigoSQL = "UPDATE clientes SET numDomicilio=? WHERE idClientes=?";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            comando.setInt(1, numDomicilio);
+            comando.setInt(2, idCliente);
+            int cambio = comando.executeUpdate();
+            conexion.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarCP(Integer idCliente, int CP) {
+        String codigoSQL = "UPDATE clientes SET cp=? WHERE idClientes=?";
+        try (
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            comando.setInt(1, CP);
+            comando.setInt(2, idCliente);
+            int cambio = comando.executeUpdate();
+            conexion.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        }
     }
 
 }

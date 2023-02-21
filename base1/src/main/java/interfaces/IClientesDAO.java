@@ -26,6 +26,18 @@ public interface IClientesDAO {
 
     Cliente eliminar(Integer idCliente);
 
+    void actualizarNombre(Integer idCliente, String nombre);
+
+    void actualizarApellidoMat(Integer idCliente, String apellidoMat);
+
+    void actualizarApellidoPat(Integer idCliente, String apellidoPat);
+
+    void actualizarCalle(Integer idCliente, String calle);
+
+    void actualizarNumDomicilio(Integer idCliente, int numDomicilio);
+
+    void actualizarCP(Integer idCliente, int CP);
+
     List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException;
 
     IConexionBD getGENERADOR_CONEXIONES();
