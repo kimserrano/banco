@@ -8,7 +8,7 @@ import java.sql.Date;
 
 /**
  *
- * @author eruma
+ * @author Elmer y Kim
  */
 public record CuentasClientesRecord(int idCuentasClientes, Date fechaHoraApertura, String nombre,float saldo, String numCuenta, int idClientes ) {
 

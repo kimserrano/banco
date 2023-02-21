@@ -24,33 +24,52 @@ import java.util.logging.Logger;
 import utils.ConfiguracionPaginado;
 
 /**
- *
- * @author eruma
+ *Clase que lleva el control de CuentasClientes y sus acciones
+ * @author Kim y Elmer
  */
 public class CuentasClientesDAO implements ICuentasClientesDAO {
-
+/**
+     * Atributo de IConexionBD que genera la conexión
+     */
     private final IConexionBD GENERADOR_CONEXIONES;
+    /**
+     * Atributo final para las excepciones del logger
+     */
     private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
 
+    /**
+     * Constructor que setea la generación de conexión con la base de datos
+     * @param GENERADOR_CONEXIONES Atributo de IConexionBD que genera la conexión
+     */
     public CuentasClientesDAO(IConexionBD GENERADOR_CONEXIONES) {
         this.GENERADOR_CONEXIONES = GENERADOR_CONEXIONES;
     }
 
+    /**
+     * Getter para regresar la conexión con la base de datos
+     * @return Atributo de IConexionBD que genera la conexión
+     */
     public IConexionBD getGENERADOR_CONEXIONES() {
         return GENERADOR_CONEXIONES;
     }
 
+    
+    /**
+     * Metodo que inserta una cuenta(bancaria) con un objeto de tipo CuentasClientesRecord y un Objeto Cliente
+     * @param cuenta CuentaBancara a insertar
+     * @param cliente Cliente al que pertenece la cuenta
+     * @return Regresa la cuenta con sus datos
+     * @throws PersistenciaException Excepción que se lanza si algo sale mal en el momento de insertar la cuenta
+     */
     @Override
     public CuentasClientesRecord insetarCuenta(CuentasClientesRecord cuenta, Cliente cliente) throws PersistenciaException {
         String codigoSQL = "insert into cuentasClientes (nombre, saldo, idClientes) values(?,?,?)";
 
-        String codigoSQLCredenciales = "insert into ClientesCredenciales(idClientes,clave,username) VALUES(?,?,?)";
         try ( Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
             comando.setString(1, cuenta.nombre());
             comando.setFloat(2, cuenta.saldo());
             comando.setInt(3, cliente.getId());
             comando.executeUpdate();
-            ResultSet generatedKeys = comando.getGeneratedKeys();
             conexion.close();
             return cuenta;
 
@@ -62,11 +81,12 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
 
     }
 
-    /*
-    @Override
-    public List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    /**
+     * Metodo para añadir saldo a la cuenta de algún cliente mediante su idcuentasClientes
+     * @param saldo Saldo a añadir
+     * @param cuenta idCuentasClientes de la cuenta 
+     * @return regresa la cuenta con los nuevos datos si salió bien, null en caso contrario
+     * @throws PersistenciaException  Excepción que se lanza si algo sale mal en el momento de ejecutar el código
      */
     @Override
     public CuentasClientesRecord anadirSaldo(Float saldo, int cuenta) throws PersistenciaException {
@@ -85,6 +105,11 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
         return null;
     }
 
+    /**
+     * Metodo que ocnsulta una cuenta de un cliente mediante el id de la misma cuenta del cliente
+     * @param idCuentaCliente Id de la cuenta del cliente
+     * @return regresa un objeto CuentasClientesRecord que contiene los datos de la cuenta que se buscaba, null si no se pudo seleccionar la cuenta
+     */
     @Override
      public CuentasClientesRecord consultar(int idCuentaCliente){
         String codigoSQL = "SELECT * FROM cuentasClientes WHERE idCuentasClientes=?";
@@ -110,7 +135,11 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
         }
         return null;
     }
-
+/**
+ * Metodo que elimina alguna cuenta de el cliente mediante su id
+ * @param idCuentasClientes id de la Cuenta del cliente
+ * @return Regresa la cuenta eliminada, null si no se pudo eliminar
+ */
      public CuentasClientesRecord eliminar(int idCuentasClientes){
          String codigoSQL = "DELETE  FROM cuentasClientes WHERE idCuentasClientes=?";
          try (
@@ -129,6 +158,12 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
          
      }
     
+     /**
+      * Metodo que consulta una cuenta mediante su nombre y el id del cliente
+      * @param nombre nombre de la cuenta
+      * @param idCliente id del cliente
+      * @return  Regresa la cuenta consultada con sus datos cargados, null en caso contrario
+      */
     @Override
     public CuentasClientesRecord consultar(String nombre, int idCliente) {
         String codigoSQL = "SELECT * FROM cuentasClientes WHERE nombre LIKE ? AND idClientes=?";
@@ -156,6 +191,11 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
         return null;
     }
 
+    /**
+     * Metodo que regresa un ArrayList que contiene todas las cuentas del cliente 
+     * @param idCliente id del cliente del cual vamos a sacar sus cuentas
+     * @return regresa un arraylist de objetos CuentasClietnesRecord que contiene todas las cuentas del cliente, null si salió mal 
+     */
     @Override
     public ArrayList<CuentasClientesRecord> cargarCuentas(int idCliente) {
         String codigoSQL = "SELECT * FROM cuentasClientes WHERE idClientes=?";
@@ -183,6 +223,15 @@ public class CuentasClientesDAO implements ICuentasClientesDAO {
         return null;
     }
 
+    
+    /**
+     * Metodo que consulta el historial del cliente (transacciones y retiros completados)
+     * @param configPaginado La configuración del paginado que se usará para paginar las páginas
+     * @param idCuentaCliente id de la cuenta del cliente el cual vamos a obtener sus movimientos
+     * @param order Orden en el que se mostrará el historial (Descendiente o ascendente)
+     * @return Regresa un arraylist conteniendo todos los movimientos de la cuenta en objetos Historiales.
+     * @throws PersistenciaException 
+     */
     @Override
     public ArrayList<Historiales> consultarHistorial(ConfiguracionPaginado configPaginado, int idCuentaCliente, String order) throws PersistenciaException {
         String codigoSQL = "select fechaOperacion, operacion, idHistorial FROM historiales WHERE idCuentaCliente1=? OR idCuentaCliente2=? ORDER BY fechaOperacion "+order+"  limit ? offset ?";

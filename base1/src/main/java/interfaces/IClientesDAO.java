@@ -51,13 +51,6 @@ public interface IClientesDAO {
      */
     Cliente insertar(Cliente cliente, String usuario, String clave) throws PersistenciaException;
 
-    /**
-     * Declaración del método eliminar que elimina un cliente
-     *
-     * @param idCliente id del cliente que se desea eliminar
-     * @return e cliente que se elimino
-     */
-    Cliente eliminar(Integer idCliente);
 
     /**
      * Declaración del método actualizar nombre que actualiza el nombre del

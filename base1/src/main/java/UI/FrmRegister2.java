@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author eruma
+ * @author Kim y Elmer
  */
 public class FrmRegister2 extends javax.swing.JFrame {
 

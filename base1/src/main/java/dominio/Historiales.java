@@ -8,7 +8,7 @@ import java.sql.Date;
 
 /**
  *
- * @author eruma
+ * @author Elmer y Kim
  */
 public class Historiales {
     private int idHistorial;

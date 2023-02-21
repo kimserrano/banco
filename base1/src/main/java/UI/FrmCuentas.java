@@ -26,7 +26,7 @@ import utils.ConfiguracionPaginado;
 
 /**
  *
- * @author eruma
+ * @author Elmer y Kim
  */
 public class FrmCuentas extends javax.swing.JFrame {
 

@@ -15,7 +15,7 @@ import java.sql.Date;
 
 /**
  *
- * @author eruma
+ * @author Elmer y Kim
  */
 public class FrmRegister extends javax.swing.JFrame {
 

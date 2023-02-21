@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author eruma
+ * @author Elmer y Kim
  */
 public class FrmUsuario extends javax.swing.JFrame {
 

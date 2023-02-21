@@ -28,18 +28,35 @@ import java.util.logging.Logger;
 import utils.ConfiguracionPaginado;
 
 /**
- *
- * @author lv1013
+ *Clase que lleva el control de los metodos de Clientes
+ * @author Elmer y Kim
  */
 public class ClientesDAO implements IClientesDAO {
 
+     /**
+     * Atributo final para las excepciones del logger
+     */
     private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
+    /**
+     * Atributo de IConexionBD que genera la conexión
+     */
     private final IConexionBD GENERADOR_CONEXIONES;
 
+    /**
+     * Constructor que implementa el generador de conexiones
+     * @param generadorConexiones Atributo de IConexionBD que genera la conexión
+     */
     public ClientesDAO(IConexionBD generadorConexiones) {
         this.GENERADOR_CONEXIONES = generadorConexiones;
     }
 
+    /**
+     * Metodo que  consulta los datos de un cliente mediante s us credenciales de inicio de seisión
+     * @param usuario Usuario para iniciar sesión del cliente
+     * @param clave Clave para inciar sesión con un cliente
+     * @return Regresa un objeto cliente con su Id
+     * @throws PersistenciaException Lanza una persistencia exception si algo sale mal
+     */
     @Override
     public Cliente consultar(String usuario, String clave) throws PersistenciaException {
         Cliente cliente = null;
@@ -65,6 +82,11 @@ public class ClientesDAO implements IClientesDAO {
         }
     }
 
+    /**
+     * Metodo que consulta un cliente mediante su id
+     * @param idCliente id del cliente a consultar
+     * @return cliente con sus atributos, null si una excepción es lanzada
+     */
     @Override
     public Cliente consultar(Integer idCliente) {
         String codigoSQL = "select * from clientes where idClientes=?";
@@ -93,7 +115,14 @@ public class ClientesDAO implements IClientesDAO {
             return null;
         }
     }
-
+    /**
+     * Metodo que registra a un cliente y sus credenciales para iniciar sesión una vez se comprueba que es mayor de edad
+     * @param cliente Cliente a ingresar
+     * @param usuario Usuario del cliente
+     * @param clave Clave del cliente
+     * @return Regresa el cliente ingresado
+     * @throws PersistenciaException Excepción lanzada si algo sale mal
+     */
     @Override
     public Cliente insertar(Cliente cliente, String usuario, String clave) throws PersistenciaException {
 
@@ -127,68 +156,18 @@ public class ClientesDAO implements IClientesDAO {
         return null;
     }
 
-    @Override
-    public Cliente eliminar(Integer id) {
-//        Cliente cliente = consultar(id);
-////        String codigoSQLProblema= 
-//        try {
-//            Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
-//            PreparedStatement problema = conexion.prepareStatement("delete from problemas where id_cliente=?");
-//            problema.setInt(1, id);
-//            problema.execute();
-//            PreparedStatement telefono = conexion.prepareStatement("delete from telefonos where id_cliente=?");
-//            telefono.setInt(1, id);
-//            telefono.execute();
-//            PreparedStatement comando = conexion.prepareStatement("delete from clientes where id=?");
-//            comando.setInt(1, id);
-//            comando.execute();
-//            conexion.close();
-//            return cliente;
-//
-//        } catch (SQLException e) {
-//            LOG.log(Level.SEVERE, e.getMessage());
-        return null;
-//        }
-    }
-
-    /*
-    @Override
-    public List<Cliente> consultar(ConfiguracionPaginado configPaginado) throws PersistenciaException {
-        String codigoSQL = "select id, nombre, apellido_paterno, apellido_materno, id_Direccion from clientes limit ? offset ?";
-        List<Cliente> listaClientes = new LinkedList<>();
-        try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
-                PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
-            
-            comando.setInt(1, configPaginado.getConteoPorPagina());
-            comando.setInt(2, configPaginado.getElementosASaltar());
-            ResultSet resultado = comando.executeQuery();
-
-            Cliente cliente = null;
-
-            while (resultado.next()) {
-                Integer id = resultado.getInt("id");
-                String nombre = resultado.getString("nombre");
-                String apellidoP = resultado.getString("apellido_paterno");
-                String apellidoM = resultado.getString("apellido_materno");
-                int idDireccion = resultado.getInt("id_Direccion");
-                cliente = new Cliente(id, nombre, apellidoP, apellidoM, idDireccion);
-                listaClientes.add(cliente);
-            }
-            return listaClientes;
-
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, e.getMessage());
-            throw new PersistenciaException ("No fue posible consultar la lista de clientes");   
-        }
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-     */
-
+/**
+ * Getter del generador de conexiones
+ * @return Conexion con la base de datos
+ */
     public IConexionBD getGENERADOR_CONEXIONES() {
         return GENERADOR_CONEXIONES;
     }
-
+/**
+ * Metodo que actualiza el nombre de un cliente mediante su id
+ * @param idCliente id del cliente a ingresar
+ * @param nombre nuevo nombre del cliente a ingresar
+ */
     @Override
     public void actualizarNombre(Integer idCliente, String nombre) {
         String codigoSQL = "UPDATE clientes SET nombres=? WHERE idClientes=?";
@@ -202,7 +181,11 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
-
+    /**
+     * Metodo que actualiza el apellido materno de un cliente
+     * @param idCliente id del cliente a actualizar
+     * @param apellidoMat nuevo apellido materno a actualizar
+     */
     @Override
     public void actualizarApellidoMat(Integer idCliente, String apellidoMat) {
         String codigoSQL = "UPDATE clientes SET apellidoMat=? WHERE idClientes=?";
@@ -216,7 +199,11 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
-
+/**
+ * metodo que actualiza el apellido paterno de un cliente
+ * @param idCliente id del cliente a actualizar
+ * @param apellidoPat apellido paterno de un cliente a actualizar
+ */
     @Override
     public void actualizarApellidoPat(Integer idCliente, String apellidoPat) {
         String codigoSQL = "UPDATE clientes SET apellidoPat=? WHERE idClientes=?";
@@ -230,7 +217,11 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
-
+/**
+ * Metodo que actualizar la calle de un cliente
+ * @param idCliente id del cliente a actualizar
+ * @param calle  calle nueva a actualizar 
+ */
     @Override
     public void actualizarCalle(Integer idCliente, String calle) {
         String codigoSQL = "UPDATE clientes SET calle=? WHERE idClientes=?";
@@ -244,7 +235,11 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.SEVERE, e.getMessage());
         }
     }
-
+/**
+ * ¨Metodo que actualiza el número de domiciio de un cliente
+ * @param idCliente id del cliente a actualizar
+ * @param numDomicilio  nuevo numDeDomicilio a actualizar
+ */
     @Override
     public void actualizarNumDomicilio(Integer idCliente, int numDomicilio) {
         String codigoSQL = "UPDATE clientes SET numDomicilio=? WHERE idClientes=?";
@@ -259,6 +254,11 @@ public class ClientesDAO implements IClientesDAO {
         }
     }
 
+    /**
+     * Metodo que actualiza el cp de un cliente
+     * @param idCliente id del cliente a actualizar
+     * @param CP Cp nuevo a actualizar
+     */
     @Override
     public void actualizarCP(Integer idCliente, int CP) {
         String codigoSQL = "UPDATE clientes SET cp=? WHERE idClientes=?";

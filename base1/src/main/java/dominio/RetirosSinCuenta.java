@@ -8,7 +8,7 @@ import java.sql.Date;
 
 /**
  *
- * @author kim
+ * @author kim y elmer
  */
 public class RetirosSinCuenta {
 

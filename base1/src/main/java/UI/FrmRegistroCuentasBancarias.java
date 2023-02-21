@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author kim
+ * @author Elmer y Kim
  */
 public class FrmRegistroCuentasBancarias extends javax.swing.JFrame {
 

@@ -18,18 +18,35 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author kim
+ *Clase para el manejo de acciones/responsabilidades  de los retiros sin cuenta
+ * @author Kim y Elmer
  */
 public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
-
+/**
+     * Atributo de IConexionBD que genera la conexión
+     */
     private final IConexionBD GENERADOR_CONEXIONES;
+     /**
+     * Atributo final para las excepciones del logger
+     */
     private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
 
+    
+    /**
+     * Constructor que recibe un generador de conexiones para tener conexión con la base de datos
+     * @param GENERADOR_CONEXIONES   Atributo de IConexionBD que genera la conexión
+     */
     public RetirosSinCuentaDAO(IConexionBD GENERADOR_CONEXIONES) {
         this.GENERADOR_CONEXIONES = GENERADOR_CONEXIONES;
     }
 
+    /**
+     * Este metodo crea un retiro utilizando el idCuenta de la cuenta donde se restará el monto una vez sea retirado 
+     * @param idCuenta idCuenta de cuentasClientesDAO
+     * @param monto Monto a retirar
+     * @return Regresa el id del retiro que se creó, 0 si este falló
+     * @throws PersistenciaException Excepción que se lanza si algo mal sucede al realizar el retiro.
+     */
     @Override
     public int crearRetiro(int idCuenta, float monto) throws PersistenciaException {
         String sqlLastKey ="select last_insert_id()";
@@ -57,7 +74,12 @@ public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
 
        return 0;
     }
-
+    /**
+     * Metodo que realiza la acción de retirar dinero sin tarjeta mediante un folio y una clave, este retiro debe tener máximo 10 mins. de antigüedad
+     * @param clave Clave del retiro dada al momento de crearlo
+     * @param folio Folio del retiro al momento de crearlo
+     * @throws PersistenciaException Excepción que se lanza si algo sale mal al momento de crear el retiro
+     */
     @Override
     public void retirar(int clave, int folio) throws PersistenciaException {
         String codigoSQL = "call retiro(" + clave + "," + folio + ")";
@@ -67,12 +89,17 @@ public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
 
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, e.getMessage());
-            throw new PersistenciaException("No fue posible realizar la transaccion");
+            throw new PersistenciaException("No fue posible realizar el retiro");
 
         }
 
     }
-
+    
+/**
+ * Metodo que consulta los datos de un retiroSinCuenta mediante su id
+ * @param idRetiro id del RetiroSinCuenta a consultar
+ * @return Regresa el objeto de RetiroSinCuenta con sus datos si sale bien, null en caso contrario
+ */
     @Override
     public RetirosSinCuenta consultar(Integer idRetiro) {
         String codigoSQL = "select * from retirossincuenta where idRetirosSinCuenta=?";
@@ -90,7 +117,6 @@ public class RetirosSinCuentaDAO implements IRetiroSinCuentaDAO {
                 int folio = resultado.getInt("folio");
                 String estado = resultado.getString("estado");
                 float monto = resultado.getFloat("monto");
-                //Integer idRetiroSinCuenta, Integer idCuentaCliente, Date fechaHora, int clave, int folio, String estado, int motos
                 retiro = new  RetirosSinCuenta(idRetiro, idCuenta, fecha, clave, folio, estado, monto);
                
             }

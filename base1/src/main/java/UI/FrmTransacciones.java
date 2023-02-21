@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author eruma
+ * @author Kim y Elmer
  */
 public class FrmTransacciones extends javax.swing.JFrame {
 

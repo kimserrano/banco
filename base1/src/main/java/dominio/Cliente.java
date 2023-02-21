@@ -10,7 +10,7 @@ import java.util.Objects;
 
 /**
  *
- * @author lv1013
+ * @author Kim y Elmer
  */
 public class Cliente {
 

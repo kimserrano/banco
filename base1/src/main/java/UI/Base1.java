@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author eruma
+ * @author Kim y Elmer
  */
 public class Base1 {
 
