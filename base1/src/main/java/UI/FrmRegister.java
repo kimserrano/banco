@@ -11,6 +11,7 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Label;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import javax.swing.JOptionPane;
 
@@ -301,6 +302,10 @@ public class FrmRegister extends javax.swing.JFrame {
         if (txtFieldNombre.getText().equals("Nombre")) {
             txtFieldNombre.setText("");
         }
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+            evt.consume(); // Descarta el evento si no es una letra, tecla de borrado o tecla de suprimir.
+        }
     }//GEN-LAST:event_txtFieldNombreKeyTyped
 
     private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
@@ -324,6 +329,7 @@ public class FrmRegister extends javax.swing.JFrame {
         } else if (!txtFieldApellidoPat.getText().equals("Apellido Pat.")) {
             evt.consume();
         }
+        
     }//GEN-LAST:event_txtFieldApellidoPatMouseExited
 
     private void txtFieldApellidoPatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldApellidoPatActionPerformed
@@ -337,6 +343,10 @@ public class FrmRegister extends javax.swing.JFrame {
         }
         if (txtFieldApellidoPat.getText().equals("Apellido Pat.")) {
             txtFieldApellidoPat.setText("");
+        }
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+            evt.consume(); // Descarta el evento si no es una letra, tecla de borrado o tecla de suprimir.
         }
     }//GEN-LAST:event_txtFieldApellidoPatKeyTyped
 
@@ -370,6 +380,10 @@ public class FrmRegister extends javax.swing.JFrame {
         }
         if (txtFieldApellidoMat.getText().equals("Apellido Mat.")) {
             txtFieldApellidoMat.setText("");
+        }
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+            evt.consume(); // Descarta el evento si no es una letra, tecla de borrado o tecla de suprimir.
         }
     }//GEN-LAST:event_txtFieldApellidoMatKeyTyped
 
