@@ -11,6 +11,7 @@ import implementaciones.TransaccionesDAO;
 import interfaces.IClientesDAO;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 /**
  * Frame encargado de que el usuario pueda ver sus datos y editar los mismos
@@ -688,7 +689,16 @@ public class FrmUsuario extends javax.swing.JFrame {
             clientesDAO.actualizarApellidoMat(cliente.getId(), this.txtFieldApellidoMat.getText());
             clientesDAO.actualizarApellidoPat(cliente.getId(), this.txtFieldApellidoPat.getText());
             clientesDAO.actualizarNombre(cliente.getId(), this.txtFieldNombre.getText());
+            
+            cliente.setNumDomicilio(Integer.parseInt(this.txtFieldNumDomicilio.getText()));
+            cliente.setCalle(this.txtFieldCalle.getText());
+            cliente.setCp(Integer.parseInt(this.txtFieldCp.getText()));
+            cliente.setApellidoMaterno(this.txtFieldApellidoMat.getText());
+            cliente.setApellidoPaterno(this.txtFieldApellidoPat.getText());
+            cliente.setNombre(this.txtFieldNombre.getText());
 
+            new JOptionPane().showMessageDialog(this, "Usuario actualizado en la base de datos!", "¡Actualizado!", JOptionPane.QUESTION_MESSAGE);
+            
         } else {
             new JOptionPane().showConfirmDialog(this, "Error en num Domicilio o CP\nUsar solo números", "Error!!", JOptionPane.YES_NO_OPTION);
         }

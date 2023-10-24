@@ -67,7 +67,7 @@ public class ClientesDAO implements IClientesDAO {
         Cliente cliente = null;
         String codigoSQL = "SELECT idClientes FROM clientesCredenciales WHERE username LIKE (?) AND clave = (aes_encrypt('" + clave + "','yorx'));";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
 
             //Se pasan los datos al statement
             comando.setString(1, usuario);
@@ -96,7 +96,7 @@ public class ClientesDAO implements IClientesDAO {
     public Cliente consultar(Integer idCliente) {
         String codigoSQL = "select * from clientes where idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, idCliente);
             ResultSet resultado = comando.executeQuery();
 
@@ -136,7 +136,7 @@ public class ClientesDAO implements IClientesDAO {
 
         String codigoSQL = "call edadNecesaria(?,?,?,?,?,?,?,?,?)";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);) {
             int ano = cliente.getFechaNacimiento().getYear() + 1900;
             int mes = cliente.getFechaNacimiento().getMonth();
 
@@ -183,7 +183,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarNombre(Integer idCliente, String nombre) {
         String codigoSQL = "UPDATE clientes SET nombres=? WHERE idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, nombre);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -203,7 +203,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarApellidoMat(Integer idCliente, String apellidoMat) {
         String codigoSQL = "UPDATE clientes SET apellidoMat=? WHERE idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, apellidoMat);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -223,7 +223,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarApellidoPat(Integer idCliente, String apellidoPat) {
         String codigoSQL = "UPDATE clientes SET apellidoPat=? WHERE idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, apellidoPat);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -243,7 +243,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarCalle(Integer idCliente, String calle) {
         String codigoSQL = "UPDATE clientes SET calle=? WHERE idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setString(1, calle);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -263,7 +263,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarNumDomicilio(Integer idCliente, int numDomicilio) {
         String codigoSQL = "UPDATE clientes SET numDomicilio=? WHERE idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, numDomicilio);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
@@ -283,7 +283,7 @@ public class ClientesDAO implements IClientesDAO {
     public void actualizarCP(Integer idCliente, int CP) {
         String codigoSQL = "UPDATE clientes SET cp=? WHERE idClientes=?";
         try (
-                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();  PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
             comando.setInt(1, CP);
             comando.setInt(2, idCliente);
             int cambio = comando.executeUpdate();
