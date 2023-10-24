@@ -579,7 +579,10 @@ public class FrmRegister2 extends javax.swing.JFrame {
         if (pswFieldPassword.getText().equals("Clave")) {
             pswFieldPassword.setEchoChar('*');
             pswFieldPassword.setText("");
-
+        }
+        char c = evt.getKeyChar();
+        if (Character.isWhitespace(c)) {
+            evt.consume(); // Descarta el evento si es un espacio en blanco.
         }
     }//GEN-LAST:event_pswFieldPasswordKeyTyped
 
