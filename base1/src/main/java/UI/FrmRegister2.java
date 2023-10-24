@@ -486,7 +486,7 @@ public class FrmRegister2 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasMouseEntered
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        new FrmRegister(this.clientesDao).setVisible(true);
+        new FrmRegister(this.clientesDao,cliente).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
 

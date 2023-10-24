@@ -39,6 +39,19 @@ public class FrmRegister extends javax.swing.JFrame {
         this.clientesDao = clientesDao;
     }
 
+    public FrmRegister(IClientesDAO clientesDao, Cliente cliente) {
+        initComponents();
+        this.clientesDao = clientesDao;
+        this.cliente=cliente;
+        cargarCliente();
+    }
+    
+    private void cargarCliente(){
+        this.txtFieldApellidoMat.setText(cliente.getApellidoMaterno());
+        this.txtFieldApellidoPat.setText(this.cliente.getApellidoPaterno());
+        this.txtFieldNombre.setText(this.cliente.getNombre());
+        this.jDateChooser1.setDate(cliente.getFechaNacimiento());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
