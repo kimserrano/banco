@@ -497,7 +497,7 @@ public class FrmCuentas extends javax.swing.JFrame {
 
                 //Se actualiza el saldo en el label
                 this.lblNumSaldo.setText(String.valueOf((Float) cuentaParaAnadir.saldo()));
-                new JOptionPane().showMessageDialog(this, "🔥🔥Saldo añadido bro🔥🔥", "¡Bien!", JOptionPane.INFORMATION_MESSAGE);
+                new JOptionPane().showMessageDialog(this, "Saldo añadido", "¡Bien!", JOptionPane.INFORMATION_MESSAGE);
                 this.cargarSaldoALista(cuentaParaAnadir);
             } else {
                 new JOptionPane().showMessageDialog(this, "Formato incorrecto, recuerdo usar solo numeros y un punto para decimales y no se acpetan negativos", "¡Aviso!", JOptionPane.ERROR_MESSAGE);
