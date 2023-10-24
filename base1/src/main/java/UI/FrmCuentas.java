@@ -115,6 +115,10 @@ public class FrmCuentas extends javax.swing.JFrame {
         pnlFondo = new javax.swing.JPanel();
         pnlTablaHistoriales = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
+        etiquetaCuentas = new javax.swing.JLabel();
+        etiquetaPerfil = new javax.swing.JLabel();
+        etiquetaTrans = new javax.swing.JLabel();
+        etiquetaCrearEliminar = new javax.swing.JLabel();
         btnAnadirFondos = new javax.swing.JButton();
         btnDesconectarse = new javax.swing.JButton();
         btnTransacciones = new javax.swing.JButton();
@@ -176,6 +180,24 @@ public class FrmCuentas extends javax.swing.JFrame {
         pnlTablaHistoriales.setViewportView(tblClientes);
 
         pnlFondo.add(pnlTablaHistoriales, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, 320, 280));
+
+        etiquetaCuentas.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        etiquetaCuentas.setForeground(new java.awt.Color(255, 255, 255));
+        etiquetaCuentas.setText("Cuentas");
+        pnlFondo.add(etiquetaCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 160, 60, -1));
+
+        etiquetaPerfil.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        etiquetaPerfil.setForeground(new java.awt.Color(255, 255, 255));
+        etiquetaPerfil.setText("Perfil");
+        pnlFondo.add(etiquetaPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 30, 10));
+
+        etiquetaTrans.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
+        etiquetaTrans.setForeground(new java.awt.Color(255, 255, 255));
+        etiquetaTrans.setText("Transferencia");
+        pnlFondo.add(etiquetaTrans, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 160, 70, -1));
+
+        etiquetaCrearEliminar.setText("Crear   Eliminar");
+        pnlFondo.add(etiquetaCrearEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, -1, -1));
 
         btnAnadirFondos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/btnAnadirFondos.png"))); // NOI18N
         btnAnadirFondos.setBorder(null);
@@ -242,7 +264,7 @@ public class FrmCuentas extends javax.swing.JFrame {
                 btnEliminarCuentaActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnEliminarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 270, -1, 20));
+        pnlFondo.add(btnEliminarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 270, -1, 20));
 
         btnAgregarCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgCuentas/anadirCuenta.png"))); // NOI18N
         btnAgregarCuenta.setBorder(null);
@@ -623,6 +645,10 @@ public class FrmCuentas extends javax.swing.JFrame {
     private javax.swing.JButton btnUser;
     private javax.swing.JComboBox<String> cBoxCantidadRegistros;
     private javax.swing.JComboBox<String> cBoxCuentas;
+    private javax.swing.JLabel etiquetaCrearEliminar;
+    private javax.swing.JLabel etiquetaCuentas;
+    private javax.swing.JLabel etiquetaPerfil;
+    private javax.swing.JLabel etiquetaTrans;
     private javax.swing.JLabel lblCuentas;
     private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblFecha;
